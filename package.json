@@ -4,6 +4,7 @@
   "description": "metaui",
   "main": "index.js",
   "scripts": {
+    "start": "gulp dev --lang=en",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,14 +14,14 @@
     "githubUrl": "http://github.com/marianzburlea/pug-starter.git",
     "deployToGithubIo": true,
     "directory": {
-      "development": "tmp",
+      "development": "dist",
       "production": "build",
       "ghpages": ".publish",
       "source": "src",
       "data": "_data",
-      "component": "_component",
-      "layout": "_layout",
-      "asset": "_asset",
+      "component": "components",
+      "layout": "layout",
+      "asset": "asset",
       "image": "image",
       "font": "font",
       "templateCollection": [
