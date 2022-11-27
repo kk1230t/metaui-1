@@ -21,6 +21,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import packageJsonData from './package.json';
 
 import clean from './gulp/clean';
+import watch from './gulp/watch';
 
 import { printCompile, getBaseUrl } from './gulp/util/util.js';
 
@@ -52,10 +53,17 @@ const baseUrl = getBaseUrl(args, config)
 const taskOptionList = { gulp, config, args, taskTarget, plugins, browserSync, baseUrl };
 
 clean(taskOptionList);
+watch(taskOptionList);
 
 gulp.task(
   'dev',
   gulp.series(
-    'clean:development'
+    'clean:development',
+    'watch',
   )
 );
+
+// Default gulp task
+gulp.task('default', () => {
+  console.log('Default gulp task');
+});
