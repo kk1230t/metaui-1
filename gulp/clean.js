@@ -10,6 +10,7 @@ const clean = ({
 }) => {
   const dir = config.directory;
   // clean development project
+
   gulp.task('clean:development', () => {
     del.bind(null, [path.join(dir.development)])
   
