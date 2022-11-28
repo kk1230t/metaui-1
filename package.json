@@ -2,53 +2,15 @@
   "name": "metaui",
   "version": "1.0.0",
   "description": "metaui",
-  "main": "index.js",
   "scripts": {
-    "start": "gulp dev --lang=en",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp dev"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gilchaekim/metaui.git"
+},
   "author": "",
-  "license": "ISC",
-  "config": {
-    "customUrl": "http://pug-starter.codetap.academy",
-    "githubUrl": "http://github.com/marianzburlea/pug-starter.git",
-    "deployToGithubIo": true,
-    "directory": {
-      "development": "dist",
-      "production": "build",
-      "ghpages": ".publish",
-      "source": "src",
-      "data": "_data",
-      "component": "components",
-      "layout": "layout",
-      "asset": "asset",
-      "image": "image",
-      "font": "font",
-      "templateCollection": [
-        "article",
-        "product"
-      ]
-    },
-    "render": {
-      "sourceFileChange": false,
-      "allPugFiles": false,
-      "url": {
-        "//": "this is recommended to avoid Linux/Windows capitalization issue",
-        "htmlExtensionOn": false,
-        "toLowercase": true
-      }
-    },
-    "entry": {
-      "cssExternal": "style**.{scss,sass}",
-      "cssEmbed": "embed**.{scss,sass}",
-      "cssModular": false,
-      "css": {
-        "embed": false,
-        "external": true
-      }
-    },
-    "autoLaunchBrowser": true
-  },
+  "license": "GPL",
   "devDependencies": {
     "chalk": "^4.1.2",
     "del": "^5.1.0",
