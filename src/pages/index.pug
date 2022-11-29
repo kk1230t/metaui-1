@@ -1,5 +1,7 @@
 - var friends = 10000000
 - var class111 = "dddsfsdfs"
+include ../components/atoms/test
+
 doctype html
 html(lang="ko")
   head
@@ -7,21 +9,21 @@ html(lang="ko")
   body
     div hellow
       br 
-      | world
+      | worldsdfsdfsdf4234234sfsdfrwerwererwer
     
     case friends
       when 0
-        p you have no friends
+        p you have no friends31231232131
       when 1
         p you have a friend
       default
-        p you have #{friends} friends
+        p you have #{friends} friends312321fsdfsd
 
     ul
       - for (var x = 0; x < 3; x++)
         li item
 
-    p(style="background: blue")= 'A message with a ' + 'blue' + ' background'
+    p(style="background: #f0f")= 'A message with a ' + 'blue' + ' background'
 
     div
       a(class='button ' + class111 href='//google.com') Google
@@ -41,3 +43,9 @@ html(lang="ko")
       |
       |
       input(type='checkbox' checked=true.toString())
+    +list
+
+    ul
+      +pet('casdfsdfasffdgdfgt')
+      +pet('dog')
+      +pet('pig')
