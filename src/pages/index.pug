@@ -1,0 +1,43 @@
+- var friends = 10000000
+- var class111 = "dddsfsdfs"
+doctype html
+html(lang="ko")
+  head
+    title Welcome to metaui
+  body
+    div hellow
+      br 
+      | world
+    
+    case friends
+      when 0
+        p you have no friends
+      when 1
+        p you have a friend
+      default
+        p you have #{friends} friends
+
+    ul
+      - for (var x = 0; x < 3; x++)
+        li item
+
+    p(style="background: blue")= 'A message with a ' + 'blue' + ' background'
+
+    div
+      a(class='button ' + class111 href='//google.com') Google
+
+    div(class="cm_checkbox")
+      input(
+        type='checkbox'
+        id="test"
+      )
+      input(type='checkbox' checked)
+      |
+      |
+      input(type='checkbox' checked=true)
+      |
+      |
+      input(type='checkbox' checked=false)
+      |
+      |
+      input(type='checkbox' checked=true.toString())
