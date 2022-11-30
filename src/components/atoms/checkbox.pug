@@ -1,0 +1,11 @@
+mixin mui-checkbox
+  - const { elememt = 'span', class: cssClass, selected, labelText } = attributes
+  #{elememt}
+  #{elememt}.mui-checkbox(
+    class=cssClass
+  )
+    input(
+      type="checkbox"
+    )
+    label
+      | #{labelText}

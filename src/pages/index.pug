@@ -1,6 +1,7 @@
+include ../components/atoms/index
+
 - var friends = rtetreterteter
 - var class111 = "retedfdsfsrt"
-include ../components/atoms/test
 
 doctype html
 html(lang="ko")
@@ -50,9 +51,8 @@ html(lang="ko")
       |
       |
       input(type='checkbox' checked=true.toString())
-    +list
 
-    ul
-      +pet('casdfsdfasffdgdfgt')
-      +pet('dog')
-      +pet('pig')
+    +mui-checkbox({
+      elememt:'span',
+      labelText: 'dfsdfsdf'
+    })
