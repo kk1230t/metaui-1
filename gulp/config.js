@@ -7,7 +7,7 @@ const config = {
   source: {
     data: `${sourceDir}_data/`,
     scss: `${sourceDir}asset/scss/**/*.scss`,
-    js: `${sourceDir}asset/js/**/*.js`,
+    js: `${sourceDir}asset/js/index.js`,
     pug: `${sourceDir}pages/**/*.pug`,
     template: `${sourceDir}components/**/*.pug`,
     components: `${sourceDir}components`,
