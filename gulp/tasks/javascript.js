@@ -25,8 +25,12 @@ const javascriptBuild = () => {
         alias({
           entries: [
             {
-              find: "Framework-util",
-              replacement: `${sourceDir}js/util/index.js`,
+              find: "GC-util",
+              replacement: `${sourceDir}asset/js/util/index.js`,
+            },
+            { 
+              find: "GC-data", 
+              replacement: `${sourceDir}asset/js/data.js`
             },
           ],
         }),
@@ -39,7 +43,7 @@ const javascriptBuild = () => {
       return bundle.write({
         file: buildDir + "js/index.js",
         format: "umd",
-        name: "Framework",
+        name: "GCui",
         sourcemap: true,
       });
     })
