@@ -13,10 +13,10 @@ const pugBuild = () => {
     })
   )
   .pipe(dest(buildDir))
-  .on('end', () => {
-    browserSync.reload();
-    console.log(plugins)
-  })
+  .pipe(browserSync.stream());
+//   .on('end', () => {
+//     browserSync.reload();
+//   })
 }
 
 export default pugBuild;

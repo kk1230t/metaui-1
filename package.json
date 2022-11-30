@@ -8,13 +8,14 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/gilchaekim/metaui.git"
-},
+  },
   "author": "",
   "license": "GPL",
   "devDependencies": {
     "chalk": "^4.1.2",
     "del": "^5.1.0",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-dart-sass": "^1.0.2"
   },
   "dependencies": {
     "@babel/cli": "^7.19.3",
@@ -74,7 +75,7 @@
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.7",
     "pngquant-bin": "^8.0.1",
-    "rollup": "^3.3.0",
+    "rollup": "^2.79.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }

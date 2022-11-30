@@ -2,6 +2,7 @@ import browserSync from "browser-sync";
 import { buildDir, config } from "../config";
 import { watch, series } from "gulp";
 import pug from './pug'
+import scss from './scss'
 
 const watch11 = () => {
   browserSync.init({
@@ -16,6 +17,12 @@ const watch11 = () => {
       config.source.template,
     ],
     pug
+  );
+  watch(
+    [
+      config.source.scss,
+    ],
+    scss
   );
 }
 

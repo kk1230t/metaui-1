@@ -13,8 +13,13 @@ const config = {
     components: `${sourceDir}components`,
     pages: `${sourceDir}pages`,
   },
+  build: {
+    scss: `${buildDir}css/`,
+    js: `${buildDir}js/`,
+    pug: `${buildDir}html/`,
+  },
   args: {
-    
+    production: false,
   }
 }
 

@@ -1,5 +1,13 @@
-@import "./asset/scss/core/mixins";
-@import "./asset/scss/core/varialbles";
+@import "common/mixins";
+@import "common/varialbles";
+@include respondTo("mobile"){
+    body{
+        background: #fff;
+    }
+}
+body{
+    background-color: #000;
+}
 .ui-test-btn{
     display: inline-block;
     vertical-align: top;
