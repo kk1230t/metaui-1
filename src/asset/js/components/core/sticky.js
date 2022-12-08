@@ -201,7 +201,7 @@ export default {
     hide() {
 
       this.isActive = false;
-      removeClass(this.$el. this.clsFixed, this.clsBelow);
+      removeClass(this.$el, this.clsFixed, this.clsBelow);
       css(this.$el, {position: '', top: '', width: ''});
       attr(this.placeholder, 'hidden', '');
 
