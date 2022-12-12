@@ -3,7 +3,7 @@ import { renderer } from 'storypug'
 import Example from './example.pug';
 
 // pass here shared locals like functions and variables
-// const { html } = renderer({ startCase });
+const { html } = renderer({ startCase });
 const { render } = renderer({ startCase });
 
 export default {
@@ -16,9 +16,9 @@ export const Basic = () => {
   // this HTML will be rendered inside the mixin's block
   const contents = '<p>Example body</p>';
 
-  // return Example({ props, contents, startCase });
+  return Example({ props, contents, startCase });
   // return html(Example, props, contents);
-  const wrapper = render(Example, props, contents);
-  console.log(wrapper);
-  return wrapper.$root;
+  // const wrapper = render(Example, props, contents);
+  // console.log(wrapper);
+  // return wrapper.$root;
 };
