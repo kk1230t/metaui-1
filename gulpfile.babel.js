@@ -31,4 +31,4 @@ const cleanRoot2 = series(
   watch
 )
 
-exports.build = cleanRoot2;
+exports.start = cleanRoot2;

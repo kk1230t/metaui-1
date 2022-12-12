@@ -13,7 +13,7 @@ const javascriptBuild = () => {
   // console.log(plugins)  
   return (
     rollup({
-      input: config.source.js,
+      input: config.source.jsIndex,
       format: "umd",
       plugins: [
         resolve.nodeResolve(),
@@ -40,6 +40,7 @@ const javascriptBuild = () => {
       // setTimeout(() => {
       //   gulp.src(src_js2_folder + "index.js").pipe(gulpConnect.reload());
       // }, 0);
+      browserSync.reload();
       return bundle.write({
         file: buildDir + "js/index.js",
         format: "umd",

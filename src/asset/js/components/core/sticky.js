@@ -114,7 +114,6 @@ export default {
       read({height = 0, margin}, types) {
 
         this.inactive = !this.matchMedia || isVisible(this.$el);
-
         // 비활성화 되었거나 미디어쿼리 범위에 벗어나면 실행 취소
         if (this.inactive) return false
 
@@ -161,9 +160,8 @@ export default {
     },
     {
       read({scroll = 0}) {
-        
         this.scroll = window.pageYOffset;
-
+        console.log(this.$el);
         return {
           dir: scroll <= this.scroll ? 'down' : 'up',
           scroll: this.scroll,

@@ -1,11 +1,16 @@
+
 mixin mui-checkbox
-  - const { elememt = 'span', class: cssClass, selected, labelText } = attributes
-  #{elememt}
+  - const { elememt = 'span', class: cssClass, labelText, id, name, ...rest } = attributes
+  - const prefix = 'mui'
   #{elememt}.mui-checkbox(
     class=cssClass
   )
     input(
       type="checkbox"
-    )
-    label
-      | #{labelText}
+      id=id
+    )&attributes(rest)
+    if labelText
+      label(
+        for=id
+      )
+        | #{labelText}
