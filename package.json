@@ -22,9 +22,11 @@
     "@storybook/html": "^6.5.14",
     "@storybook/manager-webpack4": "^6.5.14",
     "@storybook/testing-library": "^0.0.13",
+    "@whitespace/storybook-addon-html": "^5.1.1",
     "babel-loader": "^9.1.0",
     "chalk": "^4.1.2",
     "del": "^5.1.0",
+    "filepath": "^1.1.0",
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.0.2",
     "pug": "^3.0.2",
@@ -92,6 +94,7 @@
     "minimist": "^1.2.7",
     "pngquant-bin": "^8.0.1",
     "rollup": "^2.79.1",
+    "storybook-addon-preview": "^2.3.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   }
