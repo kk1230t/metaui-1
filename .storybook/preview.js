@@ -1,3 +1,6 @@
+// import '../src/asset/scss/index.scss';
+// import '../dist/css/index.css';
+import '!style-loader!css-loader!sass-loader!../src/asset/scss/index.scss';
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -6,4 +9,9 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  // previewTabs: {
+  //   'storybook/docs/panel': {
+  //     hidden: true,
+  //   },
+  // },
 }

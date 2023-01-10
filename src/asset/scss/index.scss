@@ -1,5 +1,8 @@
+@forward '../../components/atoms/index.scss';
 @import "common/mixins";
 @import "common/varialbles";
+
+
 @include respondTo("mobile"){
     body{
         background: #fff;
@@ -492,3 +495,4 @@
         }
     }
 }
+

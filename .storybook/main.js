@@ -11,7 +11,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    
+    '@storybook/preset-scss',
     {
       name: 'storypug/preset',
       options: {
@@ -31,6 +31,11 @@ module.exports = {
   "framework": "@storybook/html",
   webpackFinal: (config) => {
     config.node = { fs: 'empty' }
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+      include: path.resolve(__dirname, '../'),
+    });
     return config;
   },
 }

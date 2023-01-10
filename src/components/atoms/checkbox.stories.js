@@ -6,7 +6,7 @@ import checkbox from './checkbox.pug'
 const { html } = renderer()
 
 const options = {
-  labelText:'체크박스111', 
+  labelText:'체크박스111123123', 
   id:'vadsfsdaf'
 }
 
