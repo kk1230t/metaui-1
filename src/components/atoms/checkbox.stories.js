@@ -3,20 +3,15 @@ import { renderer } from 'storypug'
 import checkbox from './checkbox.pug'
 
 
-const { html } = renderer()
-
-const options = {
-  labelText:'체크박스111123123', 
-  id:'vadsfsdaf'
-}
+const { html } = renderer();
 
 export default {
-  title: 'Examples/checkbox',
+  title: 'Atomic/checkbox',
 }
 
 // default
-export const Default = () => html(checkbox, options)
-Default.parameters = { pugCode: 'atoms/checkbox/checkbox_view.pug' };
+const option1 = {}
+export const Default = () => html(checkbox, option1);
 Default.parameters = {
   preview: [
       {
@@ -26,15 +21,33 @@ Default.parameters = {
 
           
           template: previewTemplate`
-include Button
+include checkbox
 
-+Button({
-})
-  | ${options.labelText}
++mui-checkbox()
           `
       },
   ],
 };
-// type=submit
-// export const Submit = () => html(Button, { type: 'submit' }, 'Send')
-// Submit.parameters = { pugCode: 'Examples/Button/type_submit.pug' };
+
+// default
+const option2 = {
+  labelText:'체크박스', 
+  id:'vadsfsdaf'
+}
+export const Label = () => html(checkbox, option2);
+Label.parameters = {
+  preview: [
+      {
+          tab: "pug",
+          language: "jsx",
+          copy: true,
+          template: previewTemplate`
+include ../components/atoms/index
+
++mui-checkbox({
+  labelText:${option2.labelText}
+})
+          `
+      },
+  ],
+};
