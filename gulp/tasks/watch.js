@@ -11,6 +11,18 @@ const watch11 = () => {
     notify: false,
     plugins: ['bs-eslint-message'],
   })
+  const pugWather = watch(
+    [
+      config.source.pug,
+      config.source.template,
+    ]
+  );
+
+  pugWather.on('change', (path, state) => {
+    console.log(path)
+    console.log(state);
+    pug(path);
+  })
 
   watch(
     [
@@ -22,6 +34,7 @@ const watch11 = () => {
   watch(
     [
       config.source.scss,
+      config.source.templateScss,
     ],
     scss
   );

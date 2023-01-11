@@ -11,6 +11,7 @@ const config = {
     jsAll: `${sourceDir}asset/js/**/*.js`,
     pug: `${sourceDir}pages/**/*.pug`,
     template: `${sourceDir}components/**/*.pug`,
+    templateScss: `${sourceDir}components/**/*.scss`,
     components: `${sourceDir}components`,
     pages: `${sourceDir}pages`,
   },

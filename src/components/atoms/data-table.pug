@@ -1,0 +1,17 @@
+mixin data-table(params={})
+  - const { element = 'div', caption, headData, bodyData, footerData, ...rest } = Object.assign({}, params)
+
+  #{element}.mui-datatable()
+    table.mdc-data-table__table
+      if caption
+        +table-caption({
+          caption: caption
+        })
+
+mixin table-header(params={})
+  - const { element = 'div', caption, headData, bodyData, footerData, ...rest } = Object.assign({}, params)
+
+mixin table-caption(params={})
+  - const { caption, ...rest } = Object.assign({}, params)
+  caption #{caption}
+

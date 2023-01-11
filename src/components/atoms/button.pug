@@ -1,13 +1,33 @@
 
 mixin button(params={})
-  - const { elememt = 'button', size, labelText, isIcon, ...rest } = Object.assign({}, params)
+  - const { linkBtn } = Object.assign({}, params)
+  if linkBtn
+    +linkType(params)
+  else 
+    +btnType(params)
+
+mixin linkType(params={})
+  - const { size, label, isIcon, ...rest } = Object.assign({}, params)
   - const prefix = 'mui'
-  #{elememt}.mui-button(
+  a.mui-button(
     class=`${prefix}-size-${size}`
     class={
       'mui-icon':isIcon,
     }
+    href="#none"
   )
     span
-      | #{labelText}
+      | #{label}
 
+mixin btnType(params={})
+  - const { size, label, isIcon, ...rest } = Object.assign({}, params)
+  - const prefix = 'mui'
+  button.mui-button(
+    class=`${prefix}-size-${size}`
+    class={
+      'mui-icon':isIcon,
+    }
+    type="button"
+  )
+    span
+      | #{label}

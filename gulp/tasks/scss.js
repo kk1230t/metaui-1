@@ -17,8 +17,7 @@ const scssBuild = () => {
     }))
     .pipe(plugins.sourcemaps.write('./'))
     .pipe(dest(config.build.scss))
-    .pipe(browserSync.stream({ match: '**/*.css' }));
-
+    .pipe(browserSync.stream({ match: '**/*.css' }))
 }
 
 export default scssBuild;
