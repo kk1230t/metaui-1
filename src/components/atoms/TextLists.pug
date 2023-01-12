@@ -1,0 +1,16 @@
+mixin TextLists(params={})
+  - const { element = 'div', lists, type, ...rest } = Object.assign({}, params)
+  #{element}.mui-text_lists(
+    class=type
+  )
+    ul
+      - for(let i = 0; i < lists.length; i++)
+        li(
+          class=lists[i].className
+        )
+          != lists[i].text
+          if lists[i].subLists
+            +TextLists(lists[i].subLists)
+
+
+

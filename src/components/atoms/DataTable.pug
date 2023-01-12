@@ -1,0 +1,54 @@
+mixin data-table(params={})
+  - const { element = 'div', caption, headData, bodyData, footerData, ...rest } = Object.assign({}, params)
+
+  #{element}.mui-datatable()
+    table
+      if caption
+        +table-caption({
+          caption: caption
+        })
+      
+      if headData
+        +table-body({
+          tag:"thead",
+          data:headData
+        })
+
+      if bodyData
+        +table-body({
+          tag:"tbody",
+          data:bodyData
+        })
+
+      if footerData
+        +table-body({
+          tag:"tfoot",
+          data:footerData
+        })
+
+mixin table-body(params={})
+  - const { data, tag, ...rest } = Object.assign({}, params)
+  - const element = tag
+  #{element}
+    - for (let i = 0; i < data.length; i++)
+      tr
+        - for (let j = 0; j < data[i].length; j++)
+          if data[i][j].title || element === "thead"
+            th(
+              scope=(element === "thead" ? "cols":"rows")
+              class="th"+(data[i][j].className?" "+data[i][j].className : "")
+              colspan=data[i][j].colspan
+              rowspan=data[i][j].rowspan
+            )!= data[i][j].text
+          else
+            td(
+              class=(data[i][j].className?" "+data[i][j].className : "")
+              colspan=data[i][j].colspan
+              rowspan=data[i][j].rowspan
+            )!= data[i][j].text
+
+
+mixin table-caption(params={})
+  - const { caption, ...rest } = Object.assign({}, params)
+  caption #{caption}
+
