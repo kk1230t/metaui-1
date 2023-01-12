@@ -1,12 +1,12 @@
 import { previewTemplate, DEFAULT_VANILLA_CODESANDBOX } from "storybook-addon-preview";
 import { renderer } from 'storypug'
-import checkbox from './DataTable.pug'
+import dataTable from './dataTable.pug'
 
 
 const { html } = renderer();
 
 export default {
-  title: 'Atomic/DataTable',
+  title: 'Atomic/dataTable',
 }
 
 // default
@@ -105,7 +105,7 @@ const option1 = {
     ],
   ]
 }
-export const Default = () => html(checkbox, option1);
+export const Default = () => html(dataTable, option1);
 Default.parameters = {
   preview: [
       {
@@ -117,7 +117,7 @@ Default.parameters = {
           template: previewTemplate`
 include ../components/atoms/index
 
-+data-table()
++dataTable()
           `
       },
   ],

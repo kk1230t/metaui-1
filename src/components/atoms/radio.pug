@@ -1,0 +1,19 @@
+
+mixin radio(params={})
+  - const { elememt = 'span', class: cssClass, label, ...rest } = Object.assign({}, params)
+  - const prefix = 'mui'
+  - const uniqueID = () => {
+  -  return "dddsfwefwfwf1111111111211211"
+  -}
+  #{elememt}.mui-checkbox(
+    class=cssClass
+  )
+    input(
+      type="radio"
+      id=uniqueID()
+    )
+    if label
+      label(
+        for=uniqueID()
+      )
+        !=label

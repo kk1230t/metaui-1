@@ -1,12 +1,12 @@
 import { previewTemplate, DEFAULT_VANILLA_CODESANDBOX } from "storybook-addon-preview";
 import { renderer } from 'storypug'
-import TextLists from './TextLists.pug'
+import textLists from './textLists.pug'
 
 
 const { html } = renderer();
 
 export default {
-  title: 'Atomic/TextLists',
+  title: 'Atomic/textLists',
 }
 
 // default
@@ -78,7 +78,7 @@ const option1 =   {
     }
   ]
 }
-export const Default = () => html(TextLists, option1);
+export const Default = () => html(textLists, option1);
 Default.parameters = {
   preview: [
       {
@@ -90,7 +90,7 @@ Default.parameters = {
           template: previewTemplate`
 include ../components/atoms/index
 
-+TextLists()
++textLists()
           `
       },
   ],
