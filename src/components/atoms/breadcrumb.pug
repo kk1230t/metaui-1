@@ -1,0 +1,12 @@
+mixin breadcrumb(params={})
+
+  - const { element = 'div', lists } = Object.assign({}, params)
+  #{element}.mui-button(
+    class=`${prefix}-size-${size}`
+    class={
+      'mui-icon':isIcon,
+    }
+    href="#none"
+  )
+    span
+      | #{label}

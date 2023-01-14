@@ -3,7 +3,7 @@ import { renderer } from 'storypug'
 import button from './button.pug'
 
 
-const { html } = renderer();
+const { html, inject, render, wrap } = renderer();
 
 export default {
   title: 'Atomic/button',
@@ -16,6 +16,8 @@ const option1 = {
   isIcon:false,
   linkBtn:false,
 }
+
+console.log(html(button))
 export const Default = () => html(button, option1);
 Default.parameters = {
   preview: [

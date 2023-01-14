@@ -1,0 +1,14 @@
+include ../atoms/index
+
+doctype html
+html(lang="ko")
+  head
+    - let TITLE;
+    block head  
+      title=`저축은행중앙회${TITLE}`
+  body
+    +button({
+      label:"버튼",
+      size:'large'
+    })
+    block content
