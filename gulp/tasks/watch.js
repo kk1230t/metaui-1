@@ -19,8 +19,8 @@ const watch11 = () => {
   );
 
   pugWather.on('change', (path, state) => {
-    console.log(path)
-    console.log(state);
+    // console.log(path)
+    // console.log(state);
     pug(path);
   })
 

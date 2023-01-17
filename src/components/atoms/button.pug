@@ -1,36 +1,18 @@
-include  ../util/index.js.pug
+mixin button(params={})
+  - let element = "button"
+  - let buttonType = "button"
+  - const { size="medium", label, isIcon, href, rest } = Object.assign({}, params)
+  if href
+    - element = "a"
+    - buttonType = undefined
+  #{element}.mui-button(
+    class=`${prefix}-size-${size}`
+    class={
+      'mui-icon':isIcon,
+    }
+    type=buttonType
+    href=href
+  )
+    span
+      | #{label}
 
-  mixin button(params={})
-    - const { linkBtn } = Object.assign({}, params)
-    if linkBtn
-      +linkType(params)
-    else 
-      +btnType(params)
-
-  mixin linkType(params={})
-    - const { size, label, isIcon, ...rest } = Object.assign({}, params)
-    - const prefix = 'mui'
-    
-    a.mui-button(
-      class=`${prefix}-size-${size}`
-      class={
-        'mui-icon':isIcon,
-      }
-      href="#none"
-    )
-      span
-        | #{label+uniqueId()}
-
-
-  mixin btnType(params={})
-    - const { size, label, isIcon, ...rest } = Object.assign({}, params)
-    - const prefix = 'mui'
-    button.mui-button(
-      class=`${prefix}-size-${size}`
-      class={
-        'mui-icon':isIcon,
-      }
-      type="button"
-    )
-      span
-        | #{label+uniqueId()}

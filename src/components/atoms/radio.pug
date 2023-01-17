@@ -1,19 +1,34 @@
+-
+  let radioID = 0;
+  let radioNameID = 0;
+  const uniqueId = () => ++radioID;
+  const uniqueIdName = () => ++radioNameID;
 
 mixin radio(params={})
+  - const { elememt = 'span', className, lists, ...rest } = Object.assign({}, params)
+  - const radioName = `radioName${uniqueIdName()}`
+  .mui-radio-group(
+    class=className
+  )
+    each item in lists
+      +radioEl(item, radioName)
+
+
+mixin radioEl(params={}, radioName)
   - const { elememt = 'span', class: cssClass, label, ...rest } = Object.assign({}, params)
   - const prefix = 'mui'
-  - const uniqueID = () => {
-  -  return "dddsfwefwfwf1111111111211211"
-  -}
-  #{elememt}.mui-checkbox(
+  - const id = `radioID${uniqueId()}`
+  #{elememt}.mui-radio(
     class=cssClass
   )
     input(
       type="radio"
-      id=uniqueID()
+      id=id
+      name=radioName
     )
     if label
       label(
-        for=uniqueID()
+        for=id
       )
         !=label
+
