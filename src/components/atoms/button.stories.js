@@ -22,21 +22,19 @@ console.log(html(button))
 export const Default = () => html(button, option1);
 Default.parameters = {
   preview: [
-      {
-          tab: "pug",
-          language: "jsx",
-          copy: true,
-
-          
-          template: previewTemplate`
+    {
+      tab: "pug",
+      language: "jsx",
+      copy: true,
+      template: previewTemplate`
 include ../components/atoms/index
 
 +button({
-  label:'${option1.label}',
-  size:'${option1.size}'  /* small, medium, large */
+label:'${option1.label}',
+size:'${option1.size}'  /* small, medium, large */
 })
-          `
-      },
+      `
+    },
   ],
 };
 

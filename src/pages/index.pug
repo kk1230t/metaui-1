@@ -13,31 +13,62 @@ block content
     label:"버튼",
     size:'large'
   })
-  +radio({
-    className:"box_type",
+  +radioCheck({
+    type:"radio",
     lists:[
       {
-        label:"라디오1"
-      },
-      {
-        label:"라디오2"
-      },
-      {
-        label:"라디오3"
+        label:"라디오버튼"
       }
     ]
-  })
+  }) 
+  div.box_radio_group
+    +radioCheckEl({},'radio', 'radioName')
+      div 레이블 블럭 커스텀
 
-  +radio({
-    lists:[
-      {
-        label:"라디오1"
-      },
-      {
-        label:"라디오2"
-      },
-      {
-        label:"라디오3"
-      }
-    ]
-  })
+    +radioCheckEl({},'radio', 'radioName')
+      +input()
+      
+  //- +input()
+  //- +radioCheck({
+  //-   type:"radio",
+  //-   lists:[
+  //-     {
+  //-       label:"라디오1"
+  //-     },
+  //-     {
+  //-       label:"라디오2"
+  //-     },
+  //-     {
+  //-       label:"라디오3"
+  //-     }
+  //-   ]
+  //- })
+  //- +radioCheck({
+  //-   type:"checkbox",
+  //-   lists:[
+  //-     {
+  //-       label:"라디오1"
+  //-     },
+  //-     {
+  //-       label:"라디오2"
+  //-     },
+  //-     {
+  //-       label:"라디오3"
+  //-     }
+  //-   ]
+  //- })
+
+
+  //- +radioCheck({
+  //-   lists:[
+  //-     {
+  //-       label:"라디오1"
+  //-     },
+  //-     {
+  //-       label:"라디오2"
+  //-     },
+  //-     {
+  //-       label:"라디오3"
+  //-     }
+  //-   ]
+  //- })

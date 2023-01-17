@@ -1,0 +1,51 @@
+include ./input.pug
+-
+  const radioCheckName = "radioCheckName"
+  const radioCheckId = "radioCheckId"
+  let radioCheckNameIndex = 0;
+  let radioCheckIdIndex = 0;
+mixin radioCheck(params={})
+  include ../util/js.pug
+  - ++radioCheckNameIndex;
+  - const { elememt = 'span', className, lists, label, type="checkbox", ...rest } = Object.assign({}, params)
+  - const radioName = type === "radio"?`${radioCheckId}${radioCheckNameIndex}`:null
+  - const dataType = Array.isArray(lists);
+  div(
+    class=`${prefix}${divide}${type}${divide}group`
+    class=className
+  )
+    if dataType
+      each item in lists
+        +radioCheckEl(item, type, radioName)
+    else
+      - console.log(lists);
+      +radioCheckEl(params)
+
+    block last
+
+
+mixin radioCheckEl(params={}, type="checkbox",  radioName)
+  include ../util/js.pug
+  - ++radioCheckIdIndex;
+  - const { elememt = 'span', className, id=`${radioCheckId}${radioCheckIdIndex}`, label, ...rest } = Object.assign({}, params)
+  
+  //- - return false;
+  #{elememt}(
+    class=`${prefix}${divide}${type}`
+    class=className
+  )
+    input(
+      type=type
+      id=id
+      name=radioName
+    )
+    if block
+      label(
+        for=id
+      )
+        block
+    else if label
+      label(
+        for=id
+      )!=label
+

@@ -1,11 +1,13 @@
 mixin button(params={})
+  include ../util/js.pug
   - let element = "button"
   - let buttonType = "button"
   - const { size="medium", label, isIcon, href, rest } = Object.assign({}, params)
   if href
     - element = "a"
     - buttonType = undefined
-  #{element}.mui-button(
+  #{element}(
+    class=`${prefix}-button`
     class=`${prefix}-size-${size}`
     class={
       'mui-icon':isIcon,

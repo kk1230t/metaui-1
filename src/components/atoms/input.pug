@@ -1,0 +1,15 @@
+
+mixin input(params={})
+  include ../util/js.pug
+  - const { element="span", className, title, placeholder, id, type="text", ...rest } = Object.assign({}, params)
+  //- - console.log(aaa);
+  //- - console.log("input "+uniqueId());
+  #{element}(
+    class=`${prefix}${divide}input`
+    class=className
+  )
+    input(
+      type=type
+      id=id
+    )
+
