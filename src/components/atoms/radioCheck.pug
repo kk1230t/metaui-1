@@ -1,11 +1,14 @@
-include ./input.pug
 -
   const radioCheckName = "radioCheckName"
   const radioCheckId = "radioCheckId"
   let radioCheckNameIndex = 0;
   let radioCheckIdIndex = 0;
 mixin radioCheck(params={})
-  include ../util/js.pug
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - ++radioCheckNameIndex;
   - const { elememt = 'span', className, lists, label, type="checkbox", ...rest } = Object.assign({}, params)
   - const radioName = type === "radio"?`${radioCheckId}${radioCheckNameIndex}`:null
@@ -25,7 +28,11 @@ mixin radioCheck(params={})
 
 
 mixin radioCheckEl(params={}, type="checkbox",  radioName)
-  include ../util/js.pug
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - ++radioCheckIdIndex;
   - const { elememt = 'span', className, id=`${radioCheckId}${radioCheckIdIndex}`, label, ...rest } = Object.assign({}, params)
   

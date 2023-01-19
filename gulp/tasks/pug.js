@@ -17,7 +17,6 @@ const pugBuild = (path) => {
     })
   )
   .on('error', function (error) {
-    console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
     browserSync.notify(printError(error), 25000);
     reload = false;
     this.emit('end');

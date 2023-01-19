@@ -1,6 +1,12 @@
 mixin TextLists(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - const { element = 'div', lists, type, ...rest } = Object.assign({}, params)
-  #{element}.mui-text_lists(
+  #{element}(
+    class=`${prefix}${divide}text${divide}lists`
     class=type
   )
     ul

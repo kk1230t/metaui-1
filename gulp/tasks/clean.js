@@ -1,8 +1,8 @@
 import del from 'del';
-import {buildDir} from "./../config";
+import {buildDir, config} from "./../config";
 
 const clean = () => {
-  return del(buildDir);
+  return del([buildDir, `${config.build.docs}**/**.(html|css|js)`]);
 }
 
 export default clean;

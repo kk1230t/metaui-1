@@ -1,0 +1,145 @@
+extends /layouts/component-page
+
+prepend head
+    - ID = 'data-table'
+    - TITLE = 'Data Table'
+    - DESC = 'Data tables display information in a way that’s easy to scan, so that users can look for patterns and insights.'
+    - DOCS_URL = 'https://github.com/material-components/material-components-web/tree/master/packages/mdc-data-table'
+    - GUIDE_URL = 'https://material.io/components/data-tables'
+
+block main
+    +section('Examples')
+        +example('Standard data table')(code)
+            :code
+                +mdc-data-table(aria-label="Dessert calories")
+                    +mdc-data-table__header
+                        +mdc-data-table__header-row
+                            +mdc-data-table__header-cell('Dessert')
+                            +mdc-data-table__header-cell('Carbs (g)')(numeric)
+                            +mdc-data-table__header-cell('Protein (g)')(numeric)
+                            +mdc-data-table__header-cell('Comments')
+
+                    +mdc-data-table__content
+                        +mdc-data-table__row
+                            +mdc-data-table__cell('Frozen yogurt')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(4.0)
+                            +mdc-data-table__cell('Super tasty')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell('Ice cream sandwich')
+                            +mdc-data-table__cell(37)
+                            +mdc-data-table__cell(4.33333333333)
+                            +mdc-data-table__cell('I like ice cream more')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell('Eclair')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(6.0)
+                            +mdc-data-table__cell('New filing flavor')
+        
+        +example('Data table with row selection')(code)
+            :code
+                +mdc-data-table
+                    +mdc-data-table__header
+                        +mdc-data-table__header-row
+                            +mdc-data-table__header-cell()(checkbox)
+                            +mdc-data-table__header-cell('Dessert')
+                            +mdc-data-table__header-cell('Carbs (g)')(numeric)
+                            +mdc-data-table__header-cell('Protein (g)')(numeric)
+                            +mdc-data-table__header-cell('Comments')
+
+                    +mdc-data-table__content
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Frozen yogurt')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(4.0)
+                            +mdc-data-table__cell('Super tasty')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Ice cream sandwich')
+                            +mdc-data-table__cell(37)
+                            +mdc-data-table__cell(4.33333333333)
+                            +mdc-data-table__cell('I like ice cream more')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Eclair')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(6.0)
+                            +mdc-data-table__cell('New filing flavor')
+
+        +example('Data table with pagination')(code)
+            :code
+                +mdc-data-table(
+                    pagination={
+                        rowsPerPage: 4,
+                        numberOfPages: 10
+                    }
+                )
+                    +mdc-data-table__header
+                        +mdc-data-table__header-row
+                            +mdc-data-table__header-cell()(checkbox)
+                            +mdc-data-table__header-cell('Dessert')
+                            +mdc-data-table__header-cell('Carbs (g)')(numeric)
+                            +mdc-data-table__header-cell('Protein (g)')(numeric)
+                            +mdc-data-table__header-cell('Comments')
+
+                    +mdc-data-table__content
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Frozen yogurt')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(4.0)
+                            +mdc-data-table__cell('Super tasty')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Ice cream sandwich')
+                            +mdc-data-table__cell(37)
+                            +mdc-data-table__cell(4.33333333333)
+                            +mdc-data-table__cell('I like ice cream more')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Eclair')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(6.0)
+                            +mdc-data-table__cell('New filing flavor')
+
+        +example('Data table with progress indicator')(code)
+            +mdc-button('Loading off')
+
+            :code
+                +mdc-data-table()(loading)
+                    +mdc-data-table__header
+                        +mdc-data-table__header-row
+                            +mdc-data-table__header-cell()(checkbox)
+                            +mdc-data-table__header-cell('Dessert')
+                            +mdc-data-table__header-cell('Carbs (g)')(numeric)
+                            +mdc-data-table__header-cell('Protein (g)')(numeric)
+                            +mdc-data-table__header-cell('Comments')
+
+                    +mdc-data-table__content
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Frozen yogurt')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(4.0)
+                            +mdc-data-table__cell('Super tasty')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Ice cream sandwich')
+                            +mdc-data-table__cell(37)
+                            +mdc-data-table__cell(4.33333333333)
+                            +mdc-data-table__cell('I like ice cream more')
+
+                        +mdc-data-table__row
+                            +mdc-data-table__cell()(checkbox)
+                            +mdc-data-table__cell('Eclair')
+                            +mdc-data-table__cell(24)
+                            +mdc-data-table__cell(6.0)
+                            +mdc-data-table__cell('New filing flavor')

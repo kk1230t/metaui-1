@@ -30,8 +30,8 @@ Default.parameters = {
 include ../components/atoms/index
 
 +button({
-label:'${option1.label}',
-size:'${option1.size}'  /* small, medium, large */
+  label:'${option1.label}',
+  size:'${option1.size}'  /* small, medium, large */
 })
       `
     },

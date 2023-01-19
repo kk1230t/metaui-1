@@ -1,0 +1,8 @@
+extends /layouts/page
+
+append head
+    - ID = 'home'
+
+block main
+    article.markdown
+        include:markdown-it ../../README.md

@@ -1,6 +1,10 @@
 
 mixin input(params={})
-  include ../util/js.pug
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - const { element="span", className, title, placeholder, id, type="text", ...rest } = Object.assign({}, params)
   //- - console.log(aaa);
   //- - console.log("input "+uniqueId());

@@ -15,10 +15,15 @@ const config = {
     components: `${sourceDir}components`,
     pages: `${sourceDir}pages`,
   },
+  doc_source:{
+    scss: `${sourceDir}docs/**/*.scss`,
+    pug: `${sourceDir}docs/**/*.pug`,
+  },
   build: {
     scss: `${buildDir}css/`,
     js: `${buildDir}js/`,
     pug: `${buildDir}html/`,
+    docs:`${sourceDir}docs/`,
   },
   args: {
     production: false,

@@ -1,4 +1,9 @@
 mixin dataTable(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - const { element = 'div', caption, headData, bodyData, footerData, ...rest } = Object.assign({}, params)
 
   #{element}.mui-datatable()
@@ -27,6 +32,12 @@ mixin dataTable(params={})
         })
 
 mixin table-body(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
+
   - const { data, tag, ...rest } = Object.assign({}, params)
   - const element = tag
   #{element}
@@ -49,6 +60,11 @@ mixin table-body(params={})
 
 
 mixin table-caption(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
   - const { caption, ...rest } = Object.assign({}, params)
   caption #{caption}
 

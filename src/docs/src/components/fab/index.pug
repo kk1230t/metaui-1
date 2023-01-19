@@ -1,0 +1,28 @@
+extends /layouts/component-page
+
+prepend head
+    - ID = 'fab'
+    - TITLE = 'FAB'
+    - DESC = 'Floating action buttons represents the primary action in an application.'
+
+block main
+    +section('Examples')
+        +example('Basic FAB')(code)
+            :code
+                +mdc-fab('star')
+
+        +example('Mini FAB')(code)
+            :code
+                +mdc-fab('star')(mini)
+
+        +example('FAB with an icon and label')(code)
+            :code
+                +mdc-fab(icon='add' label='Create')
+
+        +example('FAB with a label and trailing icon')(code)
+            :code
+                +mdc-fab(label='Create' trailingIcon='add')
+
+        +example('FAB with a label')(code)
+            :code
+                +mdc-fab(label='Create')
