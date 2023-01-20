@@ -1,9 +1,12 @@
 import browserSync from "browser-sync";
 import { buildDir, config } from "../config";
 import { watch, series } from "gulp";
-import pug from './pug'
-import scss from './scss'
-import javascript from './javascript'
+import pug from './pug';
+import scss from './scss';
+import javascript from './javascript';
+import docsScss from './docsScss';
+// import docsJavascript from './gulp/tasks/docsJavascript';
+import docsPug from './docsPug';
 
 const watch11 = () => {
   browserSync.init({
@@ -11,26 +14,31 @@ const watch11 = () => {
     notify: false,
     plugins: ['bs-eslint-message'],
   })
-  const pugWather = watch(
-    [
-      config.source.pug,
-      config.source.template,
-    ]
-  );
+  const pugWather = watch(config.source.pugWather);
 
   pugWather.on('change', (path, state) => {
-    // console.log(path)
-    // console.log(state);
-    pug(path);
+    let isComponents = path.indexOf('components');
+    let pagePath;
+    if(isComponents<0){
+      pagePath = `./${path.replace('\\', '/')}`;
+    } 
+    pug(pagePath);
   })
 
+
   watch(
-    [
-      config.source.pug,
-      config.source.template,
-    ],
-    pug
+    config.doc.source.scss,
+    docsScss
   );
+
+  watch(
+    config.doc.source.pug,
+    docsPug
+  );
+  // watch(
+  //   config.source.pugWather,
+  //   pug
+  // );
   watch(
     [
       config.source.scss,

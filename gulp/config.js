@@ -9,15 +9,24 @@ const config = {
     scss: `${sourceDir}asset/scss/**/*.scss`,
     jsIndex: `${sourceDir}asset/js/index.js`,
     jsAll: `${sourceDir}asset/js/**/*.js`,
-    pug: `${sourceDir}pages/**/*.pug`,
+    pug: [`${sourceDir}*.pug`, `${sourceDir}!(components)**/**/*.pug`],
+    pugWather:[`${sourceDir}pages/**/*.pug`, `${sourceDir}components/**/*.pug`],
     template: `${sourceDir}components/**/*.pug`,
     templateScss: `${sourceDir}components/**/*.scss`,
     components: `${sourceDir}components`,
     pages: `${sourceDir}pages`,
   },
-  doc_source:{
-    scss: `${sourceDir}docs/**/*.scss`,
-    pug: `${sourceDir}docs/**/*.pug`,
+  doc:{
+    source:{
+      scss: `${sourceDir}docs/scss/**/*.scss`,
+      js: `${sourceDir}docs/js/**/*.js`,
+      pug: [`${sourceDir}docs/**/*.pug`, `${sourceDir}*.pug`],
+    },
+    build:{
+      scss: `${buildDir}docs/css/`,
+      js: `${buildDir}docs/js/`,
+      pug: `${buildDir}`,
+    }
   },
   build: {
     scss: `${buildDir}css/`,

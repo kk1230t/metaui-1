@@ -7,11 +7,9 @@ import {
   logError
 } from '../util/util';
 
-const pugBuild = (path) => {
-  let sourceSrc = typeof path === 'string'?path:config.source.pug;
+const docPugBuild = (path) => {
   let reload = true;
-  console.log(sourceSrc)
-  return src(sourceSrc)
+  return src(config.doc.source.pug)
   .pipe(
     plugins.pug({
       pretty: true
@@ -24,10 +22,10 @@ const pugBuild = (path) => {
     this.emit('end');
     logError(error.name, error.message);
   })
-  .pipe(dest(buildDir))
+  .pipe(dest(config.doc.build.pug))
   .on('end', () => {
     reload && browserSync.reload();
   })
 }
 
-export default pugBuild;
+export default docPugBuild;
