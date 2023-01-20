@@ -1,3 +1,19 @@
 header#header
-  != "header sec"
-  h1.title 저축은행 중앙회
+  - const links = []
+  .inner 
+    h1.title 저축은행 중앙회
+    ul(
+      class="nav"
+    )
+      li 
+        a(
+          href=""
+        ) 페이지 리스트
+      li 
+        a(
+          href=""
+        ) 마크업 가이드
+      li 
+        a(
+          href=""
+        ) 스크립트 가이드
