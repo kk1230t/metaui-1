@@ -1,5 +1,5 @@
 
-const buildDir = "./dist/";
+const buildDir = "./";
 const sourceDir = "./src/";
 
 
@@ -20,7 +20,7 @@ const config = {
     source:{
       scss: `${sourceDir}docs/scss/**/*.scss`,
       js: `${sourceDir}docs/js/**/*.js`,
-      pug: [`${sourceDir}docs/**/*.pug`, `${sourceDir}*.pug`],
+      pug: [`${sourceDir}*.pug`],
     },
     build:{
       scss: `${buildDir}docs/css/`,

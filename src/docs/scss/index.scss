@@ -39,12 +39,21 @@ a{text-decoration: none;}
 }
 #contents{
   height: calc(100vh - 54px);
-  background-color: #f00;
+  // background-color: #f00;
   display: flex;
   .side_nav{
-    background: #00f;
+    // background: #00f;
     height: 100%;
-    width: 200px;
+    width: 300px;
     overflow: auto;
   }
+  .contents{
+    width: calc(100vw - 300px);
+    height: calc(100vh - 58px);
+  }
+}
+.content_frame{
+  width: 100%;
+  height: 100%;
+  background-color: #aaa;
 }
