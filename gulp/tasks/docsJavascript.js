@@ -9,7 +9,7 @@ import resolve from "@rollup/plugin-node-resolve"
 import { rollup } from 'rollup';
 
 
-const javascriptBuild = () => {
+const docsJavascriptBuild = () => {
   // console.log(plugins)  
   return (
     rollup({
@@ -22,18 +22,6 @@ const javascriptBuild = () => {
           babelHelpers: "bundled",
           presets: ["@babel/preset-env"],
         }),
-        alias({
-          entries: [
-            {
-              find: "GC-util",
-              replacement: `${sourceDir}asset/js/util/index.js`,
-            },
-            { 
-              find: "GC-data", 
-              replacement: `${sourceDir}asset/js/data.js`
-            },
-          ],
-        }),
       ],
     })
     .then((bundle) => {
@@ -44,7 +32,7 @@ const javascriptBuild = () => {
       return bundle.write({
         file: config.doc.build.js + "/index.js",
         format: "umd",
-        name: "GCui",
+        name: "UiGuide",
         sourcemap: true,
       });
     })
@@ -52,4 +40,4 @@ const javascriptBuild = () => {
 
 }
 
-export default javascriptBuild;
+export default docsJavascriptBuild;

@@ -9,8 +9,12 @@ const config = {
     scss: `${sourceDir}asset/scss/**/*.scss`,
     jsIndex: `${sourceDir}asset/js/index.js`,
     jsAll: `${sourceDir}asset/js/**/*.js`,
-    pug: [`${sourceDir}*.pug`, `${sourceDir}!(components)**/**/*.pug`],
-    pugWather:[`${sourceDir}pages/**/*.pug`, `${sourceDir}components/**/*.pug`],
+    pug: [
+      `${sourceDir}**/*.pug`,
+      `!${sourceDir}components/**/*.pug`,
+      `!${sourceDir}docs/layout/*.pug`,
+    ],
+    pugWather:[`${sourceDir}pages/**/*.pug`, `${sourceDir}components/**/*.pug`, `${sourceDir}docs/**/*.pug`],
     template: `${sourceDir}components/**/*.pug`,
     templateScss: `${sourceDir}components/**/*.scss`,
     components: `${sourceDir}components`,
@@ -19,7 +23,8 @@ const config = {
   doc:{
     source:{
       scss: `${sourceDir}docs/scss/**/*.scss`,
-      js: `${sourceDir}docs/js/**/*.js`,
+      js: `${sourceDir}docs/js/index.js`,
+      jsAll: `${sourceDir}docs/js/**/*.js`,
       pug: [`${sourceDir}*.pug`],
     },
     build:{

@@ -88,7 +88,8 @@ export default function (GCui) {
 
 
 export function getComponentName(attribute) {
-    return startsWith(attribute, `${GCui.prefixName}-`) || startsWith(attribute, `data-${GCui.prefixName}-`)
-        ? camelize(attribute.replace(`data-${GCui.prefixName}-`, '').replace(`${GCui.prefixName}-`, ''))
+    const prefix = 'kui'
+    return startsWith(attribute, `${prefix}-`) || startsWith(attribute, `data-${prefix}-`)
+        ? camelize(attribute.replace(`data-${prefix}-`, '').replace(`${prefix}-`, ''))
         : false;
 }

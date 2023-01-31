@@ -8,10 +8,10 @@ import {
 } from '../util/util';
 
 const pugBuild = (path) => {
-  let sourceSrc = typeof path === 'string'?path:config.source.pug;
+  // let sourceSrc = typeof path === 'string'?path:config.source.pug;
   let reload = true;
-  console.log(sourceSrc)
-  return src(sourceSrc)
+  // console.log(sourceSrc)
+  return src(config.source.pug)
   .pipe(
     plugins.pug({
       pretty: true

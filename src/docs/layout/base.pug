@@ -1,0 +1,28 @@
+include ../../components/atoms/index
+include ./mixins
+
+doctype html
+html(lang="ko")
+  head
+    title 3322423
+    link(
+      rel="stylesheet"
+      href="/docs/css/index.css"
+    )
+  body
+    #wrap
+      include ./header
+      #contents 
+        include ./sideNav
+           
+
+
+        .contents
+          block content
+
+    script(
+      type="text/javascript"
+      src="/js/index.js"
+    )
+
+    

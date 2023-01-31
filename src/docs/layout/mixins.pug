@@ -1,0 +1,31 @@
+mixin pagesNavLists(params={})
+  - const { element = 'div', lists, ...rest } = Object.assign({}, params);
+
+  #{element}(
+    class="nav_lists"
+  )
+    each item, key in lists
+      - const name = item[0]
+      - const url = item[0]
+      - const isTitle = !!!Array.isArray(item);
+      div(
+        class={"tree-title":isTitle}
+        class={"lists":!isTitle}
+      )
+        span
+          button(
+            type="button"
+            data-href=url
+            class={"title":isTitle}
+          ) #{key}
+          if !isTitle
+            a(
+              href=url
+              target="_blank"
+              class="blank"
+            ) 새창 열기
+
+      if isTitle
+        +pagesNavLists({
+          lists:item
+        })

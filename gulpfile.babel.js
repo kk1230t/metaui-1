@@ -37,7 +37,7 @@ const startServer = series(
   javascript,
   pug,
   docsScss,
-  // docsJavascript,
+  docsJavascript,
   docsPug,
   watch
 )

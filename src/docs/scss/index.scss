@@ -46,6 +46,12 @@ a{text-decoration: none;}
     height: 100%;
     width: 300px;
     overflow: auto;
+    background-color: #f7f7f7;
+    border-right: 1px solid #ddd;
+    padding: 20px 0 0 20px;
+    .side_title{
+      margin-bottom: 40px;
+    } 
   }
   .contents{
     width: calc(100vw - 300px);
@@ -56,4 +62,68 @@ a{text-decoration: none;}
   width: 100%;
   height: 100%;
   background-color: #aaa;
+}
+.nav_lists{
+  button{
+    background: none;
+    border: 0 none;
+    cursor: pointer;
+  }
+  // border: 1px solid red;
+  .tree-title{
+    padding-left: 28px;
+    background: url('/src/docs/images/folder.gif') no-repeat 5px 2px;
+    &.open{
+      background-image: url('/src/docs/images/folderopen.gif');
+    }
+  }
+  // padding: 10px;
+  .nav_lists{
+    padding-left: 8px;
+    
+    .nav_lists{
+      // display: none;
+    }
+    .lists{
+      position: relative;
+      padding: 1px 0;
+      &::before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 4px;
+        border-left: 1px solid #000;
+      }
+      &::after{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 11px;
+        bottom: 0;
+        left: 5px;
+        width: 8px;
+        border-top: 1px solid #000;
+      }
+      & > span{
+        display: inline-block;
+        position: relative;
+        padding-right: 32px;
+        padding-left: 16px;
+      }
+    }
+  }
+  .blank{
+    display: inline-block;
+    text-indent: -999em;
+    background:#ddd url('/src/docs/images/icon_popup.gif') no-repeat center;
+    width: 20px;
+    height: 18px;
+    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 0;
+  }
 }

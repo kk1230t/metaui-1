@@ -1,8 +1,7 @@
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+(function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.GCui = factory());
-})(this, (function () { 'use strict';
+  factory();
+})((function () { 'use strict';
 
   function _typeof(obj) {
     "@babel/helpers - typeof";
@@ -720,7 +719,7 @@
   function isFocusable(element) {
     return matches(element, selFocusable);
   }
-  function parent$1(element) {
+  function parent(element) {
     element = toNode(element);
     return element && isElement(element.parentNode) && element.parentNode;
   }
@@ -742,7 +741,7 @@
       if (matches(ancestor, selector)) {
         return ancestor;
       }
-    } while (ancestor = parent$1(ancestor));
+    } while (ancestor = parent(ancestor));
   };
   function closest(element, selector) {
     if (startsWith(selector, '>')) {
@@ -758,7 +757,7 @@
   }
   function parents(element, selector) {
     var elements = [];
-    while (element = parent$1(element)) {
+    while (element = parent(element)) {
       if (!selector || matches(element, selector)) {
         elements.push(element);
       }
@@ -771,7 +770,7 @@
     return selector ? filter(children, selector) : children;
   }
   function index(element, ref) {
-    return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent$1(element)).indexOf(element);
+    return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent(element)).indexOf(element);
   }
 
   function query(selector, context) {
@@ -802,7 +801,7 @@
         var ctx = context;
         if (selector[0] === '!') {
           var selectors = selector.substr(1).trim().split(' ');
-          ctx = closest(parent$1(context), selectors[0]);
+          ctx = closest(parent(context), selectors[0]);
           selector = selectors.slice(1).join(' ').trim();
         }
         if (selector[0] === '-') {
@@ -1070,7 +1069,7 @@
     }));
   }
   function unwrap(element) {
-    toNodes(element).map(parent$1).filter(function (value, index, self) {
+    toNodes(element).map(parent).filter(function (value, index, self) {
       return self.indexOf(value) === index;
     }).forEach(function (parent) {
       before(parent, parent.childNodes);
@@ -1748,7 +1747,7 @@
     isInput: isInput,
     selFocusable: selFocusable,
     isFocusable: isFocusable,
-    parent: parent$1,
+    parent: parent,
     filter: filter,
     matches: matches,
     closest: closest,
@@ -1847,10 +1846,6 @@
     getViewport: getViewport,
     getViewportClientHeight: getViewportClientHeight
   });
-
-  var prefixStr = 'kui';
-  var jsPrefix = prefixStr;
-  var cssPrefix = "".concat(prefixStr, "-");
 
   function globalApi (UICommon) {
     var DATA = UICommon.data;
@@ -2313,366 +2308,7 @@
     });
   }
 
-  var Class = {
-    connected: function connected() {
-      !hasClass(this.$el, this.$name) && addClass(this.$el, this.$name);
-    }
-  };
-
-  var Togglable = {
-    props: {
-      cls: Boolean,
-      animation: 'list',
-      duration: Number,
-      origin: String,
-      transition: String
-    },
-    data: {
-      cls: false,
-      animation: [false],
-      duration: 2000,
-      origin: false,
-      transition: 'linear',
-      clsEnter: 'uk-togglabe-enter',
-      clsLeave: 'uk-togglabe-leave',
-      initProps: {
-        overflow: '',
-        height: '',
-        paddingTop: '',
-        paddingBottom: '',
-        marginTop: '',
-        marginBottom: ''
-      },
-      hideProps: {
-        overflow: 'hidden',
-        height: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-        marginBottom: 0
-      }
-    },
-    computed: {
-      hasAnimation: function hasAnimation(_ref) {
-        var animation = _ref.animation;
-        return !!animation[0];
-      },
-      hasTransition: function hasTransition(_ref2) {
-        var animation = _ref2.animation;
-        return this.hasAnimation && animation[0] === true;
-      }
-    },
-    methods: {
-      toggleElement: function toggleElement(targets, toggle, animate) {
-        var _this = this;
-        return new Promise$1(function (resolve) {
-          return Promise$1.all(toNodes(targets).map(function (el) {
-            var show = isBoolean(toggle) ? toggle : !_this.isToggled(el);
-            if (!trigger(el, "before".concat(show ? 'show' : 'hide'), [_this])) {
-              return Promise$1.reject();
-            }
-            var promise = (isFunction(animate) ? animate : animate === false || !_this.hasAnimation ? _this._toggle : _this.hasTransition ? toggleHeight(_this) : toggleAnimation(_this))(el, show) || Promise$1.resolve();
-            var cls = show ? _this.clsEnter : _this.clsLeave;
-            addClass(el, cls);
-            trigger(el, show ? 'show' : 'hide', [_this]);
-            var done = function done() {
-              removeClass(el, cls);
-              trigger(el, show ? 'shown' : 'hidden', [_this]);
-              _this.$update(el);
-            };
-            return promise ? promise.then(done, function () {
-              removeClass(el, cls);
-              return Promise$1.reject();
-            }) : done();
-          })).then(resolve, noop);
-        });
-      },
-      isToggled: function isToggled() {
-        var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$el;
-        var _toNodes = toNodes(el);
-        var _toNodes2 = _slicedToArray(_toNodes, 1);
-        el = _toNodes2[0];
-        return hasClass(el, this.clsEnter) ? true : hasClass(el, this.clsLeave) ? false : this.cls ? hasClass(el, this.cls.split(' ')[0]) : isVisible(el);
-      },
-      _toggle: function _toggle(el, toggled) {
-        if (!el) {
-          return;
-        }
-        toggled = Boolean(toggled);
-        var changed;
-        if (this.cls) {
-          changed = includes(this.cls, ' ') || toggled !== hasClass(el, this.cls);
-          changed && toggleClass(el, this.cls, includes(this.cls, ' ') ? undefined : toggled);
-        } else {
-          changed = toggled === el.hidden;
-          changed && (el.hidden = !toggled);
-        }
-        $$('[autofocus]', el).some(function (el) {
-          return isVisible(el) ? el.focus() || true : el.blur();
-        });
-        if (changed) {
-          trigger(el, 'toggled', [toggled, this]);
-          this.$update(el);
-        }
-      }
-    }
-  };
-  function toggleHeight(_ref3) {
-    var isToggled = _ref3.isToggled,
-      duration = _ref3.duration,
-      initProps = _ref3.initProps,
-      hideProps = _ref3.hideProps,
-      transition = _ref3.transition,
-      _toggle = _ref3._toggle;
-    return function (el, show) {
-      var inProgress = Transition.inProgress(el);
-      var inner = el.hasChildNodes ? toFloat(css(el.firstElementChild, 'marginTop')) + toFloat(css(el.lastElementChild, 'marginBottom')) : 0;
-      var currentHeight = isVisible(el) ? height(el) + (inProgress ? 0 : inner) : 0;
-      Transition.cancel(el);
-      if (!isToggled(el)) {
-        _toggle(el, true);
-      }
-      height(el, '');
-
-      // Update child components first
-      fastdom.flush();
-      var endHeight = height(el) + (inProgress ? 0 : inner);
-      height(el, currentHeight);
-      return (show ? Transition.start(el, assign({}, initProps, {
-        overflow: 'hidden',
-        height: endHeight
-      }), Math.round(duration * (1 - currentHeight / endHeight)), transition) : Transition.start(el, hideProps, Math.round(duration * (currentHeight / endHeight)), transition).then(function () {
-        return _toggle(el, false);
-      })).then(function () {
-        return css(el, initProps);
-      });
-    };
-  }
-  function toggleAnimation(cmp) {
-    return function (el, show) {
-      Animation.cancel(el);
-      var animation = cmp.animation,
-        duration = cmp.duration,
-        _toggle = cmp._toggle;
-      if (show) {
-        _toggle(el, true);
-        return Animation["in"](el, animation[0], duration, cmp.origin);
-      }
-      return Animation.out(el, animation[1] || animation[0], duration, cmp.origin).then(function () {
-        return _toggle(el, false);
-      });
-    };
-  }
-
-  var accordion = {
-    mixins: [Class, Togglable],
-    props: {
-      targets: String,
-      active: null,
-      collapsible: Boolean,
-      multiple: Boolean,
-      toggle: String,
-      content: String,
-      transition: String,
-      offset: Number
-    },
-    data: {
-      targets: '> *',
-      active: false,
-      animation: [true],
-      collapsible: true,
-      multiple: false,
-      clsOpen: 'uk-open',
-      toggle: '> .uk-accordion-title',
-      content: '> .uk-accordion-content',
-      transition: 'ease',
-      offset: 0
-    },
-    computed: {
-      items: {
-        get: function get(_ref, $el) {
-          var targets = _ref.targets;
-          return $$(targets, $el);
-        },
-        watch: function watch(items, prev) {
-          var _this = this;
-          items.forEach(function (el) {
-            return hide($$1(_this.content, el), !hasClass(el, _this.clsOpen));
-          });
-          if (prev || hasClass(items, this.clsOpen)) {
-            return;
-          }
-          var active = this.active !== false && items[Number(this.active)] || !this.collapsible && items[0];
-          if (active) {
-            this.toggle(active, false);
-          }
-        },
-        immediate: true
-      },
-      toggles: function toggles(_ref2) {
-        var toggle = _ref2.toggle;
-        return this.items.map(function (item) {
-          return $$1(toggle, item);
-        });
-      }
-    },
-    events: [{
-      name: 'click',
-      delegate: function delegate() {
-        return "".concat(this.targets, " ").concat(this.$props.toggle);
-      },
-      handler: function handler(e) {
-        e.preventDefault();
-        this.toggle(index(this.toggles, e.current));
-      }
-    }],
-    methods: {
-      toggle: function toggle(item, animate) {
-        var _this2 = this;
-        var items = [this.items[getIndex(item, this.items)]];
-        var activeItems = filter(this.items, ".".concat(this.clsOpen));
-        if (!this.multiple && !includes(activeItems, items[0])) {
-          items = items.concat(activeItems);
-        }
-        if (!this.collapsible && activeItems.length < 2 && !filter(items, ":not(.".concat(this.clsOpen, ")")).length) {
-          return;
-        }
-        items.forEach(function (el) {
-          return _this2.toggleElement(el, !hasClass(el, _this2.clsOpen), function (el, show) {
-            toggleClass(el, _this2.clsOpen, show);
-            attr($$1(_this2.$props.toggle, el), 'aria-expanded', show);
-            var content = $$1("".concat(el._wrapper ? '> * ' : '').concat(_this2.content), el);
-            if (animate === false || !_this2.hasTransition) {
-              hide(content, !show);
-              return;
-            }
-            if (!el._wrapper) {
-              el._wrapper = wrapAll(content, "<div".concat(show ? ' hidden' : '', ">"));
-            }
-            hide(content, false);
-            return toggleHeight(_this2)(el._wrapper, show).then(function () {
-              hide(content, !show);
-              delete el._wrapper;
-              unwrap(content);
-              if (show) {
-                var toggle = $$1(_this2.$props.toggle, el);
-                if (!isInView(toggle)) {
-                  scrollIntoView(toggle, {
-                    offset: _this2.offset
-                  });
-                }
-              }
-            });
-          });
-        });
-      }
-    }
-  };
-  function hide(el, hide) {
-    el && (el.hidden = hide);
-  }
-
-  var alert$1 = {
-    mixins: [Class, Togglable],
-    args: 'animation',
-    props: {
-      close: String
-    },
-    data: {
-      animation: [true],
-      selClose: '.uk-alert-close',
-      duration: 150,
-      hideProps: assign({
-        opacity: 0
-      }, Togglable.data.hideProps)
-    },
-    events: [{
-      name: 'click',
-      delegate: function delegate() {
-        return this.selClose;
-      },
-      handler: function handler(e) {
-        e.preventDefault();
-        this.close();
-      }
-    }],
-    methods: {
-      close: function close() {
-        var _this = this;
-        this.toggleElement(this.$el).then(function () {
-          return _this.$destroy(true);
-        });
-      }
-    }
-  };
-
-  var Button = {
-    mixins: [Togglable],
-    props: {
-      target: String,
-      clsContainer: String,
-      multiple: Boolean,
-      isContainer: Boolean
-    },
-    data: {
-      target: ".".concat(cssPrefix, "item"),
-      clsActive: "".concat(cssPrefix, "active"),
-      clsContainer: ".".concat(cssPrefix, "box"),
-      isContainer: false,
-      multiple: false
-    },
-    computed: {
-      connects: {
-        get: function get(_ref, $el) {
-          var target = _ref.target,
-            clsContainer = _ref.clsContainer,
-            isContainer = _ref.isContainer;
-          var el = isContainer ? clsContainer : target;
-          return $$(el, $el);
-        },
-        watch: function watch(connects) {
-          var n = this.index() < 0 ? 0 : this.index();
-          this.toggle(connects[n]);
-        },
-        immediate: true
-      }
-    },
-    events: [{
-      name: 'click',
-      delegate: function delegate() {
-        return this.target;
-      },
-      handler: function handler(e) {
-        e.preventDefault();
-        this.toggle(e.current);
-      }
-    }],
-    methods: {
-      index: function index() {
-        var _this = this;
-        return findIndex(this.connects, function (el) {
-          return hasClass(el, _this.clsActive);
-        });
-      },
-      toggle: function toggle(target) {
-        var _this2 = this;
-        var item = this.isContainer ? closest(target, this.clsContainer) : target;
-        var lists = [this.connects[getIndex(item, this.connects)]];
-        var activeItem = filter(this.connects, ".".concat(this.clsActive));
-        if (!this.multiple) {
-          if (hasClass(item, this.clsActive)) return false;
-          lists = lists.concat(activeItem);
-        }
-        lists.forEach(function (el) {
-          return _this2.toggleElement(el, !hasClass(el, _this2.clsActive), function (el, show) {
-            return toggleClass(el, _this2.clsActive, show);
-          });
-        });
-      }
-    }
-  };
-
-  var tab = {
+  var pageNavigation = {
     "extends": Button,
     props: {
       media: Boolean,
@@ -2719,303 +2355,9 @@
     }
   };
 
-  var toggle = {
-    props: {},
-    data: {
-      target: ".".concat(cssPrefix, "toggle"),
-      cont: ".".concat(cssPrefix, "toggle-cont"),
-      activeClass: "".concat(cssPrefix, "active")
-    },
-    computed: {
-      // targets() {
-      //     return findAll(this.toggle, this.$el);
-      // }
-    },
-    events: [{
-      name: 'click',
-      delegate: function delegate() {
-        return this.target;
-      },
-      handler: function handler(e) {
-        e.preventDefault();
-        this.toggleElement(e.current);
-      }
-    }],
-    methods: {
-      toggleElement: function toggleElement(target) {
-        console.log(target);
-      }
-    }
-  };
-
-  var Media = {
-    props: {
-      media: Boolean
-    },
-    data: {
-      media: false
-    },
-    compute: {
-      mathMedia: function mathMedia() {
-        toMedia(this.media);
-      }
-    }
-  };
-  function toMedia(value) {
-    if (isString(value)) {
-      var name = "breakepoint-".concat(value.substr(1));
-      value = toFloat(getCssVar(name));
-    } else if (isNaN(value)) {
-      return value;
-    }
-    return value && !isNaN(value) ? "(min-width: ".concat(value, "px)") : false;
-  }
-
-  var sticky = {
-    mixins: [Media],
-    props: {
-      start: null,
-      end: null,
-      offset: String,
-      position: String,
-      clsActive: String
-    },
-    data: {
-      /**
-       * sticky 적용 시작점 위치
-       * 
-       * @property +-숫자, 셀렉터(#abcd), (px, vh, % 단위)
-       * @default 0
-       */
-      start: 0,
-      /**
-       * sticky 적용 끝 점 위치
-       * 
-       * @property +-숫자, 셀렉터(#abcd), (px, vh, % 단위)
-       * @default 0
-       */
-      end: 0,
-      offset: 0,
-      position: 'top',
-      clsActive: "".concat(cssPrefix, "active"),
-      clsInactive: "",
-      clsFixed: "".concat(cssPrefix, "fixed"),
-      clsBelow: "".concat(cssPrefix, "below"),
-      clsPlaceholder: "".concat(cssPrefix, "placeholder")
-    },
-    computed: {},
-    connected: function connected() {
-      this.placeholder = $$1("+ .".concat(this.clsPlaceholder), this.$el) || $$1("<div>class=\"".concat(this.clsPlaceholder, "\"</div>"));
-      this.isActive = false, this.inactive = true;
-    },
-    disconnected: function disconnected() {
-      if (this.isActive) {
-        this.hide();
-        removeClass(this.selTarget, this.clsInactive);
-      }
-      remove$2(this.placeholder);
-      this.placeholder = null;
-      this.widthElement = null;
-    },
-    events: [{
-      name: 'load hashchange popstate',
-      el: window,
-      handler: function handler() {
-        console.log('hahahaha');
-      }
-    }],
-    update: [{
-      read: function read(_ref, types) {
-        var _ref$height = _ref.height,
-          height = _ref$height === void 0 ? 0 : _ref$height;
-          _ref.margin;
-        this.inactive = !this.matchMedia || isVisible(this.$el);
-        // 비활성화 되었거나 미디어쿼리 범위에 벗어나면 실행 취소
-        if (this.inactive) return false;
-        if (this.isActive && types.has('resize')) {
-          this.hide();
-          height = this.$el.offsetHeight;
-          console.log(this.$el);
-        }
-        height = this.isActive ? height : this.$el.offsetHeight;
-        var referenceElement = this.isActive ? this.placeholder : this.$el;
-        this.topOffset = offset(referenceElement).top;
-        var start = !!!this.start || parseProp(this.start, this.$el);
-        this.width = dimensions(isVisible(this.widthElement) ? this.widthElement : this.$el).width;
-
-        // this._data로 들어감
-        return {
-          height: height,
-          start: start,
-          margins: css(this.$el, ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
-        };
-      },
-      write: function write(data) {
-        var height = data.height,
-          margins = data.margins,
-          start = data.start;
-        var $el = this.$el,
-          placeholder = this.placeholder;
-        console.log(start);
-        css(placeholder, assign({
-          height: height
-        }, margins));
-        if (!within(placeholder, document)) {
-          after($el, placeholder);
-          placeholder.hidden = true;
-        }
-      },
-      events: ['resize']
-    }, {
-      read: function read(_ref2) {
-        var _ref2$scroll = _ref2.scroll,
-          scroll = _ref2$scroll === void 0 ? 0 : _ref2$scroll;
-        this.scroll = window.pageYOffset;
-        console.log(this.$el);
-        return {
-          dir: scroll <= this.scroll ? 'down' : 'up',
-          scroll: this.scroll,
-          visible: isVisible(this.$el),
-          top: offsetPosition(this.placeholder)[0]
-        };
-      },
-      write: function write(data, type) {
-        data.initTimestamp;
-          data.dir;
-          data.lastDir;
-          data.lastScroll;
-          data.start;
-          data.visible;
-        performance.now();
-        data.lastScroll = scroll;
-        if (this.topOffset - this.offset <= this.scroll) {
-          this.show();
-        } else {
-          this.hide();
-        }
-      },
-      events: ['scroll', 'resize']
-    }],
-    methods: {
-      show: function show() {
-        this.isActive = true;
-        this.update();
-        attr(this.placeholder, 'hidden', null);
-      },
-      hide: function hide() {
-        this.isActive = false;
-        removeClass(this.$el, this.clsFixed, this.clsBelow);
-        css(this.$el, {
-          position: '',
-          top: '',
-          width: ''
-        });
-        attr(this.placeholder, 'hidden', '');
-      },
-      update: function update() {
-        this.top !== 0 || this.scroll > this.top;
-        this._data.start;
-        var top = Math.max(0, this.offset);
-        var position = 'fixed';
-        if (isNumeric$1(this.bottom) && this.scroll > this.bottom - this.offset) {
-          top = this.bottom - this.offsetParentTop;
-          position = 'absolute';
-        }
-        css(this.$el, {
-          position: position,
-          top: "".concat(top, "px"),
-          width: this.width
-        });
-      },
-      setActive: function setActive(active) {
-        var prev = this.active;
-        this.active = active;
-        if (active) {
-          replaceClass(this.selTarget, this.clsInactive, this.clsActive);
-          prev !== active && trigger(this.$el, 'active');
-        } else {
-          replaceClass(this.selTarget, this.clsActive, this.clsInactive);
-          prev !== active && trigger(this.$el, 'inactive');
-        }
-      }
-    }
-  };
-  function parseProp(value, el) {
-    var propsOffset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var padding = arguments.length > 3 ? arguments[3] : undefined;
-    if (!value) return 0;
-    if (isNumeric$1(value) || isString(value) && value.match(/^-?\d/)) {
-      return propsOffset + toPx(value, 'height', el, true);
-    } else {
-      var refElement = value === true ? parent(el) : query(value, el);
-      return offset(refElement).bottom - (padding && refElement && within(el, refElement) ? toFloat(css(refElement, 'paddingBottom')) : 0);
-    }
-  }
-
-  var tree = {
-    mixins: [Class, Togglable],
-    props: {
-      selector: String
-    },
-    data: {
-      selector: ' .tree-title',
-      clsOpen: "",
-      clsClose: ""
-    },
-    computed: {},
-    events: [{
-      name: 'click',
-      delegate: function delegate() {
-        return "".concat(this.selector);
-      },
-      handler: function handler(e) {
-        e.preventDefault();
-        console.log(e.current);
-      }
-    }, {
-      name: 'scroll',
-      el: window,
-      handler: function handler() {
-
-        // this.$emit('resize');
-      }
-    }],
-    methods: {
-      test: function test() {
-        alert('dddddd');
-      }
-    },
-    update: {
-      read: function read(_ref) {
-        _ref.test;
-          _ref.aaaa;
-        // console.log('resizeRead')
-        // console.log(aaaa)
-        // console.log(test)
-        return {
-          test: 'dddd',
-          aaaa: 'dffadfsf'
-        };
-      },
-      write: function write(_ref2) {
-        _ref2.test;
-        console.log('resizeWrite');
-        // console.log(test)
-      },
-
-      events: ['resize']
-    }
-  };
-
   var components = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    Accordion: accordion,
-    Alert: alert$1,
-    Button: Button,
-    Tab: tab,
-    Toggle: toggle,
-    Sticky: sticky,
-    Tree: tree
+    PageNavigation: pageNavigation
   });
 
   function componentCore (GCui) {
@@ -3168,63 +2510,39 @@
     }
   }
 
-  var GCui = function GCui(options) {
+  // import {fastdom, ready, $, $$, on} from '../../asset/js/util'
+  var UiGuide = function UiGuide(options) {
     this._init(options);
   };
-  GCui.util = util;
-  GCui.data = 'uiComponents';
-  GCui.prefixName = jsPrefix;
-  GCui.prefix = "".concat(jsPrefix, "-");
-  GCui.options = {};
-  GCui.version = 1.0;
+  UiGuide.util = util;
+  UiGuide.data = 'uiComponents';
+  UiGuide.prefixName = 'uiguide';
+  UiGuide.prefix = "uiguide-";
+  UiGuide.options = {};
 
   // globalAPI Start
-  globalApi(GCui);
+  globalApi(UiGuide);
   // globalAPI End
 
   // hooksAPI, stateAPI Start
-  initializeApi(GCui);
+  initializeApi(UiGuide);
   // hooksAPI End
 
   // componentAPI Start
-  componentCore(GCui);
+  componentCore(UiGuide);
   // componentAPI End
 
   // instanceAPI Start
-  instanceApi(GCui);
+  instanceApi(UiGuide);
   // instanceAPI End
 
   // boot Start
-  setFramewrok(GCui);
+  setFramewrok(UiGuide);
   // boot End
 
   each(components, function (component, name) {
-    return GCui.component(name, component);
+    return UiGuide.component();
   });
-  GCui.use(function (GCui) {
-    inBrowser && ready(function () {
-      GCui.update();
-      on(window, 'load resize', function () {
-        return GCui.update(null, 'resize');
-      });
-      var pending;
-      on(window, 'scroll', function (e) {
-        if (pending) {
-          return;
-        }
-        pending = true;
-        fastdom.write(function () {
-          return pending = false;
-        });
-        GCui.update(null, e.type);
-      }, {
-        passive: true,
-        capture: true
-      });
-    });
-  });
-
-  return GCui;
 
 }));
 //# sourceMappingURL=index.js.map

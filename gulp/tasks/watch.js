@@ -5,7 +5,7 @@ import pug from './pug';
 import scss from './scss';
 import javascript from './javascript';
 import docsScss from './docsScss';
-// import docsJavascript from './gulp/tasks/docsJavascript';
+import docsJavascript from './docsJavascript';
 import docsPug from './docsPug';
 
 const watch11 = () => {
@@ -51,6 +51,13 @@ const watch11 = () => {
       config.source.jsAll,
     ],
     javascript
+  );
+
+  watch(
+    [
+      config.doc.source.jsAll,
+    ],
+    docsJavascript
   );
 }
 
