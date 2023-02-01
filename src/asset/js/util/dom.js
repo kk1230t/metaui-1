@@ -41,6 +41,12 @@ export function html(parent, html) {
         : append(parent.hasChildNodes() ? empty(parent) : parent, html);
 }
 
+/**
+ * parent 자식 첫번째로 element 를 추가
+ * @param {element} parent 타겟 엘리먼트
+ * @param {element} element 추가 할 엘리먼드
+ * @returns 추가된 엘리먼트
+ */
 export function prepend(parent, element) {
 
     parent = $(parent);
@@ -52,16 +58,34 @@ export function prepend(parent, element) {
     }
 }
 
+/**
+ * parent 자식 마지막으로 element 를 추가
+ * @param {element} parent 타겟 엘리먼트
+ * @param {element} element 추가 할 엘리먼드
+ * @returns 추가된 엘리먼트
+ */
 export function append(parent, element) {
     parent = $(parent);
     return insertNodes(element, element => parent.appendChild(element));
 }
 
+/**
+ * ref의 이전 노드에 element를 추가
+ * @param {element} ref 타겟 요소
+ * @param {element} element 추가 할 엘리면트
+ * @returns 추가된 엘리먼트
+ */
 export function before(ref, element) {
     ref = $(ref);
     return insertNodes(element, element => ref.parentNode.insertBefore(element, ref));
 }
 
+/**
+ * ref의 다음 노드에 element를 추가
+ * @param {element} ref 타겟 요소
+ * @param {element} element 추가 할 엘리면트
+ * @returns 추가된 엘리먼트
+ */
 export function after(ref, element) {
     ref = $(ref);
     return insertNodes(element, element => ref.nextSibling

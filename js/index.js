@@ -1061,6 +1061,13 @@
     parent = $$1(parent);
     return isUndefined(html) ? parent.innerHTML : append(parent.hasChildNodes() ? empty(parent) : parent, html);
   }
+
+  /**
+   * parent 자식 첫번째로 element 를 추가
+   * @param {element} parent 타겟 엘리먼트
+   * @param {element} element 추가 할 엘리먼드
+   * @returns 추가된 엘리먼트
+   */
   function prepend(parent, element) {
     parent = $$1(parent);
     if (!parent.hasChildNodes()) {
@@ -1071,18 +1078,39 @@
       });
     }
   }
+
+  /**
+   * parent 자식 마지막으로 element 를 추가
+   * @param {element} parent 타겟 엘리먼트
+   * @param {element} element 추가 할 엘리먼드
+   * @returns 추가된 엘리먼트
+   */
   function append(parent, element) {
     parent = $$1(parent);
     return insertNodes(element, function (element) {
       return parent.appendChild(element);
     });
   }
+
+  /**
+   * ref의 이전 노드에 element를 추가
+   * @param {element} ref 타겟 요소
+   * @param {element} element 추가 할 엘리면트
+   * @returns 추가된 엘리먼트
+   */
   function before(ref, element) {
     ref = $$1(ref);
     return insertNodes(element, function (element) {
       return ref.parentNode.insertBefore(element, ref);
     });
   }
+
+  /**
+   * ref의 다음 노드에 element를 추가
+   * @param {element} ref 타겟 요소
+   * @param {element} element 추가 할 엘리면트
+   * @returns 추가된 엘리먼트
+   */
   function after(ref, element) {
     ref = $$1(ref);
     return insertNodes(element, function (element) {
@@ -3043,10 +3071,11 @@
       },
       handler: function handler(e) {
         e.preventDefault();
-        console.log(e.current);
+        //   console.log(e.current);
         var div = document.createElement('div');
         div.innerHTML = 'sdfsdfsdfsdfsdfds';
-        append(e.current, div);
+        var test = before(e.current, div);
+        console.log(test);
       }
     }, {
       name: 'scroll',
