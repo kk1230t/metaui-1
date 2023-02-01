@@ -6,6 +6,19 @@ const dirs = {
     height: ['top', 'bottom']
 };
 
+/**
+ * 크기 및 위치값 정보
+ * @param {element} element 
+ * @returns {
+ *  height,
+ *  height
+ *  width
+ *  top
+ *  left
+ *  bottom
+ *  right
+ * }
+ */
 export function dimensions(element) {
 
     const rect = isElement(element)
@@ -50,6 +63,14 @@ export function offset(element, coordinates) {
     );
 }
 
+/**
+ * 
+ * @param {element} element 
+ * @returns {
+ * top,
+ * left
+ * }
+ */
 export function position(element) {
 
     let {top, left} = offset(element);
@@ -95,7 +116,14 @@ export function offsetPosition(element) {
     return offset;
 }
 
+/**
+ * height 값 반환
+ */
 export const height = dimension('height');
+
+/**
+ * width 값 반환
+ */
 export const width = dimension('width');
 
 function dimension(prop) {

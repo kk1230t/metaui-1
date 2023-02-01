@@ -1,6 +1,6 @@
 import Class from '../mixin/class';
 import {default as Togglable, toggleHeight} from '../mixin/togglable';
-import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll} from '../../util';
+import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll, append} from '../../util';
 
 export default {
   mixins: [Class, Togglable],
@@ -9,12 +9,12 @@ export default {
   },
   data: {
       selector: ' .tree-title',
-      clsOpen: "",
-      clsClose:""
+      clsOpen: "tree-open",
+      clsClose:"tree-close"
   },
 
   computed: {
-
+    
   },
 
   events: [
@@ -27,7 +27,9 @@ export default {
           handler(e) {
               e.preventDefault();
               console.log(e.current);
-              
+              const div = document.createElement('div');
+              div.innerHTML = 'sdfsdfsdfsdfsdfds'
+              append(e.current, div)
           }
       },
       {

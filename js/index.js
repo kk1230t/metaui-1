@@ -404,32 +404,64 @@
     }
   }
 
+  /**
+   * 엘리먼트에 클래스 추가
+   * @param {Object} element 
+   * @param  {...any} args 추가 할 클래스 리스트
+   */
   function addClass(element) {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
     apply$1(element, args, 'add');
   }
+
+  /**
+   * 엘리먼트에 클래스 제거
+   * @param {Object} element 
+   * @param  {...any} args 삭제 할 클래스 리스트
+   */
   function removeClass(element) {
     for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
       args[_key2 - 1] = arguments[_key2];
     }
     apply$1(element, args, 'remove');
   }
+
+  //확인 필요
   function removeClasses(element, cls) {
     attr(element, 'class', function (value) {
       return (value || '').replace(new RegExp("\\b".concat(cls, "\\b"), 'g'), '');
     });
   }
+
+  /**
+   * 클래스 치환
+   * @param {Object} element 
+   * @param  {...any} args ["삭제 할 클래스네임", "추가 할 클래스 네임"]
+   */
   function replaceClass(element) {
     (arguments.length <= 1 ? undefined : arguments[1]) && removeClass(element, arguments.length <= 1 ? undefined : arguments[1]);
     (arguments.length <= 2 ? undefined : arguments[2]) && addClass(element, arguments.length <= 2 ? undefined : arguments[2]);
   }
+
+  /**
+   * 클래스가 존재하는지 확인
+   * @param {Object} element 
+   * @param {"string"} cls 확인 할 클래스네임
+   * @returns Boolean
+   */
   function hasClass(element, cls) {
     return cls && toNodes(element).some(function (element) {
       return element.classList.contains(cls.split(' ')[0]);
     });
   }
+
+  /**
+   * 클래스 토글
+   * @param {Array} element 
+   * @param  {...any} args  
+   */
   function toggleClass(element) {
     for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
       args[_key3 - 1] = arguments[_key3];
@@ -1000,6 +1032,10 @@
     };
   }
 
+  /**
+   * readyState 이후 실행
+   * @param {function} fn readyState 이후 실행할 함수 내용
+   */
   function ready(fn) {
     if (document.readyState !== 'loading') {
       fn();
@@ -1010,6 +1046,12 @@
       fn();
     });
   }
+
+  /**
+   * element 자식노드의 내용을 모두 비움
+   * @param {element} element 
+   * @returns element
+   */
   function empty(element) {
     element = $$1(element);
     element.innerHTML = '';
@@ -1294,6 +1336,20 @@
     width: ['left', 'right'],
     height: ['top', 'bottom']
   };
+
+  /**
+   * 크기 및 위치값 정보
+   * @param {element} element 
+   * @returns {
+   *  height,
+   *  height
+   *  width
+   *  top
+   *  left
+   *  bottom
+   *  right
+   * }
+   */
   function dimensions(element) {
     var rect = isElement(element) ? toNode(element).getBoundingClientRect() : {
       height: height(element),
@@ -1332,6 +1388,15 @@
       return css(element, prop, coordinates[prop] - currentOffset[prop] + toFloat(pos === 'absolute' && value === 'auto' ? position(element)[prop] : value));
     });
   }
+
+  /**
+   * 
+   * @param {element} element 
+   * @returns {
+   * top,
+   * left
+   * }
+   */
   function position(element) {
     var _offset = offset(element),
       top = _offset.top,
@@ -1370,7 +1435,15 @@
     } while (element = element.offsetParent);
     return offset;
   }
+
+  /**
+   * height 값 반환
+   */
   var height = dimension('height');
+
+  /**
+   * width 값 반환
+   */
   var width = dimension('width');
   function dimension(prop) {
     var propName = ucfirst(prop);
@@ -2959,8 +3032,8 @@
     },
     data: {
       selector: ' .tree-title',
-      clsOpen: "",
-      clsClose: ""
+      clsOpen: "tree-open",
+      clsClose: "tree-close"
     },
     computed: {},
     events: [{
@@ -2971,6 +3044,9 @@
       handler: function handler(e) {
         e.preventDefault();
         console.log(e.current);
+        var div = document.createElement('div');
+        div.innerHTML = 'sdfsdfsdfsdfsdfds';
+        append(e.current, div);
       }
     }, {
       name: 'scroll',

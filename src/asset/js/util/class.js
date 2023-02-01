@@ -1,27 +1,54 @@
 import {attr} from './attr';
 import {hasOwn, includes, isString, isUndefined, toNodes, last} from './lang.js';
 
+/**
+ * 엘리먼트에 클래스 추가
+ * @param {Object} element 
+ * @param  {...any} args 추가 할 클래스 리스트
+ */
 export function addClass(element, ...args) {
     apply(element, args, 'add');
 }
 
+/**
+ * 엘리먼트에 클래스 제거
+ * @param {Object} element 
+ * @param  {...any} args 삭제 할 클래스 리스트
+ */
 export function removeClass(element, ...args) {
     apply(element, args, 'remove');
 }
 
+//확인 필요
 export function removeClasses(element, cls) {
     attr(element, 'class', value => (value || '').replace(new RegExp(`\\b${cls}\\b`, 'g'), ''));
 }
 
+/**
+ * 클래스 치환
+ * @param {Object} element 
+ * @param  {...any} args ["삭제 할 클래스네임", "추가 할 클래스 네임"]
+ */
 export function replaceClass(element, ...args) {
     args[0] && removeClass(element, args[0]);
     args[1] && addClass(element, args[1]);
 }
 
+/**
+ * 클래스가 존재하는지 확인
+ * @param {Object} element 
+ * @param {"string"} cls 확인 할 클래스네임
+ * @returns Boolean
+ */
 export function hasClass(element, cls) {
     return cls && toNodes(element).some(element => element.classList.contains(cls.split(' ')[0]));
 }
 
+/**
+ * 클래스 토글
+ * @param {Array} element 
+ * @param  {...any} args  
+ */
 export function toggleClass(element, ...args) {
     if (!args.length) {
         return;

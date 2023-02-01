@@ -3,6 +3,11 @@ import {parent} from './filter';
 import {find, findAll} from './selector';
 import {isElement, isString, isUndefined, toNode, toNodes} from './lang';
 
+
+/**
+ * readyState 이후 실행
+ * @param {function} fn readyState 이후 실행할 함수 내용
+ */
 export function ready(fn) {
 
     if (document.readyState !== 'loading') {
@@ -16,11 +21,18 @@ export function ready(fn) {
     });
 }
 
+/**
+ * element 자식노드의 내용을 모두 비움
+ * @param {element} element 
+ * @returns element
+ */
 export function empty(element) {
     element = $(element);
     element.innerHTML = '';
     return element;
 }
+
+
 
 export function html(parent, html) {
     parent = $(parent);
