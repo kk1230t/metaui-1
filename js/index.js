@@ -732,17 +732,35 @@
     track: true,
     wbr: true
   };
+
+  /**
+   * 요소가 다음에 해당되는 태그인지 확인 [area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr]
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isVoidElement(element) {
     return toNodes(element).some(function (element) {
       return voidElements[element.tagName.toLowerCase()];
     });
   }
+
+  /**
+   * 요소가 화면에  dislplay상태인지 확인
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isVisible(element) {
     return toNodes(element).some(function (element) {
       return element.offsetWidth || element.offsetHeight || element.getClientRects().length;
     });
   }
   var selInput = 'input,select,textarea,button';
+
+  /**
+   * 요소가 form [input,select,textarea,button] 중 하나인가
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isInput(element) {
     return toNodes(element).some(function (element) {
       return matches(element, selInput);
@@ -752,6 +770,12 @@
   function isFocusable(element) {
     return matches(element, selFocusable);
   }
+
+  /**
+   * 부모요소 선택
+   * @param {element} element 
+   * @returns element의 부모 요소
+   */
   function parent$1(element) {
     element = toNode(element);
     return element && isElement(element.parentNode) && element.parentNode;
@@ -763,6 +787,13 @@
   }
   var elProto = inBrowser ? Element.prototype : {};
   var matchesFn = elProto.matches || elProto.webkitMatchesSelector || elProto.msMatchesSelector || noop;
+
+  /**
+   * element가 selector의 셀렉터로 css에서 선언되었는가
+   * @param {element} element 
+   * @param {string} selector css 셀렉터 문자열
+   * @returns Boolean
+   */
   function matches(element, selector) {
     return toNodes(element).some(function (element) {
       return matchesFn.call(element, selector);
@@ -776,6 +807,13 @@
       }
     } while (ancestor = parent$1(ancestor));
   };
+
+  /**
+   * element의 상위 요소 중 selector와 일치되는 엘리먼트 반환
+   * @param {element} element 
+   * @param {string} selector 검색할 셀렉터 문자열
+   * @returns element
+   */
   function closest(element, selector) {
     if (startsWith(selector, '>')) {
       selector = selector.slice(1);
@@ -788,6 +826,13 @@
     return !isString(selector) ? element === selector || (isDocument(selector) ? selector.documentElement : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
     : matches(element, selector) || !!closest(element, selector);
   }
+
+  /**
+   * element의 부모 요소들 중 selector와 매칭되는 요소들 전부 선택
+   * @param {element} element 
+   * @param {string} selector 셀렉터 문자열
+   * @returns 매칭되는 엘리먼드 배열
+   */
   function parents(element, selector) {
     var elements = [];
     while (element = parent$1(element)) {
@@ -797,6 +842,13 @@
     }
     return elements;
   }
+
+  /**
+   * element의 자식요소 중 selector와 매칭되는 엘리먼트를 반환
+   * @param {element} element 
+   * @param {string} selector 검색할 셀렉터 문자열
+   * @returns selector와 매칭되는 엘리먼트
+   */
   function children(element, selector) {
     element = toNode(element);
     var children = element ? toNodes(element.children) : [];
@@ -3121,13 +3173,13 @@
       },
       handler: function handler(e) {
         e.preventDefault();
+        fragment('<hr />');
         //   console.log(e.current);
         var div = document.createElement('div');
         div.innerHTML = 'sdfsdfsdfsdfsdfds';
-        apply(document.body, function (el) {
-          return console.log(el);
-        });
+        //   apply(document.body, (el) => console.log(el))
         //   console.log(test);
+        console.log(parents(e.current, 'div'));
       }
     }, {
       name: 'scroll',
