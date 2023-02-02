@@ -1121,11 +1121,23 @@
     element = isString(element) ? fragment(element) : element;
     return element ? 'length' in element ? toNodes(element).map(fn) : fn(element) : null;
   }
+
+  /**
+   * element를 삭제
+   * @param {element} element 
+   */
   function remove$2(element) {
     toNodes(element).forEach(function (element) {
       return element.parentNode && element.parentNode.removeChild(element);
     });
   }
+
+  /**
+   * element를 structure로 랩핑
+   * @param {element} element 
+   * @param {string} structure  랩핑할 엘리먼트 문자열 ex) `<div>`
+   * @returns structure element
+   */
   function wrapAll(element, structure) {
     structure = toNode(before(element, structure));
     while (structure.firstChild) {
@@ -1134,11 +1146,23 @@
     append(structure, element);
     return structure;
   }
+
+  /**
+   * element하위요소 전부를 structure로 랩핑
+   * @param {element} element 
+   * @param {string} structure  랩핑할 엘리먼트 문자열 ex) `<div>`
+   * @returns structure element
+   */
   function wrapInner(element, structure) {
     return toNodes(toNodes(element).map(function (element) {
       return element.hasChildNodes ? wrapAll(toNodes(element.childNodes), structure) : append(element, structure);
     }));
   }
+
+  /**
+   * element요소의 하위 요소를 제외하고 제거 
+   * @param {element} element 
+   */
   function unwrap(element) {
     toNodes(element).map(parent$1).filter(function (value, index, self) {
       return self.indexOf(value) === index;
@@ -1149,6 +1173,12 @@
   }
   var fragmentRe = /^\s*<(\w+|!)[^>]*>/;
   var singleTagRe = /^<(\w+)\s*\/?>(?:<\/\1>)?$/;
+
+  /**
+   * 전달된 문자열 형식의 html을 실제 엘리먼트러 전환
+   * @param {string} html 엘리먼트로 전환될 문자열 형식의 html
+   * @returns element
+   */
   function fragment(html) {
     var matches = singleTagRe.exec(html);
     if (matches) {
@@ -1162,6 +1192,12 @@
     }
     return container.childNodes.length > 1 ? toNodes(container.childNodes) : container.firstChild;
   }
+
+  /**
+   * node 하위요소를 전부 탐색하여 fn으로 전달된 함수를 살행
+   * @param {element} node 탐색할 node element
+   * @param {function} fn 실행할 함수 
+   */
   function apply(node, fn) {
     if (!isElement(node)) {
       return;
@@ -1174,9 +1210,23 @@
       node = next;
     }
   }
+
+  /**
+   * selector와 매칭되는 단일 엘리먼트
+   * @param {String} selector css 선택자 형식의 문자열
+   * @param {element} context context
+   * @returns element
+   */
   function $$1(selector, context) {
     return isHtml(selector) ? toNode(fragment(selector)) : find(selector, context);
   }
+
+  /**
+   * selector와 매칭되는 하나이상의 엘리먼트
+   * @param {String} selector css 선택자 형식의 문자열
+   * @param {element} context context
+   * @returns element
+   */
   function $$(selector, context) {
     return isHtml(selector) ? toNodes(fragment(selector)) : findAll(selector, context);
   }
@@ -3074,8 +3124,10 @@
         //   console.log(e.current);
         var div = document.createElement('div');
         div.innerHTML = 'sdfsdfsdfsdfsdfds';
-        var test = before(e.current, div);
-        console.log(test);
+        apply(document.body, function (el) {
+          return console.log(el);
+        });
+        //   console.log(test);
       }
     }, {
       name: 'scroll',

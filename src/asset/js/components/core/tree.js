@@ -1,6 +1,6 @@
 import Class from '../mixin/class';
 import {default as Togglable, toggleHeight} from '../mixin/togglable';
-import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll, before} from '../../util';
+import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll, before, wrapInner, fragment, apply} from '../../util';
 
 export default {
   mixins: [Class, Togglable],
@@ -29,8 +29,8 @@ export default {
             //   console.log(e.current);
               const div = document.createElement('div');
               div.innerHTML = 'sdfsdfsdfsdfsdfds'
-              const test = before(e.current, div)
-              console.log(test);
+              apply(document.body, (el) => console.log(el))
+            //   console.log(test);
           }
       },
       {

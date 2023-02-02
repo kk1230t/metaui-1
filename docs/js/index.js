@@ -1031,6 +1031,10 @@
     };
   }
 
+  /**
+   * readyState 이후 실행
+   * @param {function} fn readyState 이후 실행할 함수 내용
+   */
   function ready(fn) {
     if (document.readyState !== 'loading') {
       fn();
@@ -1041,6 +1045,12 @@
       fn();
     });
   }
+
+  /**
+   * element 자식노드의 내용을 모두 비움
+   * @param {element} element 
+   * @returns element
+   */
   function empty(element) {
     element = $$1(element);
     element.innerHTML = '';
@@ -1050,6 +1060,13 @@
     parent = $$1(parent);
     return isUndefined(html) ? parent.innerHTML : append(parent.hasChildNodes() ? empty(parent) : parent, html);
   }
+
+  /**
+   * parent 자식 첫번째로 element 를 추가
+   * @param {element} parent 타겟 엘리먼트
+   * @param {element} element 추가 할 엘리먼드
+   * @returns 추가된 엘리먼트
+   */
   function prepend(parent, element) {
     parent = $$1(parent);
     if (!parent.hasChildNodes()) {
@@ -1060,18 +1077,39 @@
       });
     }
   }
+
+  /**
+   * parent 자식 마지막으로 element 를 추가
+   * @param {element} parent 타겟 엘리먼트
+   * @param {element} element 추가 할 엘리먼드
+   * @returns 추가된 엘리먼트
+   */
   function append(parent, element) {
     parent = $$1(parent);
     return insertNodes(element, function (element) {
       return parent.appendChild(element);
     });
   }
+
+  /**
+   * ref의 이전 노드에 element를 추가
+   * @param {element} ref 타겟 요소
+   * @param {element} element 추가 할 엘리면트
+   * @returns 추가된 엘리먼트
+   */
   function before(ref, element) {
     ref = $$1(ref);
     return insertNodes(element, function (element) {
       return ref.parentNode.insertBefore(element, ref);
     });
   }
+
+  /**
+   * ref의 다음 노드에 element를 추가
+   * @param {element} ref 타겟 요소
+   * @param {element} element 추가 할 엘리면트
+   * @returns 추가된 엘리먼트
+   */
   function after(ref, element) {
     ref = $$1(ref);
     return insertNodes(element, function (element) {
@@ -1424,7 +1462,15 @@
     } while (element = element.offsetParent);
     return offset;
   }
+
+  /**
+   * height 값 반환
+   */
   var height = dimension('height');
+
+  /**
+   * width 값 반환
+   */
   var width = dimension('width');
   function dimension(prop) {
     var propName = ucfirst(prop);
