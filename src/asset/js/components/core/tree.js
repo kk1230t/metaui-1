@@ -29,10 +29,11 @@ export default {
               const test = fragment('<hr />')
             //   console.log(e.current);
               const div = document.createElement('div');
-              div.innerHTML = 'sdfsdfsdfsdfsdfds'
+              div.innerHTML = '23423'
             //   apply(document.body, (el) => console.log(el))
             //   console.log(test);
             console.log(parents(e.current, 'div'))
+
           }
       },
       {
