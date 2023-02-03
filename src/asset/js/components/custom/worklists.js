@@ -57,8 +57,7 @@ export default {
       name: "load hashchange popstate",
       el: inBrowser && window,
       handler(e) {
-        e.preventDefault();
-        attr(this.contentframe, 'src', localStorage.getItem('url'))
+        this.setFrameSrc();
       },
     },
     {
@@ -80,6 +79,7 @@ export default {
         e.preventDefault();
         const path = attr(e.current, 'data-href');
         this.setParams(path);
+        this.setFrameSrc();
       },
     },
     {
@@ -100,18 +100,11 @@ export default {
     setMainContent() {
       console.log('sdfsdf')
     },
-    setParams(path) {
-      // console.log('path')
-      // const url = new URL(location.href);
-      // const urlParams = new URLSearchParams(url.search);
-      // location.href = 'http://www.naver.com';
-      // urlParams.set('url', path)
-      localStorage.setItem('url', path)
-      console.log(localStorage.getItem('url'))
+    setFrameSrc() {
       attr(this.contentframe, 'src', localStorage.getItem('url'))
-      // console.log(url.origin +"/?"+ urlParams)
-      
-      // location.replace(url.origin +"/?"+ urlParams);
+    },
+    setParams(path) {
+      localStorage.setItem('url', path)
     }
   },
   // update: {

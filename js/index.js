@@ -3230,8 +3230,7 @@
       name: "load hashchange popstate",
       el: inBrowser && window,
       handler: function handler(e) {
-        e.preventDefault();
-        attr(this.contentframe, 'src', localStorage.getItem('url'));
+        this.setFrameSrc();
       }
     }, {
       name: "click",
@@ -3251,6 +3250,7 @@
         e.preventDefault();
         var path = attr(e.current, 'data-href');
         this.setParams(path);
+        this.setFrameSrc();
       }
     }, {
       name: "scroll",
@@ -3266,18 +3266,11 @@
       setMainContent: function setMainContent() {
         console.log('sdfsdf');
       },
-      setParams: function setParams(path) {
-        // console.log('path')
-        // const url = new URL(location.href);
-        // const urlParams = new URLSearchParams(url.search);
-        // location.href = 'http://www.naver.com';
-        // urlParams.set('url', path)
-        localStorage.setItem('url', path);
-        console.log(localStorage.getItem('url'));
+      setFrameSrc: function setFrameSrc() {
         attr(this.contentframe, 'src', localStorage.getItem('url'));
-        // console.log(url.origin +"/?"+ urlParams)
-
-        // location.replace(url.origin +"/?"+ urlParams);
+      },
+      setParams: function setParams(path) {
+        localStorage.setItem('url', path);
       }
     }
     // update: {
