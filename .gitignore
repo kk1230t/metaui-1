@@ -1,7 +1,7 @@
 node_modules/
-./build
-dist
-./js
-./css
-./pages
-./docs
+build/
+dist/
+js/
+css/
+pages/
+docs/

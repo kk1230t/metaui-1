@@ -3208,29 +3208,40 @@
       selector: String
     },
     data: {
-      selector: ' .tree-title',
+      selector: " .tree-title",
       clsOpen: "tree-open",
       clsClose: "tree-close",
-      testTarget: ".lists button"
+      testTarget: ".lists button",
+      contentframe: "#content_frame"
     },
-    computed: {},
+    computed: {
+      // contentframe: {
+      //   get() {
+      //     return $(contentframe);
+      //   },
+
+      //   set(iframe) {
+      //     console.log(iframe)
+      //   }
+      // }
+    },
     events: [{
-      name: 'click',
+      name: "load hashchange popstate",
+      el: inBrowser && window,
+      handler: function handler(e) {
+        e.preventDefault();
+        console.log('load');
+      }
+    }, {
+      name: "click",
       delegate: function delegate() {
         return "".concat(this.selector);
       },
       handler: function handler(e) {
         e.preventDefault();
-        fragment('<hr />');
-        //   console.log(e.current);
-        var div = document.createElement('div');
-        div.innerHTML = '23423';
-        //   apply(document.body, (el) => console.log(el))
-        //   console.log(test);
-        console.log(index(e.current));
       }
     }, {
-      name: 'click',
+      name: "click",
       delegate: function delegate() {
         return "".concat(this.testTarget);
       },
@@ -3246,37 +3257,30 @@
         console.log(findIndex(arr, func));
       }
     }, {
-      name: 'scroll',
+      name: "scroll",
       el: window,
       handler: function handler() {
-
         // this.$emit('resize');
       }
     }],
     methods: {
       test: function test() {
-        alert('dddddd');
+        alert("dddddd");
       }
     },
     update: {
       read: function read(_ref) {
-        _ref.test;
-          _ref.aaaa;
-        // console.log('resizeRead')
-        // console.log(aaaa)
-        // console.log(test)
+        _ref.url;
+        var urlParams = new URL(location.href).searchParams;
         return {
-          test: 'dddd',
-          aaaa: 'dffadfsf'
+          url: urlParams.get('url')
         };
       },
       write: function write(_ref2) {
-        _ref2.test;
-        console.log('resizeWrite');
-        // console.log(test)
+        var url = _ref2.url;
+        if (url) attr($$1(this.contentframe), "src", url);
       },
-
-      events: ['resize']
+      events: ["checkStatus"]
     }
   };
 
