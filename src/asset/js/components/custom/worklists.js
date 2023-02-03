@@ -34,23 +34,22 @@ export default {
     selector: String,
   },
   data: {
+    path:'url',
     selector: " .tree-title",
     clsOpen: "tree-open",
     clsClose: "tree-close",
-    testTarget: ".lists button",
+    treeLists: ".lists button",
     contentframe: "#content_frame"
   },
 
   computed: {
-    // contentframe: {
-    //   get() {
-    //     return $(contentframe);
-    //   },
-
-    //   set(iframe) {
-    //     console.log(iframe)
-    //   }
-    // }
+    contentframe({contentframe}) {
+      return $(contentframe);
+    },
+    path({path}) {
+      const urlParams = new URL(location.href).searchParams;
+      return urlParams.get(path)
+    }
   },
 
   events: [
@@ -59,7 +58,7 @@ export default {
       el: inBrowser && window,
       handler(e) {
         e.preventDefault();
-        console.log('load')
+        attr(this.contentframe, 'src', localStorage.getItem('url'))
       },
     },
     {
@@ -69,27 +68,18 @@ export default {
       },
       handler(e) {
         e.preventDefault();
+        console.log(this.path)
       },
     },
     {
       name: "click",
       delegate() {
-        return `${this.testTarget}`;
+        return `${this.treeLists}`;
       },
       handler(e) {
         e.preventDefault();
-        // console.log(index(e.current))
-        const arr = [1, 2, 3, 4, 5, 6, 7, 8];
-        const obj = {
-          aa: 1,
-          bb: 2,
-        };
-        const str = "aaa";
-        const str2 = "aaa-bbb-ccc-ddd-eee-fff";
-        // console.log(startsWith(str2, 'a-'))
-        // console.log(ucfirst(str))
-        const func = (n) => n > 3;
-        console.log(findIndex(arr, func));
+        const path = attr(e.current, 'data-href');
+        this.setParams(path);
       },
     },
     {
@@ -107,18 +97,34 @@ export default {
     test() {
       alert("dddddd");
     },
+    setMainContent() {
+      console.log('sdfsdf')
+    },
+    setParams(path) {
+      // console.log('path')
+      // const url = new URL(location.href);
+      // const urlParams = new URLSearchParams(url.search);
+      // location.href = 'http://www.naver.com';
+      // urlParams.set('url', path)
+      localStorage.setItem('url', path)
+      console.log(localStorage.getItem('url'))
+      attr(this.contentframe, 'src', localStorage.getItem('url'))
+      // console.log(url.origin +"/?"+ urlParams)
+      
+      // location.replace(url.origin +"/?"+ urlParams);
+    }
   },
-  update: {
-    read({ url }) {
-      const urlParams = new URL(location.href).searchParams;
-      return {
-        url: urlParams.get('url'),
-      };
-    },
-    write({ url }) {
-      if(url) attr($(this.contentframe), "src", url)
-    },
+  // update: {
+  //   read({ url }) {
+  //     const urlParams = new URL(location.href).searchParams;
+  //     return {
+  //       url: urlParams.get('url'),
+  //     };
+  //   },
+  //   write({ url }) {
+  //     if(url) attr($(this.contentframe), "src", url)
+  //   },
 
-    events: ["checkStatus"],
-  },
+  //   events: ["checkStatus"],
+  // },
 };

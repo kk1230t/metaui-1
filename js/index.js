@@ -3208,29 +3208,30 @@
       selector: String
     },
     data: {
+      path: 'url',
       selector: " .tree-title",
       clsOpen: "tree-open",
       clsClose: "tree-close",
-      testTarget: ".lists button",
+      treeLists: ".lists button",
       contentframe: "#content_frame"
     },
     computed: {
-      // contentframe: {
-      //   get() {
-      //     return $(contentframe);
-      //   },
-
-      //   set(iframe) {
-      //     console.log(iframe)
-      //   }
-      // }
+      contentframe: function contentframe(_ref) {
+        var contentframe = _ref.contentframe;
+        return $$1(contentframe);
+      },
+      path: function path(_ref2) {
+        var path = _ref2.path;
+        var urlParams = new URL(location.href).searchParams;
+        return urlParams.get(path);
+      }
     },
     events: [{
       name: "load hashchange popstate",
       el: inBrowser && window,
       handler: function handler(e) {
         e.preventDefault();
-        console.log('load');
+        attr(this.contentframe, 'src', localStorage.getItem('url'));
       }
     }, {
       name: "click",
@@ -3239,22 +3240,17 @@
       },
       handler: function handler(e) {
         e.preventDefault();
+        console.log(this.path);
       }
     }, {
       name: "click",
       delegate: function delegate() {
-        return "".concat(this.testTarget);
+        return "".concat(this.treeLists);
       },
       handler: function handler(e) {
         e.preventDefault();
-        // console.log(index(e.current))
-        var arr = [1, 2, 3, 4, 5, 6, 7, 8];
-        // console.log(startsWith(str2, 'a-'))
-        // console.log(ucfirst(str))
-        var func = function func(n) {
-          return n > 3;
-        };
-        console.log(findIndex(arr, func));
+        var path = attr(e.current, 'data-href');
+        this.setParams(path);
       }
     }, {
       name: "scroll",
@@ -3266,22 +3262,37 @@
     methods: {
       test: function test() {
         alert("dddddd");
+      },
+      setMainContent: function setMainContent() {
+        console.log('sdfsdf');
+      },
+      setParams: function setParams(path) {
+        // console.log('path')
+        // const url = new URL(location.href);
+        // const urlParams = new URLSearchParams(url.search);
+        // location.href = 'http://www.naver.com';
+        // urlParams.set('url', path)
+        localStorage.setItem('url', path);
+        console.log(localStorage.getItem('url'));
+        attr(this.contentframe, 'src', localStorage.getItem('url'));
+        // console.log(url.origin +"/?"+ urlParams)
+
+        // location.replace(url.origin +"/?"+ urlParams);
       }
-    },
-    update: {
-      read: function read(_ref) {
-        _ref.url;
-        var urlParams = new URL(location.href).searchParams;
-        return {
-          url: urlParams.get('url')
-        };
-      },
-      write: function write(_ref2) {
-        var url = _ref2.url;
-        if (url) attr($$1(this.contentframe), "src", url);
-      },
-      events: ["checkStatus"]
     }
+    // update: {
+    //   read({ url }) {
+    //     const urlParams = new URL(location.href).searchParams;
+    //     return {
+    //       url: urlParams.get('url'),
+    //     };
+    //   },
+    //   write({ url }) {
+    //     if(url) attr($(this.contentframe), "src", url)
+    //   },
+
+    //   events: ["checkStatus"],
+    // },
   };
 
   var components = /*#__PURE__*/Object.freeze({
