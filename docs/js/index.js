@@ -108,13 +108,20 @@
 
   var objPrototype = Object.prototype;
   var hasOwnProperty = objPrototype.hasOwnProperty;
+
+  /**
+   * 객체에 key 속성이 존재하는가
+   * @param {object} obj 객체
+   * @param {string} key 속성 명
+   * @returns Boolean
+   */
   function hasOwn(obj, key) {
     return hasOwnProperty.call(obj, key);
   }
   var hyphenateRe = /\B([A-Z])/g;
 
   /**
-   * example 
+   * 카멜케이스 구분을 하이픈 구분으로 변경
    * @from    'abcdAbcdAbcd' 
    * @to      'abcd-abcd-abcd'
    */
@@ -122,9 +129,21 @@
     return str.replace(hyphenateRe, '-$1').toLowerCase();
   });
   var camelizeRe = /-(\w)/g;
+
+  /**
+   * 하이픈케이스 구분을 카멜케이스 구분으로 변경
+   * @from    'abcd-abcd-abcd' 
+   * @to      'abcdAbcdAbcd'
+   */
   var camelize = memoize(function (str) {
     return str.replace(camelizeRe, toUpper);
   });
+
+  /**
+   * 첫 글자를 대문자로 치환
+   * @from    'aaaa' 
+   * @to      'Aaaa'
+   */
   var ucfirst = memoize(function (str) {
     return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : '';
   });
@@ -135,12 +154,26 @@
   var startsWithFn = strPrototype.startsWith || function (search) {
     return this.lastIndexOf(search, 0) === 0;
   };
+
+  /**
+   * str 의 첫번째 내열된 문자열이 search인가
+   * @param {string} str 검색할 문자열
+   * @param {string} search 찾을 문자열
+   * @returns Boolean
+   */
   function startsWith(str, search) {
     return startsWithFn.call(str, search);
   }
   var endsWithFn = strPrototype.endsWith || function (search) {
     return this.substr(-search.length) === search;
   };
+
+  /**
+   * str 의 마지막 내열된 문자열이 search인가
+   * @param {string} str 검색할 문자열
+   * @param {string} search 찾을 문자열
+   * @returns Boolean
+   */
   function endsWith(str, search) {
     return endsWithFn.call(str, search);
   }
@@ -150,6 +183,13 @@
   };
   var includesStr = strPrototype.includes || includesFn;
   var includesArray = arrPrototype.includes || includesFn;
+
+  /**
+   * obj안에 search가 존재하는가
+   * @param {array} obj 검색할 배열
+   * @param {*} search 찾을 요소
+   * @returns Boolean
+   */
   function includes(obj, search) {
     return obj && (isString(obj) ? includesStr : includesArray).call(obj, search);
   }
@@ -161,6 +201,13 @@
     }
     return -1;
   };
+
+  /**
+   * predicate 식에 만족하는 index를 반환, 만족하는 결과가 없으면 -1을 반환함
+   * @param {array} array 검색할 배열
+   * @param {function} predicate 판별할 함수
+   * @returns index
+   */
   function findIndex(array, predicate) {
     return findIndexFn.call(array, predicate);
   }
@@ -731,17 +778,35 @@
     track: true,
     wbr: true
   };
+
+  /**
+   * 요소가 다음에 해당되는 태그인지 확인 [area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr]
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isVoidElement(element) {
     return toNodes(element).some(function (element) {
       return voidElements[element.tagName.toLowerCase()];
     });
   }
+
+  /**
+   * 요소가 화면에  dislplay상태인지 확인
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isVisible(element) {
     return toNodes(element).some(function (element) {
       return element.offsetWidth || element.offsetHeight || element.getClientRects().length;
     });
   }
   var selInput = 'input,select,textarea,button';
+
+  /**
+   * 요소가 form [input,select,textarea,button] 중 하나인가
+   * @param {element} element 
+   * @returns Boolean
+   */
   function isInput(element) {
     return toNodes(element).some(function (element) {
       return matches(element, selInput);
@@ -751,6 +816,12 @@
   function isFocusable(element) {
     return matches(element, selFocusable);
   }
+
+  /**
+   * 부모요소 선택
+   * @param {element} element 
+   * @returns element의 부모 요소
+   */
   function parent(element) {
     element = toNode(element);
     return element && isElement(element.parentNode) && element.parentNode;
@@ -762,6 +833,13 @@
   }
   var elProto = inBrowser ? Element.prototype : {};
   var matchesFn = elProto.matches || elProto.webkitMatchesSelector || elProto.msMatchesSelector || noop;
+
+  /**
+   * element가 selector의 셀렉터로 css에서 선언되었는가
+   * @param {element} element 
+   * @param {string} selector css 셀렉터 문자열
+   * @returns Boolean
+   */
   function matches(element, selector) {
     return toNodes(element).some(function (element) {
       return matchesFn.call(element, selector);
@@ -775,6 +853,13 @@
       }
     } while (ancestor = parent(ancestor));
   };
+
+  /**
+   * element의 상위 요소 중 selector와 일치되는 엘리먼트 반환
+   * @param {element} element 
+   * @param {string} selector 검색할 셀렉터 문자열
+   * @returns element
+   */
   function closest(element, selector) {
     if (startsWith(selector, '>')) {
       selector = selector.slice(1);
@@ -787,6 +872,13 @@
     return !isString(selector) ? element === selector || (isDocument(selector) ? selector.documentElement : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
     : matches(element, selector) || !!closest(element, selector);
   }
+
+  /**
+   * element의 부모 요소들 중 selector와 매칭되는 요소들 전부 선택
+   * @param {element} element 
+   * @param {string} selector 셀렉터 문자열
+   * @returns 매칭되는 엘리먼드 배열
+   */
   function parents(element, selector) {
     var elements = [];
     while (element = parent(element)) {
@@ -796,6 +888,13 @@
     }
     return elements;
   }
+
+  /**
+   * element의 자식요소 중 selector와 매칭되는 엘리먼트를 반환
+   * @param {element} element 
+   * @param {string} selector 검색할 셀렉터 문자열
+   * @returns selector와 매칭되는 엘리먼트
+   */
   function children(element, selector) {
     element = toNode(element);
     var children = element ? toNodes(element.children) : [];

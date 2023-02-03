@@ -109,13 +109,20 @@
 
   var objPrototype = Object.prototype;
   var hasOwnProperty = objPrototype.hasOwnProperty;
+
+  /**
+   * 객체에 key 속성이 존재하는가
+   * @param {object} obj 객체
+   * @param {string} key 속성 명
+   * @returns Boolean
+   */
   function hasOwn(obj, key) {
     return hasOwnProperty.call(obj, key);
   }
   var hyphenateRe = /\B([A-Z])/g;
 
   /**
-   * example 
+   * 카멜케이스 구분을 하이픈 구분으로 변경
    * @from    'abcdAbcdAbcd' 
    * @to      'abcd-abcd-abcd'
    */
@@ -123,9 +130,21 @@
     return str.replace(hyphenateRe, '-$1').toLowerCase();
   });
   var camelizeRe = /-(\w)/g;
+
+  /**
+   * 하이픈케이스 구분을 카멜케이스 구분으로 변경
+   * @from    'abcd-abcd-abcd' 
+   * @to      'abcdAbcdAbcd'
+   */
   var camelize = memoize(function (str) {
     return str.replace(camelizeRe, toUpper);
   });
+
+  /**
+   * 첫 글자를 대문자로 치환
+   * @from    'aaaa' 
+   * @to      'Aaaa'
+   */
   var ucfirst = memoize(function (str) {
     return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : '';
   });
@@ -136,12 +155,26 @@
   var startsWithFn = strPrototype.startsWith || function (search) {
     return this.lastIndexOf(search, 0) === 0;
   };
+
+  /**
+   * str 의 첫번째 내열된 문자열이 search인가
+   * @param {string} str 검색할 문자열
+   * @param {string} search 찾을 문자열
+   * @returns Boolean
+   */
   function startsWith(str, search) {
     return startsWithFn.call(str, search);
   }
   var endsWithFn = strPrototype.endsWith || function (search) {
     return this.substr(-search.length) === search;
   };
+
+  /**
+   * str 의 마지막 내열된 문자열이 search인가
+   * @param {string} str 검색할 문자열
+   * @param {string} search 찾을 문자열
+   * @returns Boolean
+   */
   function endsWith(str, search) {
     return endsWithFn.call(str, search);
   }
@@ -151,6 +184,13 @@
   };
   var includesStr = strPrototype.includes || includesFn;
   var includesArray = arrPrototype.includes || includesFn;
+
+  /**
+   * obj안에 search가 존재하는가
+   * @param {array} obj 검색할 배열
+   * @param {*} search 찾을 요소
+   * @returns Boolean
+   */
   function includes(obj, search) {
     return obj && (isString(obj) ? includesStr : includesArray).call(obj, search);
   }
@@ -162,6 +202,13 @@
     }
     return -1;
   };
+
+  /**
+   * predicate 식에 만족하는 index를 반환, 만족하는 결과가 없으면 -1을 반환함
+   * @param {array} array 검색할 배열
+   * @param {function} predicate 판별할 함수
+   * @returns index
+   */
   function findIndex(array, predicate) {
     return findIndexFn.call(array, predicate);
   }
@@ -3163,7 +3210,8 @@
     data: {
       selector: ' .tree-title',
       clsOpen: "tree-open",
-      clsClose: "tree-close"
+      clsClose: "tree-close",
+      testTarget: ".lists"
     },
     computed: {},
     events: [{
@@ -3176,10 +3224,26 @@
         fragment('<hr />');
         //   console.log(e.current);
         var div = document.createElement('div');
-        div.innerHTML = 'sdfsdfsdfsdfsdfds';
+        div.innerHTML = '23423';
         //   apply(document.body, (el) => console.log(el))
         //   console.log(test);
-        console.log(parents(e.current, 'div'));
+        console.log(index(e.current));
+      }
+    }, {
+      name: 'click',
+      delegate: function delegate() {
+        return "".concat(this.testTarget);
+      },
+      handler: function handler(e) {
+        e.preventDefault();
+        // console.log(index(e.current))
+        var arr = [1, 2, 3, 4, 5, 6, 7, 8];
+        // console.log(startsWith(str2, 'a-'))
+        // console.log(ucfirst(str))
+        var func = function func(n) {
+          return n > 3;
+        };
+        console.log(findIndex(arr, func));
       }
     }, {
       name: 'scroll',

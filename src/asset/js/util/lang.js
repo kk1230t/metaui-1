@@ -1,6 +1,12 @@
 const objPrototype = Object.prototype;
 const {hasOwnProperty} = objPrototype;
 
+/**
+ * 객체에 key 속성이 존재하는가
+ * @param {object} obj 객체
+ * @param {string} key 속성 명
+ * @returns Boolean
+ */
 export function hasOwn(obj, key) {
     return hasOwnProperty.call(obj, key);
 }
@@ -8,7 +14,7 @@ export function hasOwn(obj, key) {
 const hyphenateRe = /\B([A-Z])/g;
 
 /**
- * example 
+ * 카멜케이스 구분을 하이픈 구분으로 변경
  * @from    'abcdAbcdAbcd' 
  * @to      'abcd-abcd-abcd'
  */
@@ -19,10 +25,20 @@ export const hyphenate = memoize(str => str
 
 const camelizeRe = /-(\w)/g;
 
+/**
+ * 하이픈케이스 구분을 카멜케이스 구분으로 변경
+ * @from    'abcd-abcd-abcd' 
+ * @to      'abcdAbcdAbcd'
+ */
 export const camelize = memoize(str =>
     str.replace(camelizeRe, toUpper)
 );
 
+/**
+ * 첫 글자를 대문자로 치환
+ * @from    'aaaa' 
+ * @to      'Aaaa'
+ */
 export const ucfirst = memoize(str =>
     str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : ''
 );
@@ -34,12 +50,24 @@ function toUpper(_, c) {
 const strPrototype = String.prototype;
 const startsWithFn = strPrototype.startsWith || function (search) { return this.lastIndexOf(search, 0) === 0; };
 
+/**
+ * str 의 첫번째 내열된 문자열이 search인가
+ * @param {string} str 검색할 문자열
+ * @param {string} search 찾을 문자열
+ * @returns Boolean
+ */
 export function startsWith(str, search) {
     return startsWithFn.call(str, search);
 }
 
 const endsWithFn = strPrototype.endsWith || function (search) { return this.substr(-search.length) === search; };
 
+/**
+ * str 의 마지막 내열된 문자열이 search인가
+ * @param {string} str 검색할 문자열
+ * @param {string} search 찾을 문자열
+ * @returns Boolean
+ */
 export function endsWith(str, search) {
     return endsWithFn.call(str, search);
 }
@@ -50,6 +78,12 @@ const includesFn = function (search, i) { return !!~this.indexOf(search, i); };
 const includesStr = strPrototype.includes || includesFn;
 const includesArray = arrPrototype.includes || includesFn;
 
+/**
+ * obj안에 search가 존재하는가
+ * @param {array} obj 검색할 배열
+ * @param {*} search 찾을 요소
+ * @returns Boolean
+ */
 export function includes(obj, search) {
     return obj && (isString(obj) ? includesStr : includesArray).call(obj, search);
 }
@@ -63,6 +97,12 @@ const findIndexFn = arrPrototype.findIndex || function (predicate) {
     return -1;
 };
 
+/**
+ * predicate 식에 만족하는 index를 반환, 만족하는 결과가 없으면 -1을 반환함
+ * @param {array} array 검색할 배열
+ * @param {function} predicate 판별할 함수
+ * @returns index
+ */
 export function findIndex(array, predicate) {
     return findIndexFn.call(array, predicate);
 }
