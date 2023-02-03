@@ -3202,7 +3202,7 @@
     }
   }
 
-  var tree = {
+  var worklists = {
     mixins: [Class, Togglable],
     props: {
       selector: String
@@ -3211,7 +3211,7 @@
       selector: ' .tree-title',
       clsOpen: "tree-open",
       clsClose: "tree-close",
-      testTarget: ".lists"
+      testTarget: ".lists button"
     },
     computed: {},
     events: [{
@@ -3288,7 +3288,7 @@
     Tab: tab,
     Toggle: toggle,
     Sticky: sticky,
-    Tree: tree
+    Worklists: worklists
   });
 
   function componentCore (GCui) {
