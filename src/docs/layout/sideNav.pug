@@ -44,23 +44,40 @@
           },
         },
       }
+    },
+    "markupLists" : {
+      "마크업 가이드":{
+        "라디오버튼":["/docs/markup/radio.html", "mainFrame"],
+        "체크박스":["/pages/markup/checkbox.html", "mainFrame"],
+      }
+    },
+    "scriptLists" : {
+      "스크립트 가이드":{
+        "스크립트 가이드":["/pages/test/test22.html", "mainFrame"]
+      }
     }
   }
 
-#sideNav.side_nav 
+#sideNav.side_nav
   #pages 
     h2(
       class="side_title"
     ) 페이지 리스트
-    div#sideLists
+    div#pageLists(
+      style="display:none;"
+    )
       +pagesNavLists({
         lists:dataLists.pageLists
       })
-  
-    
-    
-  #markupHuide
-    
-
-  #scriptGuide
-    | scriptGuide
+    div#markupGuide(
+      style="display:none;"
+    )
+      +pagesNavLists({
+        lists:dataLists.markupLists
+      })
+    div#scriptGuide(
+      style="display:none;"
+    )
+      +pagesNavLists({
+        lists:dataLists.scriptLists
+      })

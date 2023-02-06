@@ -9,18 +9,18 @@
       <header id="header">
         <div class="inner"> 
           <h1 class="title">저축은행 중앙회</h1>
-          <ul class="nav">
-            <li> <a href="">페이지 리스트</a></li>
-            <li> <a href="">마크업 가이드</a></li>
-            <li> <a href="">스크립트 가이드</a></li>
+          <ul class="nav" id="topNav">
+            <li> <a href="#pageLists">페이지 리스트</a></li>
+            <li> <a href="#markupGuide">마크업 가이드</a></li>
+            <li> <a href="#scriptGuide">스크립트 가이드</a></li>
           </ul>
         </div>
       </header>
       <div id="contents"> 
-        <div class="side_nav" id="sideNav"> 
+        <div class="side_nav" id="sideNav">
           <div id="pages"> 
             <h2 class="side_title">페이지 리스트</h2>
-            <div id="sideLists">
+            <div id="pageLists" style="display:none;">
               <div class="nav_lists">
                 <div class="tree-title"><span>
                     <button class="title" type="button">페이지 리스트</button></span></div>
@@ -108,9 +108,29 @@
                 </div>
               </div>
             </div>
+            <div id="markupGuide" style="display:none;">
+              <div class="nav_lists">
+                <div class="tree-title"><span>
+                    <button class="title" type="button">마크업 가이드</button></span></div>
+                <div class="nav_lists">
+                  <div class="lists"><span>
+                      <button type="button" data-href="/docs/markup/radio.html">라디오버튼</button><a class="blank" href="/docs/markup/radio.html" target="_blank">새창 열기</a></span></div>
+                  <div class="lists"><span>
+                      <button type="button" data-href="/pages/markup/checkbox.html">체크박스</button><a class="blank" href="/pages/markup/checkbox.html" target="_blank">새창 열기</a></span></div>
+                </div>
+              </div>
+            </div>
+            <div id="scriptGuide" style="display:none;">
+              <div class="nav_lists">
+                <div class="tree-title"><span>
+                    <button class="title" type="button">스크립트 가이드</button></span></div>
+                <div class="nav_lists">
+                  <div class="lists"><span>
+                      <button type="button" data-href="/pages/test/test22.html">스크립트 가이드</button><a class="blank" href="/pages/test/test22.html" target="_blank">새창 열기</a></span></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="markupHuide"></div>
-          <div id="scriptGuide">scriptGuide</div>
         </div>
         <div class="contents">
           <iframe class="content_frame" id="content_frame"></iframe>

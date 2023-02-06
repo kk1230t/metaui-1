@@ -3208,8 +3208,11 @@
       selector: String
     },
     data: {
-      path: 'url',
+      mainPath: '/pages/index.html',
+      sidePath: '#pageLists',
       selector: " .tree-title",
+      topNav: '#topNav a',
+      sideTabLists: '#pages > div',
       clsOpen: "tree-open",
       clsClose: "tree-close",
       treeLists: ".lists button",
@@ -3220,17 +3223,21 @@
         var contentframe = _ref.contentframe;
         return $$1(contentframe);
       },
-      path: function path(_ref2) {
-        var path = _ref2.path;
-        var urlParams = new URL(location.href).searchParams;
-        return urlParams.get(path);
+      mainPath: function mainPath(_ref2) {
+        var mainPath = _ref2.mainPath;
+        return !!localStorage.getItem('url') ? localStorage.getItem('url') : mainPath;
+      },
+      sidePath: function sidePath(_ref3) {
+        var sidePath = _ref3.sidePath;
+        return !!localStorage.getItem('sideNav') ? localStorage.getItem('sideNav') : sidePath;
       }
     },
     events: [{
-      name: "load hashchange popstate",
+      name: "readystatechange load hashchange popstate",
       el: inBrowser && window,
       handler: function handler(e) {
-        this.setFrameSrc();
+        this.viewMainFrame(this.mainPath);
+        this.viewsideNavigation(this.sidePath);
       }
     }, {
       name: "click",
@@ -3244,13 +3251,22 @@
     }, {
       name: "click",
       delegate: function delegate() {
+        return "".concat(this.topNav);
+      },
+      handler: function handler(e) {
+        e.preventDefault();
+        console.log(e.current.hash);
+        this.viewsideNavigation(e.current.hash);
+      }
+    }, {
+      name: "click",
+      delegate: function delegate() {
         return "".concat(this.treeLists);
       },
       handler: function handler(e) {
         e.preventDefault();
         var path = attr(e.current, 'data-href');
-        this.setParams(path);
-        this.setFrameSrc();
+        this.viewMainFrame(path);
       }
     }, {
       name: "scroll",
@@ -3266,26 +3282,17 @@
       setMainContent: function setMainContent() {
         console.log('sdfsdf');
       },
-      setFrameSrc: function setFrameSrc() {
-        attr(this.contentframe, 'src', localStorage.getItem('url'));
-      },
-      setParams: function setParams(path) {
+      viewMainFrame: function viewMainFrame(path) {
         localStorage.setItem('url', path);
+        attr(this.contentframe, 'src', path);
+      },
+      viewsideNavigation: function viewsideNavigation(id) {
+        localStorage.setItem('sideNav', id);
+        $$(this.sideTabLists).forEach(function (el) {
+          return css(el, 'display', "#".concat(el.id) === id ? 'block' : 'none');
+        });
       }
     }
-    // update: {
-    //   read({ url }) {
-    //     const urlParams = new URL(location.href).searchParams;
-    //     return {
-    //       url: urlParams.get('url'),
-    //     };
-    //   },
-    //   write({ url }) {
-    //     if(url) attr($(this.contentframe), "src", url)
-    //   },
-
-    //   events: ["checkStatus"],
-    // },
   };
 
   var components = /*#__PURE__*/Object.freeze({

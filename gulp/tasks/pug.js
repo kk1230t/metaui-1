@@ -6,6 +6,7 @@ import {
   printError,
   logError
 } from '../util/util';
+import { render } from 'pug';
 
 const pugBuild = (path) => {
   // let sourceSrc = typeof path === 'string'?path:config.source.pug;
@@ -14,7 +15,15 @@ const pugBuild = (path) => {
   return src(config.source.pug)
   .pipe(
     plugins.pug({
-      pretty: true
+      pretty: true,
+      filters:{
+        code:(text) => {
+          console.log(text)
+          return render(text, {
+            filename: 'index.pug'
+          });
+        }
+      }
     })
   )
   .on('error', function (error) {

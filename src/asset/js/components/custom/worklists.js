@@ -26,6 +26,7 @@ import {
   ucfirst,
   startsWith,
   findIndex,
+  css,
 } from "../../util";
 
 export default {
@@ -34,8 +35,11 @@ export default {
     selector: String,
   },
   data: {
-    path:'url',
+    mainPath:'/pages/index.html',
+    sidePath:'#pageLists',
     selector: " .tree-title",
+    topNav:'#topNav a',
+    sideTabLists:'#pages > div',
     clsOpen: "tree-open",
     clsClose: "tree-close",
     treeLists: ".lists button",
@@ -46,18 +50,21 @@ export default {
     contentframe({contentframe}) {
       return $(contentframe);
     },
-    path({path}) {
-      const urlParams = new URL(location.href).searchParams;
-      return urlParams.get(path)
-    }
+    mainPath({mainPath}) {
+      return !!localStorage.getItem('url') ? localStorage.getItem('url') : mainPath;
+    },
+    sidePath({sidePath}) {
+      return !!localStorage.getItem('sideNav') ? localStorage.getItem('sideNav') : sidePath;
+    },
   },
 
   events: [
     {
-      name: "load hashchange popstate",
+      name: "readystatechange load hashchange popstate",
       el: inBrowser && window,
       handler(e) {
-        this.setFrameSrc();
+        this.viewMainFrame(this.mainPath);
+        this.viewsideNavigation(this.sidePath);
       },
     },
     {
@@ -73,13 +80,23 @@ export default {
     {
       name: "click",
       delegate() {
+        return `${this.topNav}`;
+      },
+      handler(e) {
+        e.preventDefault();
+        console.log(e.current.hash);
+        this.viewsideNavigation(e.current.hash);
+      },
+    },
+    {
+      name: "click",
+      delegate() {
         return `${this.treeLists}`;
       },
       handler(e) {
         e.preventDefault();
         const path = attr(e.current, 'data-href');
-        this.setParams(path);
-        this.setFrameSrc();
+        this.viewMainFrame(path);
       },
     },
     {
@@ -100,24 +117,14 @@ export default {
     setMainContent() {
       console.log('sdfsdf')
     },
-    setFrameSrc() {
-      attr(this.contentframe, 'src', localStorage.getItem('url'))
-    },
-    setParams(path) {
+    viewMainFrame(path) {
       localStorage.setItem('url', path)
+      attr(this.contentframe, 'src', path)
+    },
+    viewsideNavigation(id) {
+      localStorage.setItem('sideNav', id)
+      $$(this.sideTabLists).forEach((el)=> css(el, 'display', `#${el.id}` === id ? 'block' : 'none'))
     }
-  },
-  // update: {
-  //   read({ url }) {
-  //     const urlParams = new URL(location.href).searchParams;
-  //     return {
-  //       url: urlParams.get('url'),
-  //     };
-  //   },
-  //   write({ url }) {
-  //     if(url) attr($(this.contentframe), "src", url)
-  //   },
 
-  //   events: ["checkStatus"],
-  // },
+  }
 };
