@@ -153,6 +153,18 @@ a {
   margin-bottom: 20px;
 }
 
+.guide_card_box {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+}
+.guide_card_box .code_block {
+  margin-top: 20px;
+}
+.guide_card_box ~ .guide_card_box {
+  margin-top: 20px;
+}
+
 code[class*=language-],
 pre[class*=language-] {
   color: black;

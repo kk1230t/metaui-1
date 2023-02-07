@@ -150,8 +150,18 @@ a{text-decoration: none;}
     margin-bottom: 20px;
   }
 }
-
-
+.guide_card_box{
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+  .code_block{
+    margin-top: 20px;
+  }
+  & ~ .guide_card_box{
+    margin-top: 20px;
+  }
+}
+// e0e0e0
 
 
 
