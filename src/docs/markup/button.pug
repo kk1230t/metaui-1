@@ -2,10 +2,8 @@ extends ../layout/guideBase.pug
 
 block content
   div.main_content
-    +guideTitle({
-      text: "버튼"
-    })
-    +guideExample()
+    +guideTitle("버튼11")
+    +guideExample()(code)
       :code
         +button({
           label:"버튼112223111",
@@ -15,7 +13,7 @@ block content
           label:"버튼112223111",
           size:'large'
         })
-    +guideExample()
+    +guideExample()(code)
       :code
         +button({
           label:"버튼112223111",

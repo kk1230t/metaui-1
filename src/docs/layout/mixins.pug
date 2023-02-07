@@ -30,19 +30,21 @@ mixin pagesNavLists(params={})
           lists:item
         })
 
-mixin guideTitle(params={})
-  - const { element = 'div', text, ...rest } = Object.assign({}, params);
+mixin guideTitle(text)
+  - const { element = 'div', ...rest } = attributes
   #{element}(
     class="title_sec"
   )
     p.title #{text}
 
 
-mixin guideExample(params={})
+mixin guideExample()
   - const { element = 'div', code,  ...rest } = attributes
-  - console.log(code)
   #{element}(
     class="guide_card_box"
   )
     block
+    if code
+      div.ddd
+        button code view
     
