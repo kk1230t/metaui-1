@@ -30,12 +30,15 @@ mixin pagesNavLists(params={})
           lists:item
         })
 
-mixin guideTitle(text)
-  - const { element = 'div', ...rest } = attributes
+mixin guideTitle(params={})
+  - const { element = 'div', text, level=1, ...rest } = Object.assign({}, params);
   #{element}(
     class="title_sec"
   )
-    p.title #{text}
+    p(
+      class="title"
+      class=`title_lv${level}`
+    ) #{text}
 
 
 mixin guideExample()
@@ -45,6 +48,33 @@ mixin guideExample()
   )
     block
     if code
-      div.ddd
+      div.view_code
         button code view
     
+mixin attributesLists(data)
+   - const element = 'div'
+   #{element}(
+    class="attribute_table"
+  )
+    +dataTable({
+      caption:"Attributes",
+      className:'attr_table',
+      colgroup:['15%', "55%", "15%", "15%"],
+      headData:[
+        [
+          {
+            text: "Property",
+          },
+          {
+            text: "Description"
+          },
+          {
+            text: "Type"
+          },
+          {
+            text: "Default"
+          }
+        ]
+      ],
+      bodyData:data
+    })

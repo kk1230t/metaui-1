@@ -1,20 +1,29 @@
+.mui_radio_group .mui_radio {
+  display: inline-block;
+}
+.mui_radio_group .mui_radio ~ .mui_radio {
+  margin-left: 20px;
+}
+
+.mui_checkbox_group .mui_checkbox {
+  display: inline-block;
+}
+.mui_checkbox_group .mui_checkbox ~ .mui_checkbox {
+  margin-left: 20px;
+}
+
 .mui-button {
   background-color: #f0f;
 }
 
+caption {
+  font-size: 0;
+  width: 0;
+  height: 0;
+}
+
 table, th, td {
   border-collapse: collapse;
-  border: 1px solid #000;
-}
-
-thead th {
-  background: #f00;
-  color: #fff;
-}
-
-tbody th {
-  background: #000;
-  color: #fff;
 }
 
 .ui-test-btn {

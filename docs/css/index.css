@@ -145,24 +145,56 @@ a {
 .main_content {
   max-width: 1200px;
   margin: 0 auto;
-  border: 1px solid red;
-  padding: 20px;
+  padding: 60px 20px 100px;
 }
 .main_content .title {
   font-size: 32px;
   margin-bottom: 20px;
+}
+.main_content .title.title_lv2 {
+  font-size: 24px;
 }
 
 .guide_card_box {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   padding: 16px;
+  position: relative;
 }
 .guide_card_box .code_block {
   margin-top: 20px;
 }
 .guide_card_box ~ .guide_card_box {
   margin-top: 20px;
+}
+.guide_card_box .view_code {
+  border: 1px solid red;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.guide_card_box .view_code button {
+  display: block;
+}
+
+.attr_table table {
+  border-top: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  width: 100%;
+}
+.attr_table th {
+  font-size: 18px;
+  background: #f8f8f8;
+}
+.attr_table td {
+  color: #666;
+  font-size: 16px;
+}
+.attr_table th, .attr_table td {
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  padding: 14px 20px;
 }
 
 code[class*=language-],
