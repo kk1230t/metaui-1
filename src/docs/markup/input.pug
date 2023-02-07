@@ -1,0 +1,97 @@
+extends ../layout/guideBase.pug
+
+block content
+  div.main_content
+    +guideTitle({
+      text:"Input"
+    })
+    +guideTitle({
+      text:"Example",
+      level:2
+    })
+    +guideExample()(code)
+      :code
+        +input()
+    br
+    br
+    +guideTitle({
+      text:"Attribute",
+      level:2
+    })
+
+    +attributesLists([
+      [
+        {
+          text:'type'
+        },
+        {
+          text:'type: text, tel'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'text'
+        }
+      ],
+      [
+        {
+          text:'placeholder'
+        },
+        {
+          text:'placeholder 텍스트'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'id'
+        },
+        {
+          text:'input id'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'title'
+        },
+        {
+          text:'title 텍스트'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'className'
+        },
+        {
+          text:'커스텀 클래스'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ]
+      
+    ])
+
+
+

@@ -9,7 +9,7 @@ mixin radioCheck(params={})
   - const divide = '_'
   //- 공통 요소 End
   - ++radioCheckNameIndex;
-  - const { elememt = 'span', className, lists, label, type="checkbox", disabled, name="radioCheck", ...rest } = Object.assign({}, params)
+  - const { elememt = 'span', className, lists, label, type="checkbox", disabled, checked, name="radioCheck", ...rest } = Object.assign({}, params)
   - radioCheckName = name;
   - radioCheckId = `${radioCheckName}Id`
   - const radioName = type === "radio"?`${radioCheckId}${radioCheckNameIndex}`:null
@@ -35,7 +35,7 @@ mixin radioCheckEl(params={}, type="checkbox",  radioName)
   //- 공통 요소 End
 
   - ++radioCheckIdIndex;
-  - const { elememt = 'span', className, id=`${radioCheckId}${radioCheckIdIndex}`, label, disabled, ...rest } = Object.assign({}, params)
+  - const { elememt = 'span', className, id=`${radioCheckId}${radioCheckIdIndex}`, label, disabled, checked, ...rest } = Object.assign({}, params)
   
   //- - return false;
   #{elememt}(
@@ -47,6 +47,7 @@ mixin radioCheckEl(params={}, type="checkbox",  radioName)
       id=id
       name=radioName
       disabled=disabled
+      checked=checked
     )
     if block
       label(
