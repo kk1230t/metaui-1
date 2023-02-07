@@ -66,6 +66,10 @@ table, th, td {
   color: red;
 }
 
+.mui_textarea textarea {
+  width: 100%;
+}
+
 .ui-test-btn {
   display: inline-block;
   vertical-align: top;

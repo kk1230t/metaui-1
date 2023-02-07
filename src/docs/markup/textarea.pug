@@ -1,0 +1,69 @@
+extends ../layout/guideBase.pug
+
+block content
+  div.main_content
+    +guideTitle({
+      text:"Textarea"
+    })
+    +guideTitle({
+      text:"Example",
+      level:2
+    })
+    +guideExample()(code)
+      :code
+        +textarea()
+    br
+    br
+    +guideTitle({
+      text:"Attribute",
+      level:2
+    })
+
+    +attributesLists([
+      [
+        {
+          text:'id'
+        },
+        {
+          text:'id 요소'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'title'
+        },
+        {
+          text:'title 텍스트'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'className'
+        },
+        {
+          text:'커스텀 클래스'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ]
+      
+    ])
+
+
+
