@@ -1,0 +1,22 @@
+mixin tabs(tabsItems)
+  - tabsItems[0].active = tabsItems[0].active || !tabsItems.some(function (t) { return t.active; })
+
+  mixin tab(index)
+    - tabsItems[index].body = block;
+
+  block
+
+  div
+    ul.nav.nav-tabs(role="tablist")
+      each tab, index in tabsItems
+        li(role="presentation", class={ 'active': tab.active })
+          a(href="#"+"tab-id-" + index, aria-controls="tab-id-" + index, role="tab", data-toggle="tab")
+            if tab.icon
+              span.icon(class=tab.icon)
+            span= tab.title
+
+    .tab-content
+      each tab, index in tabsItems
+        .tab-pane(id="tab-id-" + index, role="tabpanel", class={ 'active': tab.active })
+          - tab.body && tab.body()
+
