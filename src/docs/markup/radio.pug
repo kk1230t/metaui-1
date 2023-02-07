@@ -3,12 +3,14 @@ extends ../layout/guideBase.pug
 block content
   div.main_content
     +guideTitle({
-      text: "라디오 버튼"
+      text: "라디오 버튼11"
     })
     +guideExample()(code)
-      +guideTitle()
       :code
-        +button()
+        +button({
+          label:"버튼112223111",
+          size:'large'
+        })
 
 
 

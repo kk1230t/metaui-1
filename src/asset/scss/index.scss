@@ -2,14 +2,6 @@
 @import "common/mixins";
 @import "common/varialbles";
 
-body{
-    background-color: #ff0;
-}
-@include respondTo("mobile"){
-    body{
-        background: #fff;
-    }
-}
 .ui-test-btn{
     display: inline-block;
     vertical-align: top;

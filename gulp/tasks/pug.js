@@ -16,10 +16,10 @@ const pugBuild = (path) => {
   .pipe(
     plugins.pug({
       pretty: true,
+      filename: 'index.pug',
       filters:{
         code:(text) => {
-          console.log(text)
-          return render(text, {
+          return render(`include index.pug\n\nsection.code_view\n  ${text.trim().split('\n').join('\n  ')}\n\ndiv.code_block\n    pre\n      code.language-pug\n        | ${text.trim().split('\n').join('\n        | ')}`, {
             filename: 'index.pug'
           });
         }

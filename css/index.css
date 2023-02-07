@@ -17,15 +17,6 @@ tbody th {
   color: #fff;
 }
 
-body {
-  background-color: #ff0;
-}
-
-@media (min-width: 0px) and (max-width: 767px) {
-  body {
-    background: #fff;
-  }
-}
 .ui-test-btn {
   display: inline-block;
   vertical-align: top;
