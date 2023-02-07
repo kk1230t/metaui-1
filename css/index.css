@@ -26,6 +26,25 @@ table, th, td {
   border-collapse: collapse;
 }
 
+.step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.step li {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  background: #eee;
+  border-radius: 50%;
+}
+.step li span {
+  color: red;
+}
+
 .ui-test-btn {
   display: inline-block;
   vertical-align: top;

@@ -1,0 +1,16 @@
+
+mixin step(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+
+  - const { element="span", className, steps, text, ...rest } = Object.assign({}, params)
+  - const dataType = Array.isArray(steps);
+
+    
+  ul.step
+    each item in steps
+    li (
+      text= text
+    )
