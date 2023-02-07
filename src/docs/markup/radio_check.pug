@@ -42,6 +42,26 @@ block content
           name:'checklist',
           lists:[
             {
+              label:'체크1',
+              checked:true
+            },
+            {
+              label:'체크2'
+            },
+            {
+              label:'체크3'
+            }
+          ]
+        })
+
+    +guideExample()(code)
+      :code
+        +radioCheck({
+          name:'btnType',
+          type:"radio",
+          className:'button_type',
+          lists:[
+            {
               label:'체크1'
             },
             {
@@ -100,6 +120,48 @@ block content
         },
         {
           text:'false'
+        }
+      ],
+      [
+        {
+          text:'checked'
+        },
+        {
+          text:'checked 여부'
+        },
+        {
+          text:'Boolean'
+        },
+        {
+          text:'false'
+        }
+      ],
+      [
+        {
+          text:'name'
+        },
+        {
+          text:'group 이름'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'radioCheck'
+        }
+      ],
+      [
+        {
+          text:'className'
+        },
+        {
+          text:'custom class 적용'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
         }
       ]
     ])

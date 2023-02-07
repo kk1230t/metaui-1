@@ -6,8 +6,6 @@ mixin input(params={})
   //- 공통 요소 End
 
   - const { element="span", className, title, placeholder, id, type="text", ...rest } = Object.assign({}, params)
-  //- - console.log(aaa);
-  //- - console.log("input "+uniqueId());
   #{element}(
     class=`${prefix}${divide}input`
     class=className
@@ -15,5 +13,7 @@ mixin input(params={})
     input(
       type=type
       id=id
+      title=title
+      placeholder=placeholder
     )
 
