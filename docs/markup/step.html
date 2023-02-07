@@ -9,20 +9,14 @@
     <div id="guideWrap">
       <div class="main_content">
         <div class="title_sec">
-<<<<<<<< HEAD:docs/markup/step.html
           <p class="title title_lv1">Step</p>
-========
-          <p class="title title_lv1">Input</p>
->>>>>>>> 0978d30906138859b04d4e19d18dcab0f24cde46:docs/markup/input.html
         </div>
         <div class="title_sec">
           <p class="title title_lv2">Example</p>
         </div>
-<<<<<<<< HEAD:docs/markup/step.html
-        <div class="guide_card_box"><section class="code_view"><ul class="step"><li><span>1</span></li></ul></section><div class="code_block"><pre><code class="language-pug">+step()</code></pre></div>
-========
-        <div class="guide_card_box"><section class="code_view"><span class="mui_input"><input type="text"/></span></section><div class="code_block"><pre><code class="language-pug">+input()</code></pre></div>
->>>>>>>> 0978d30906138859b04d4e19d18dcab0f24cde46:docs/markup/input.html
+        <div class="guide_card_box"><section class="code_view"><ul class="step"></ul></section><div class="code_block"><pre><code class="language-pug">+step(
+  
+)</code></pre></div>
           <div class="view_code">
             <button>code view</button>
           </div>
@@ -50,34 +44,22 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>type</td>
-                  <td>type: text, tel</td>
-                  <td>string</td>
-                  <td>text</td>
-                </tr>
-                <tr>
-                  <td>placeholder</td>
-                  <td>placeholder 텍스트</td>
+                  <td>label</td>
+                  <td>버튼 텍스트</td>
                   <td>string</td>
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>id</td>
-                  <td>input id</td>
+                  <td>size</td>
+                  <td>버튼 사이즈 : large, medium, small</td>
                   <td>string</td>
-                  <td>-</td>
+                  <td>medium</td>
                 </tr>
                 <tr>
-                  <td>title</td>
-                  <td>title 텍스트</td>
-                  <td>string</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>className</td>
-                  <td>커스텀 클래스</td>
-                  <td>string</td>
-                  <td>-</td>
+                  <td>isIcon</td>
+                  <td>아이콘 포함 여부</td>
+                  <td>Boolean</td>
+                  <td>false</td>
                 </tr>
               </tbody>
             </table>
