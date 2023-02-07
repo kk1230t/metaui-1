@@ -10,5 +10,7 @@ mixin step(params={})
 
     
   ul.step
-    //- each item in steps
-    //-   li text
+    each item in steps
+    li (
+      text= text
+    )
