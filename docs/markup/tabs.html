@@ -14,22 +14,19 @@
         <div class="title_sec">
           <p class="title title_lv2">Example</p>
         </div>
-        <div class="guide_card_box"><section class="code_view"><div><ul class="nav nav-tabs" role="tablist"><li class="active" role="presentation"><a href="#tab-id-0" aria-controls="tab-id-0" role="tab" data-toggle="tab"><span>Tab 1</span></a></li><li role="presentation"><a href="#tab-id-1" aria-controls="tab-id-1" role="tab" data-toggle="tab"><span>Tab 2</span></a></li><li role="presentation"><a href="#tab-id-2" aria-controls="tab-id-2" role="tab" data-toggle="tab"><span>Tab 3</span></a></li><li role="presentation"><a href="#tab-id-3" aria-controls="tab-id-3" role="tab" data-toggle="tab"><span>Tab 4</span></a></li></ul><div class="tab-content"><div class="tab-pane active" id="tab-id-0" role="tabpanel"><div>11111</div></div><div class="tab-pane" id="tab-id-1" role="tabpanel"><div>22222</div></div><div class="tab-pane" id="tab-id-2" role="tabpanel"><div>33333</div></div><div class="tab-pane" id="tab-id-3" role="tabpanel"><div>44444</div></div></div></div></section><div class="code_block"><pre><code class="language-pug">-
-  var data = [
-    { title: 'Tab 1' },
-    { title: 'Tab 2' },
-    { title: 'Tab 3' },
-    { title: 'Tab 4' }
-  ];
+        <div class="guide_card_box"><section class="code_view"><div class="mui_tabs custom_tab" mui-tab=""><ul class="mui_tab_nav"><li class="nav_list"><button type="button">텝 네비1</button></li><li class="nav_list mui_active"><button type="button">텝 네비2</button></li><li class="nav_list"><button type="button">텝 네비3</button></li><li class="nav_list"><button type="button">텝 네비4</button></li></ul><div class="tab_contents"><div class="tab_pane"><div>11111</div></div><div class="tab_pane mui_active"><div>22222</div></div><div class="tab_pane"><div>33333</div></div><div class="tab_pane"><div>44444</div></div></div></div></section><div class="code_block"><pre><code class="language-pug">-
  
-+tabs(data)
-  +tab(0)
++tabsWrap({
+  active:1,
+  className:'custom_tab'
+})
+  +tab("텝 네비1")
     div 11111
-  +tab(1)
+  +tab("텝 네비2")
     div 22222
-  +tab(2)
+  +tab("텝 네비3")
     div 33333
-  +tab(3)
+  +tab("텝 네비4")
     div 44444</code></pre></div>
           <div class="view_code">
             <button>code view</button>

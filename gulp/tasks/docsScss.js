@@ -6,7 +6,6 @@ import sourcemaps from "gulp-sourcemaps";
 
 
 const docScssBuild = (path) => {
-  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   // const src = path?path:config.doc.source.scss;
   return src(config.doc.source.scss)
     .pipe(sourcemaps.init())

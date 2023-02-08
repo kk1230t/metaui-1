@@ -2098,9 +2098,9 @@
     getViewportClientHeight: getViewportClientHeight
   });
 
-  var prefixStr = 'kui';
+  var prefixStr = 'mui';
   var jsPrefix = prefixStr;
-  var cssPrefix = "".concat(prefixStr, "-");
+  var cssPrefix = "".concat(prefixStr, "_");
 
   function globalApi (UICommon) {
     var DATA = UICommon.data;
@@ -2930,9 +2930,9 @@
       tabContents: String
     },
     data: {
-      target: ">ul.".concat(cssPrefix, "tab-nav>*>:first-child"),
-      clsContainer: ">ul.".concat(cssPrefix, "tab-nav>*"),
-      tabContents: ">.".concat(cssPrefix, "tab-contents>div"),
+      target: ">ul.".concat(cssPrefix, "tab_nav>*>:first-child"),
+      clsContainer: ">ul.".concat(cssPrefix, "tab_nav>*"),
+      tabContents: ">.tab_contents>div",
       clsOpen: "".concat(cssPrefix, "active"),
       isContainer: true
     },
@@ -2956,6 +2956,7 @@
       },
       handler: function handler(e) {
         var n = this.index();
+        console.log('dsfsdfs');
         this.activeTab(this.tabContents[n]);
       }
     }],
@@ -3380,7 +3381,7 @@
     };
   }
   function getComponentName(attribute) {
-    var prefix = 'kui';
+    var prefix = 'mui';
     return startsWith(attribute, "".concat(prefix, "-")) || startsWith(attribute, "data-".concat(prefix, "-")) ? camelize(attribute.replace("data-".concat(prefix, "-"), '').replace("".concat(prefix, "-"), '')) : false;
   }
 

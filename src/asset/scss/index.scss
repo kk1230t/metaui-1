@@ -2,6 +2,12 @@
 @import "common/mixins";
 @import "common/varialbles";
 
+button{
+    background: none;
+    border: 0 none;
+    display: inline-block;
+    cursor: pointer;
+}
 .ui-test-btn{
     display: inline-block;
     vertical-align: top;
@@ -45,7 +51,6 @@
     }    
 }
 [kui-tab] {
-    border:1px solid red;
     .kui{
         &-tab-nav{
             font-size: 0;

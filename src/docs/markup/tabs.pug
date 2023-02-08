@@ -12,21 +12,18 @@ block content
     +guideExample()(code)
       :code
         -
-          var data = [
-            { title: 'Tab 1' },
-            { title: 'Tab 2' },
-            { title: 'Tab 3' },
-            { title: 'Tab 4' }
-          ];
 
-        +tabs(data)
-          +tab(0)
+        +tabsWrap({
+          active:1,
+          className:'custom_tab'
+        })
+          +tab("텝 네비1")
             div 11111
-          +tab(1)
+          +tab("텝 네비2")
             div 22222
-          +tab(2)
+          +tab("텝 네비3")
             div 33333
-          +tab(3)
+          +tab("텝 네비4")
             div 44444
                 
     br

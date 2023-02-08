@@ -10,9 +10,9 @@ export default {
         tabContents: String,
     },
     data: {
-        target:`>ul.${cssPrefix}tab-nav>*>:first-child`,
-        clsContainer: `>ul.${cssPrefix}tab-nav>*`,
-        tabContents: `>.${cssPrefix}tab-contents>div`,
+        target:`>ul.${cssPrefix}tab_nav>*>:first-child`,
+        clsContainer: `>ul.${cssPrefix}tab_nav>*`,
+        tabContents: `>.tab_contents>div`,
         clsOpen: `${cssPrefix}active`,
         isContainer:true,
 
@@ -37,6 +37,7 @@ export default {
             },
             handler(e) {
                 const n = this.index();
+                console.log('dsfsdfs')
                 this.activeTab(this.tabContents[n])
             }
         }
