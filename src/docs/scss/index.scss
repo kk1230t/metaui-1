@@ -147,8 +147,13 @@ a{text-decoration: none;}
   .title{
     font-size: 32px;
     margin-bottom: 20px;
+    font-weight: bold;
     &.title_lv2{
       font-size: 24px;
+    }
+    &.title_lv3{
+      font-size: 18px;
+      font-weight: normal;
     }
   }
 }
@@ -173,6 +178,7 @@ a{text-decoration: none;}
   }
 }
 .attr_table{
+  margin-bottom: 20px;
   table{
     border-top: 1px solid #e0e0e0;
     border-left: 1px solid #e0e0e0;

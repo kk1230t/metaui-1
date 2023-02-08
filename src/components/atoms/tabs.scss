@@ -2,7 +2,9 @@
   .mui_tab_nav{
     display: flex;
     .nav_list{
-      padding: 10px;
+      button{
+        padding: 10px;
+      }
       &.mui_active{
         background: #000;
         button{
@@ -15,6 +17,7 @@
   .tab_contents{
     .tab_pane{
       display: none;
+      padding: 20px;
       &.mui_active{
         display: block;
       }

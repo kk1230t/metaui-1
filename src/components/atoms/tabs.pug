@@ -8,12 +8,15 @@ mixin tabsWrap(params={})
 
   mixin tab(item)
     - tabsItems.push({name:item, body:block})
+
+
   block
   #{element}(
     class=`${prefix}${divide}tabs`
     class=className
     mui-tab=""
   )
+    //- - console.log(tabsItems[0].body())
     - tabsItems[active].active = true;
     ul.mui_tab_nav
       each item, index in tabsItems

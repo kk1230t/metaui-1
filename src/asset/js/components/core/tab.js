@@ -37,7 +37,6 @@ export default {
             },
             handler(e) {
                 const n = this.index();
-                console.log('dsfsdfs')
                 this.activeTab(this.tabContents[n])
             }
         }

@@ -11,8 +11,6 @@ block content
     })
     +guideExample()(code)
       :code
-        -
-
         +tabsWrap({
           active:1,
           className:'custom_tab'
@@ -24,7 +22,18 @@ block content
           +tab("텝 네비3")
             div 33333
           +tab("텝 네비4")
-            div 44444
+            +tabsWrap({
+              active:0,
+              className:'custom_tab'
+            })
+              +tab("Inner tab1")
+                div 11111
+              +tab("Inner tab2")
+                div 22222
+              +tab("Inner tab3")
+                div 33333
+              +tab("Inner tab4")
+                div 44444
                 
     br
     br
@@ -32,34 +41,24 @@ block content
       text:"Attribute",
       level:2
     })
+    +guideTitle({
+      text:"+tabsWrap()",
+      level:3
+    })
 
     +attributesLists([
       [
         {
-          text:'id'
+          text:'active'
         },
         {
-          text:'id 요소'
+          text:'활성화 텝 index'
         },
         {
-          text:'string'
+          text:'nomber'
         },
         {
-          text:'-'
-        }
-      ],
-      [
-        {
-          text:'title'
-        },
-        {
-          text:'title 텍스트'
-        },
-        {
-          text:'string'
-        },
-        {
-          text:'-'
+          text:'0'
         }
       ],
       [
@@ -76,7 +75,27 @@ block content
           text:'-'
         }
       ]
-      
+    ])
+
+    +guideTitle({
+      text:"+tab()",
+      level:3
+    })
+    +attributesLists([
+      [
+        {
+          text:'text'
+        },
+        {
+          text:'텝 제목'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ]
     ])
 
 

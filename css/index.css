@@ -74,7 +74,7 @@ table, th, td {
   display: flex;
   border-bottom: 1px solid #000;
 }
-.mui_tabs .mui_tab_nav .nav_list {
+.mui_tabs .mui_tab_nav .nav_list button {
   padding: 10px;
 }
 .mui_tabs .mui_tab_nav .nav_list.mui_active {
@@ -85,6 +85,7 @@ table, th, td {
 }
 .mui_tabs .tab_contents .tab_pane {
   display: none;
+  padding: 20px;
 }
 .mui_tabs .tab_contents .tab_pane.mui_active {
   display: block;

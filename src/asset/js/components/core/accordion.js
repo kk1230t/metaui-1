@@ -23,10 +23,11 @@ export default {
         animation: [true],
         collapsible: true,
         multiple: false,
-        clsOpen: 'uk-open',
-        toggle: '> .uk-accordion-title',
-        content: '> .uk-accordion-content',
+        clsOpen: 'mui_open',
+        toggle: ' .mui_acc_button',
+        content: '> .mui_acc_content',
         transition: 'ease',
+        duration:0,
         offset: 0
     },
 

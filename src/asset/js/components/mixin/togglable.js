@@ -13,7 +13,7 @@ export default {
     data: {
         cls: false,
         animation: [false],
-        duration: 2000,
+        duration: 300,
         origin: false,
         transition: 'linear',
         clsEnter: 'uk-togglabe-enter',
