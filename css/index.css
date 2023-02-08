@@ -61,8 +61,6 @@ table, th, td {
   height: 40px;
   background: #eee;
   border-radius: 50%;
-}
-.step li span {
   color: red;
 }
 

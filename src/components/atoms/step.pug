@@ -5,12 +5,16 @@ mixin step(params={})
   - const divide = '_'
   //- 공통 요소 End
 
-  - const { element="span", className, steps, text, ...rest } = Object.assign({}, params)
-  - const dataType = Array.isArray(steps);
+  - const { element="li", className, step, text, ...rest } = Object.assign({}, params)
+  - const steps = [1, 2, 3, 4, 5];
+  - const st = steps.length;
+  - console.log(st)
 
-    
+  //- ul.step
+  //-   each index in step
+  //-     li= 'step' + index
+
+
   ul.step
-    each item in steps
-    li(
-      span= text
-    )
+    - for(a=0; a<st; a++)
+      li= count
