@@ -14,11 +14,14 @@ block content
         +accordion({
           active:2
         })
-          +acc_title('아코디언 리스트 타이틀1')
+          +acc_title('아코디언 리스트 타이틀 이건 텍스트고1')
           +acc_content()
             div content1
 
-          +acc_title('아코디언 리스트 타이틀2')
+          +acc_title()
+            div(
+              style="border:1px solid red"
+            ) 아코디언 리스트 타이틀 이건 dom 구조로 들어온 것
           +acc_content()
             div content2
 

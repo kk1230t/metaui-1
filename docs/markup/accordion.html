@@ -15,14 +15,17 @@
         <div class="title_sec">
           <p class="title title_lv2">Example</p>
         </div>
-        <div class="guide_card_box"><section class="code_view"><div class="mui_tabs" mui-accordion="collapsible:true"><div class="acc_lists"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀1</span><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content1</div></div></div><div class="acc_lists"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀2</span><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content2</div></div></div><div class="acc_lists mui_open"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀3</span><button class="mui_acc_button" type="button"> 닫기</button></div><div class="mui_acc_content"><div>content3</div></div></div><div class="acc_lists"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀4</span><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content4</div></div></div></div></section><div class="code_block"><pre><code class="language-pug">+accordion({
+        <div class="guide_card_box"><section class="code_view"><div class="mui_tabs" mui-accordion=""><div class="acc_lists"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀 이건 텍스트고1</span><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content1</div></div></div><div class="acc_lists"><div class="acc_title"><div style="border:1px solid red">아코디언 리스트 타이틀 이건 dom 구조로 들어온 것</div><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content2</div></div></div><div class="acc_lists mui_open"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀3</span><button class="mui_acc_button" type="button"> 닫기</button></div><div class="mui_acc_content"><div>content3</div></div></div><div class="acc_lists"><div class="acc_title"><span class="acc_title">아코디언 리스트 타이틀4</span><button class="mui_acc_button" type="button"> 열기</button></div><div class="mui_acc_content"><div>content4</div></div></div></div></section><div class="code_block"><pre><code class="language-pug">+accordion({
   active:2
 })
-  +acc_title('아코디언 리스트 타이틀1')
+  +acc_title('아코디언 리스트 타이틀 이건 텍스트고1')
   +acc_content()
     div content1
  
-  +acc_title('아코디언 리스트 타이틀2')
+  +acc_title()
+    div(
+      style="border:1px solid red"
+    ) 아코디언 리스트 타이틀 이건 dom 구조로 들어온 것
   +acc_content()
     div content2
  
