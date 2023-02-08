@@ -901,6 +901,12 @@
     var children = element ? toNodes(element.children) : [];
     return selector ? filter(children, selector) : children;
   }
+  /**
+   * array 중 몇번째에 element가 속해있는가
+   * @param {array} element node lists
+   * @param {element} ref 찾을 엘리먼트
+   * @returns index
+   */
   function index(element, ref) {
     return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent$1(element)).indexOf(element);
   }
@@ -2098,9 +2104,9 @@
     getViewportClientHeight: getViewportClientHeight
   });
 
-  var prefixStr = 'kui';
+  var prefixStr = 'mui';
   var jsPrefix = prefixStr;
-  var cssPrefix = "".concat(prefixStr, "-");
+  var cssPrefix = "".concat(prefixStr, "_");
 
   function globalApi (UICommon) {
     var DATA = UICommon.data;
@@ -2580,7 +2586,7 @@
     data: {
       cls: false,
       animation: [false],
-      duration: 2000,
+      duration: 300,
       origin: false,
       transition: 'linear',
       clsEnter: 'uk-togglabe-enter',
@@ -2732,10 +2738,11 @@
       animation: [true],
       collapsible: true,
       multiple: false,
-      clsOpen: 'uk-open',
-      toggle: '> .uk-accordion-title',
-      content: '> .uk-accordion-content',
+      clsOpen: 'mui_open',
+      toggle: ' .mui_acc_button',
+      content: '> .mui_acc_content',
       transition: 'ease',
+      duration: 0,
       offset: 0
     },
     computed: {
@@ -2930,9 +2937,9 @@
       tabContents: String
     },
     data: {
-      target: ">ul.".concat(cssPrefix, "tab-nav>*>:first-child"),
-      clsContainer: ">ul.".concat(cssPrefix, "tab-nav>*"),
-      tabContents: ">.".concat(cssPrefix, "tab-contents>div"),
+      target: ">ul.".concat(cssPrefix, "tab_nav>*>:first-child"),
+      clsContainer: ">ul.".concat(cssPrefix, "tab_nav>*"),
+      tabContents: ">.tab_contents>div",
       clsOpen: "".concat(cssPrefix, "active"),
       isContainer: true
     },
@@ -3380,7 +3387,7 @@
     };
   }
   function getComponentName(attribute) {
-    var prefix = 'kui';
+    var prefix = 'mui';
     return startsWith(attribute, "".concat(prefix, "-")) || startsWith(attribute, "data-".concat(prefix, "-")) ? camelize(attribute.replace("data-".concat(prefix, "-"), '').replace("".concat(prefix, "-"), '')) : false;
   }
 

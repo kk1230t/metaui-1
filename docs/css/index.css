@@ -150,15 +150,20 @@ a {
 .main_content .title {
   font-size: 32px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 .main_content .title.title_lv2 {
   font-size: 24px;
+}
+.main_content .title.title_lv3 {
+  font-size: 18px;
+  font-weight: normal;
 }
 
 .guide_card_box {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  padding: 16px;
+  padding: 54px 16px 16px;
   position: relative;
 }
 .guide_card_box .code_block {
@@ -168,7 +173,6 @@ a {
   margin-top: 20px;
 }
 .guide_card_box .view_code {
-  border: 1px solid red;
   position: absolute;
   top: 16px;
   right: 16px;
@@ -177,6 +181,9 @@ a {
   display: block;
 }
 
+.attr_table {
+  margin-bottom: 20px;
+}
 .attr_table table {
   border-top: 1px solid #e0e0e0;
   border-left: 1px solid #e0e0e0;

@@ -8,6 +8,7 @@ import sourcemaps from "gulp-sourcemaps";
 
 const scssBuild = (path) => {
   // const src = path?path:config.source.scss;
+  console.log(path)
   return src(config.source.scss)
     .pipe(sourcemaps.init())
     .pipe(plugins.dartSass({
@@ -17,7 +18,10 @@ const scssBuild = (path) => {
     }))
     .pipe(plugins.sourcemaps.write('./'))
     .pipe(dest(config.build.scss))
-    .pipe(browserSync.stream({ match: '**/*.css' }))
+    // .pipe(browserSync.stream({ match: '**/*.css' }))
+    .on('end', () => {
+      browserSync.reload();
+    })
 }
 
 export default scssBuild;

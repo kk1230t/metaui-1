@@ -151,7 +151,12 @@ export function children(element, selector) {
     const children = element ? toNodes(element.children) : [];
     return selector ? filter(children, selector) : children;
 }
-
+/**
+ * array 중 몇번째에 element가 속해있는가
+ * @param {array} element node lists
+ * @param {element} ref 찾을 엘리먼트
+ * @returns index
+ */
 export function index(element, ref) {
     return ref ? 
         toNodes(element).indexOf(toNode(ref)) : 
