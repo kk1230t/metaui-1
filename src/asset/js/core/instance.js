@@ -15,8 +15,9 @@ export default function (UICommon) {
         if (el[DATA][name]) return;
 
         el[DATA][name] = this;
-
+        
         this.$el = this.$options.el = this.$options.el || el;
+        
 
         if (within(el, document)) {
             this._callConnected();

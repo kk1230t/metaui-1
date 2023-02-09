@@ -42,15 +42,28 @@ export default {
   },
 
   created() {
-    
+    // console.log(`created ${this.$el}`)
+    const el1111 = $('<div class="kui_test"></div>')
+    // console.log();
+    this.$mount(el1111);
+    // console.log(this.el1111);
   },
-  beforeConnect (){
-    console.log(this)
+  beforeConnect() {
+    console.log(`beforeConnect ${this.$el}`)
   },
   connected() {
-    console.log('con')
+    console.log(`connected ${this.$el}`)
     const {pickerButton, $el} = this;
     this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
+  },
+  beforeDisconnect() {
+    console.log('disconnected');
+  },
+  disconnected() {
+    console.log('disconnected');
+  },
+  destory() {
+    console.log('destory');
   },
 
   events: [
@@ -63,6 +76,7 @@ export default {
       handler(e) {
         e.preventDefault();
         console.log(e.current.value)
+        this.$destroy()
         // console.log(this.testValue)
       }
     },
@@ -101,7 +115,7 @@ export default {
           alert('dddddd')
       },
       testUpdate() {
-        console.log('update')
+        console.log(this.$el)
       }
   },
 };

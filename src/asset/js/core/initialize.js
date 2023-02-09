@@ -36,7 +36,7 @@ export default function (UICommon) {
         this._initComputeds();
         this._callHook('created');
         
-    
+        console.log(options.el);
         if (options.el) {
             this.$mount(options.el);
         }
@@ -101,7 +101,6 @@ export default function (UICommon) {
         this._events = [];
         const _ = this;
         const {events} = _.$options;
-        console.log(events)
         if (events) {
             events.forEach(event => {
                 if (!hasOwn(event, 'handler')) {
@@ -134,7 +133,9 @@ export default function (UICommon) {
     };
 
     UICommon.prototype._callHook = function (hook) {
+
         const handlers = this.$options[hook];
+        console.log(hook);
         if (handlers) handlers.forEach(handlers => handlers.call(this));
     }
     

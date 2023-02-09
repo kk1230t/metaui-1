@@ -2189,6 +2189,7 @@
       this._initMethods();
       this._initComputeds();
       this._callHook('created');
+      console.log(options.el);
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2240,7 +2241,6 @@
       this._events = [];
       var _ = this;
       var events = _.$options.events;
-      console.log(events);
       if (events) {
         events.forEach(function (event) {
           if (!hasOwn(event, 'handler')) {
@@ -2270,6 +2270,7 @@
     UICommon.prototype._callHook = function (hook) {
       var _this = this;
       var handlers = this.$options[hook];
+      console.log(hook);
       if (handlers) handlers.forEach(function (handlers) {
         return handlers.call(_this);
       });
@@ -3268,15 +3269,30 @@
       //   return append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
       // }
     },
-    created: function created() {},
+    created: function created() {
+      // console.log(`created ${this.$el}`)
+      var el1111 = $$1('<div class="kui_test"></div>');
+      // console.log();
+      this.$mount(el1111);
+      // console.log(this.el1111);
+    },
     beforeConnect: function beforeConnect() {
-      console.log(this);
+      console.log("beforeConnect ".concat(this.$el));
     },
     connected: function connected() {
-      console.log('con');
+      console.log("connected ".concat(this.$el));
       var pickerButton = this.pickerButton,
         $el = this.$el;
       this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>');
+    },
+    beforeDisconnect: function beforeDisconnect() {
+      console.log('disconnected');
+    },
+    disconnected: function disconnected() {
+      console.log('disconnected');
+    },
+    destory: function destory() {
+      console.log('destory');
     },
     events: [{
       name: 'click',
@@ -3286,6 +3302,7 @@
       handler: function handler(e) {
         e.preventDefault();
         console.log(e.current.value);
+        this.$destroy();
         // console.log(this.testValue)
       }
     }, {
@@ -3319,7 +3336,7 @@
         alert('dddddd');
       },
       testUpdate: function testUpdate() {
-        console.log('update');
+        console.log(this.$el);
       }
     }
   };

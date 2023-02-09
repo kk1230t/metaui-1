@@ -2105,12 +2105,23 @@
 
   function globalApi (UICommon) {
     var DATA = UICommon.data;
+    /**
+     * 전달된 함수를 1회 실행
+     * @param {function} plugin 전달된 함수를 1회 실행
+     * @returns this
+     */
     UICommon.use = function (plugin) {
       if (plugin.installed) return;
       plugin.call(null, this);
       plugin.installed = true;
       return this;
     };
+
+    /**
+     * 객체 형태의 컴포넌트를 Class 형태로 변환
+     * @param {object} opts 컴포넌트 객체
+     * @returns Class
+     */
     UICommon.extend = function (opts) {
       var options = opts || {};
       var Super = this;
@@ -2124,6 +2135,11 @@
       Sub.extend = Super.extend;
       return Sub;
     };
+    /**
+     * event 발생 시 update 실행
+     * @param {element} element 
+     * @param {event} e 이벤트
+     */
     UICommon.update = function (element, e) {
       element = element ? toNode(element) : document.body;
       parents(element).reverse().forEach(function (element) {
@@ -2167,6 +2183,7 @@
       this._initData();
       this._initMethods();
       this._initComputeds();
+      this._callHook('created');
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2218,6 +2235,7 @@
       this._events = [];
       var _ = this;
       var events = _.$options.events;
+      console.log(events);
       if (events) {
         events.forEach(function (event) {
           if (!hasOwn(event, 'handler')) {
