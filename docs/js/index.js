@@ -900,6 +900,12 @@
     var children = element ? toNodes(element.children) : [];
     return selector ? filter(children, selector) : children;
   }
+  /**
+   * array 중 몇번째에 element가 속해있는가
+   * @param {array} element node lists
+   * @param {element} ref 찾을 엘리먼트
+   * @returns index
+   */
   function index(element, ref) {
     return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent(element)).indexOf(element);
   }
@@ -2684,7 +2690,7 @@
     };
   }
   function getComponentName(attribute) {
-    var prefix = 'kui';
+    var prefix = 'mui';
     return startsWith(attribute, "".concat(prefix, "-")) || startsWith(attribute, "data-".concat(prefix, "-")) ? camelize(attribute.replace("data-".concat(prefix, "-"), '').replace("".concat(prefix, "-"), '')) : false;
   }
 
