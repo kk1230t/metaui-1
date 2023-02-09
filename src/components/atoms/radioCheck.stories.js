@@ -18,7 +18,7 @@ const option1 = {
     }
   ]
 }
-console.log(html(pugComponent, option1))
+
 export const Checkbox = () => html(pugComponent, option1);
 Checkbox.parameters = {
   preview: [

@@ -2725,6 +2725,8 @@
     props: {
       targets: String,
       active: null,
+      openText: String,
+      closeText: String,
       collapsible: Boolean,
       multiple: Boolean,
       toggle: String,
@@ -2738,11 +2740,13 @@
       animation: [true],
       collapsible: true,
       multiple: false,
+      openText: "열기",
+      closeText: "닫기",
       clsOpen: 'mui_open',
       toggle: ' .mui_acc_button',
       content: '> .mui_acc_content',
       transition: 'ease',
-      duration: 0,
+      duration: 100,
       offset: 0
     },
     computed: {
@@ -2797,6 +2801,7 @@
         items.forEach(function (el) {
           return _this2.toggleElement(el, !hasClass(el, _this2.clsOpen), function (el, show) {
             toggleClass(el, _this2.clsOpen, show);
+            $$1(_this2.$props.toggle, el).innerHTML = show ? _this2.closeText : _this2.openText;
             attr($$1(_this2.$props.toggle, el), 'aria-expanded', show);
             var content = $$1("".concat(el._wrapper ? '> * ' : '').concat(_this2.content), el);
             if (animate === false || !_this2.hasTransition) {

@@ -1,6 +1,6 @@
 import Class from '../mixin/class';
 import {default as Togglable, toggleHeight} from '../mixin/togglable';
-import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll} from '../../util';
+import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll, within} from '../../util';
 
 export default {
 
@@ -9,6 +9,8 @@ export default {
     props: {
         targets: String,
         active: null,
+        openText: String,
+        closeText: String,
         collapsible: Boolean,
         multiple: Boolean,
         toggle: String,
@@ -23,11 +25,13 @@ export default {
         animation: [true],
         collapsible: true,
         multiple: false,
+        openText:"열기",
+        closeText:"닫기",
         clsOpen: 'mui_open',
         toggle: ' .mui_acc_button',
         content: '> .mui_acc_content',
         transition: 'ease',
-        duration:0,
+        duration:100,
         offset: 0
     },
 
@@ -98,9 +102,9 @@ export default {
             if (!this.collapsible && activeItems.length < 2 && !filter(items, `:not(.${this.clsOpen})`).length) {
                 return;
             }
-
             items.forEach(el => this.toggleElement(el, !hasClass(el, this.clsOpen), (el, show) => {
                 toggleClass(el, this.clsOpen, show);
+                $(this.$props.toggle, el).innerHTML = show ? this.closeText : this.openText;
                 attr($(this.$props.toggle, el), 'aria-expanded', show);
 
                 const content = $(`${el._wrapper ? '> * ' : ''}${this.content}`, el);
