@@ -1,20 +1,20 @@
 
-mixin step(params={})
+mixin stepWrap(params={})
   //- 공통 요소 Start
   - const prefix = "mui"
   - const divide = '_'
   //- 공통 요소 End
 
-  - const { element="li", className, step, count, ...rest } = Object.assign({}, params)
-  - const steps = [1, 2, 3, 4, 5];
-  - const st = steps.length;
-  - console.log(st)
+  - const { className, stepName, ...rest } = Object.assign({}, params)
+  - const stepItems = [];
 
-  //- ul.step
-  //-   each index in step
-  //-     li= 'step' + index
+  mixin step(item)
+    - stepItems.push({name:item, body:block})
 
-
+  block
   ul.step
-    - for(a=0; a<st; a++)
-      li= count
+    each item, index in stepItems
+      li= item.name + (index+1)
+        - console.log(item)
+        - item.body && item.body()
+        

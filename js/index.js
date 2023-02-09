@@ -3269,7 +3269,11 @@
       // }
     },
     created: function created() {},
+    beforeConnect: function beforeConnect() {
+      console.log(this);
+    },
     connected: function connected() {
+      console.log('con');
       var pickerButton = this.pickerButton,
         $el = this.$el;
       this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>');

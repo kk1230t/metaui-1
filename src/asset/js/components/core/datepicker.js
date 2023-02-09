@@ -44,7 +44,11 @@ export default {
   created() {
     
   },
+  beforeConnect (){
+    console.log(this)
+  },
   connected() {
+    console.log('con')
     const {pickerButton, $el} = this;
     this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
   },
