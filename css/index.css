@@ -103,6 +103,10 @@ table, th, td {
   background: #f8f8f8;
 }
 
+.mui_datepicker {
+  border: 1px solid red;
+}
+
 button {
   background: none;
   border: 0 none;

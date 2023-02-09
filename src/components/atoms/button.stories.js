@@ -18,7 +18,7 @@ const option1 = {
   linkBtn:false,
 }
 
-console.log(html(button))
+
 export const Default = () => html(button, option1);
 Default.parameters = {
   preview: [

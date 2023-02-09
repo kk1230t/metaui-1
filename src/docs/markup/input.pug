@@ -11,7 +11,20 @@ block content
     })
     +guideExample()(code)
       :code
+        //- 기본
         +input()
+
+        //- readOnly
+        +input({
+          readOnly:true,
+          value:"dddd"
+        })
+
+        //- disabled
+        +input({
+          disabled:true,
+          value:"dddd"
+        })
     br
     br
     +guideTitle({
@@ -74,6 +87,48 @@ block content
         },
         {
           text:'-'
+        }
+      ],
+      [
+        {
+          text:'value'
+        },
+        {
+          text:'input 값'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ],
+      [
+        {
+          text:'disabled'
+        },
+        {
+          text:'비활성화'
+        },
+        {
+          text:'Boolean'
+        },
+        {
+          text:'false'
+        }
+      ],
+      [
+        {
+          text:'readOnly'
+        },
+        {
+          text:'읽기전용'
+        },
+        {
+          text:'Boolean'
+        },
+        {
+          text:'false'
         }
       ],
       [
