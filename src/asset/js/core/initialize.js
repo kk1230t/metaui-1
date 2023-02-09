@@ -34,6 +34,7 @@ export default function (UICommon) {
         this._initData();
         this._initMethods();
         this._initComputeds();
+        this._callHook('created');
         
     
         if (options.el) {
@@ -100,6 +101,7 @@ export default function (UICommon) {
         this._events = [];
         const _ = this;
         const {events} = _.$options;
+        console.log(events)
         if (events) {
             events.forEach(event => {
                 if (!hasOwn(event, 'handler')) {

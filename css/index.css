@@ -105,6 +105,7 @@ table, th, td {
 
 .mui_datepicker {
   border: 1px solid red;
+  padding-top: 50px;
 }
 
 button {

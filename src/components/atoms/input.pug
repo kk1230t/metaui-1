@@ -5,7 +5,6 @@ mixin input(params={})
   //- 공통 요소 End
 
   - const { element="span", className, title, placeholder, value, readOnly, disabled, id, type="text", ...rest } = Object.assign({}, params)
-  - console.log(readOnly)
   #{element}(
     class=`${prefix}${divide}input`
     class=className

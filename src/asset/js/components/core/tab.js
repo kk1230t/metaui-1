@@ -1,4 +1,4 @@
-import {$, findAll, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, $$} from '../../util/index';
+import {$, findAll, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, isNumber, $$} from '../../util/index';
 import Button from "./button";
 import {cssPrefix} from 'GC-data'
 
@@ -44,7 +44,6 @@ export default {
     methods: {
         activeTab(item) {
             this.tabContents.map(el => toggleClass(el, this.clsOpen, el === item))
-            
         }
     }
 };

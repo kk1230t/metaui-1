@@ -2110,12 +2110,23 @@
 
   function globalApi (UICommon) {
     var DATA = UICommon.data;
+    /**
+     * 전달된 함수를 1회 실행
+     * @param {function} plugin 전달된 함수를 1회 실행
+     * @returns this
+     */
     UICommon.use = function (plugin) {
       if (plugin.installed) return;
       plugin.call(null, this);
       plugin.installed = true;
       return this;
     };
+
+    /**
+     * 객체 형태의 컴포넌트를 Class 형태로 변환
+     * @param {object} opts 컴포넌트 객체
+     * @returns Class
+     */
     UICommon.extend = function (opts) {
       var options = opts || {};
       var Super = this;
@@ -2129,6 +2140,11 @@
       Sub.extend = Super.extend;
       return Sub;
     };
+    /**
+     * event 발생 시 update 실행
+     * @param {element} element 
+     * @param {event} e 이벤트
+     */
     UICommon.update = function (element, e) {
       element = element ? toNode(element) : document.body;
       parents(element).reverse().forEach(function (element) {
@@ -2172,6 +2188,7 @@
       this._initData();
       this._initMethods();
       this._initComputeds();
+      this._callHook('created');
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2223,6 +2240,7 @@
       this._events = [];
       var _ = this;
       var events = _.$options.events;
+      console.log(events);
       if (events) {
         events.forEach(function (event) {
           if (!hasOwn(event, 'handler')) {
@@ -3214,6 +3232,94 @@
     }
   }
 
+  var datepicker = {
+    props: {
+      pickerButton: Boolean
+    },
+    data: {
+      target: '> * input',
+      pcikerBtn: '>.mui_picker_btn',
+      testValue: '',
+      pickerButton: true
+    },
+    computed: {
+      // currentDate({target}, $el) {
+      //   console.log($(target, $el))
+      //   return $(target, $el).value;
+      // }
+      currentDate: {
+        get: function get(_ref, $el) {
+          var target = _ref.target;
+          return $$1(target, $el);
+        },
+        watch: function watch(target, testValue) {
+          target.value;
+          this.testUpdate();
+        },
+        immediate: true
+      }
+      // pickerButton({pickerButton}, $el) {
+      //   // console.log(toNode(pickerButton))
+      //   if (!pickerButton) {
+
+      //     return null;
+      //   }
+      //   console.log($el)
+      //   return append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
+      // }
+    },
+    created: function created() {},
+    connected: function connected() {
+      var pickerButton = this.pickerButton,
+        $el = this.$el;
+      this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>');
+    },
+    events: [{
+      name: 'click',
+      delegate: function delegate() {
+        return this.$props.target;
+      },
+      handler: function handler(e) {
+        e.preventDefault();
+        console.log(e.current.value);
+        // console.log(this.testValue)
+      }
+    }, {
+      name: 'keydown',
+      delegate: function delegate() {
+        return this.$props.target;
+      },
+      handler: function handler(e) {
+        e.preventDefault();
+        console.log(e.key);
+        // console.log(this.testValue)
+      }
+    }, {
+      name: 'click',
+      delegate: function delegate() {
+        return this.pcikerBtn;
+      },
+      handler: function handler(e) {
+        e.preventDefault();
+        console.log("이건가??");
+      }
+    }],
+    // events: {
+    //   click(e) {
+    //     console.log(e)
+    //   },
+    // },
+
+    methods: {
+      test: function test() {
+        alert('dddddd');
+      },
+      testUpdate: function testUpdate() {
+        console.log('update');
+      }
+    }
+  };
+
   var worklists = {
     mixins: [Class, Togglable],
     props: {
@@ -3315,6 +3421,7 @@
     Tab: tab,
     Toggle: toggle,
     Sticky: sticky,
+    Datepicker: datepicker,
     Worklists: worklists
   });
 
@@ -3504,9 +3611,8 @@
   GCui.use(function (GCui) {
     inBrowser && ready(function () {
       GCui.update();
-      on(window, 'load resize', function () {
-        return GCui.update(null, 'resize');
-      });
+      // on(window, 'load resize', () => GCui.update(null, 'resize'))
+
       var pending;
       on(window, 'scroll', function (e) {
         if (pending) {

@@ -7,14 +7,23 @@ import {
 
 export default function (UICommon) {
     const DATA = UICommon.data;
+    /**
+     * 전달된 함수를 1회 실행
+     * @param {function} plugin 전달된 함수를 1회 실행
+     * @returns this
+     */
     UICommon.use = function (plugin) {
         if (plugin.installed) return;
         plugin.call(null, this);
         plugin.installed = true;
-    
         return this;
     }
-    
+        
+    /**
+     * 객체 형태의 컴포넌트를 Class 형태로 변환
+     * @param {object} opts 컴포넌트 객체
+     * @returns Class
+     */
     UICommon.extend = function (opts) {
         const options = opts || {};
         const Super = this;
@@ -28,9 +37,13 @@ export default function (UICommon) {
     
         Sub.super = Super;
         Sub.extend = Super.extend;
-    
         return Sub;
     }
+    /**
+     * event 발생 시 update 실행
+     * @param {element} element 
+     * @param {event} e 이벤트
+     */
     UICommon.update = (element, e)=> {
         element = element ? toNode(element) : document.body;
         parents(element).reverse().forEach(element => update(element[DATA], e));
