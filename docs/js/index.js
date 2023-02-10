@@ -2184,6 +2184,7 @@
       this._initMethods();
       this._initComputeds();
       this._callHook('created');
+      console.log(options.el);
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2235,7 +2236,6 @@
       this._events = [];
       var _ = this;
       var events = _.$options.events;
-      console.log(events);
       if (events) {
         events.forEach(function (event) {
           if (!hasOwn(event, 'handler')) {
@@ -2265,6 +2265,7 @@
     UICommon.prototype._callHook = function (hook) {
       var _this = this;
       var handlers = this.$options[hook];
+      console.log(hook);
       if (handlers) handlers.forEach(function (handlers) {
         return handlers.call(_this);
       });

@@ -30,13 +30,11 @@ export default function (UICommon) {
         this.$el = null;
         this.$props = {};
         this._uid = uid++;
-        // console.log(prefix);
         this._initData();
         this._initMethods();
         this._initComputeds();
         this._callHook('created');
         
-        console.log(options.el);
         if (options.el) {
             this.$mount(options.el);
         }
@@ -80,7 +78,6 @@ export default function (UICommon) {
         let key;
         
         props = props || getProps(this.$options, this.$name);
-        // console.log(props)
         for (key in props) {
             if (!isUndefined(props[key])) {
                 this.$props[key] = props[key];
@@ -135,7 +132,6 @@ export default function (UICommon) {
     UICommon.prototype._callHook = function (hook) {
 
         const handlers = this.$options[hook];
-        console.log(hook);
         if (handlers) handlers.forEach(handlers => handlers.call(this));
     }
     
@@ -177,7 +173,6 @@ export default function (UICommon) {
     
     UICommon.prototype._callUpdate = function (e = 'update') {
         const type = e.type || e;
-    
         if (type === 'update' || type === 'resize') {
             this._callWatches();
         }
@@ -215,6 +210,7 @@ export default function (UICommon) {
             return;
         }
 
+
         
         
         const initital = !hasOwn(_frames, '_watch');
@@ -227,7 +223,6 @@ export default function (UICommon) {
     
             const {$options: {computed}, _computeds} = this;
             for (const key in computed) {
-                // console.log(key)
                 const hasPrev = hasOwn(_computeds, key);
                 const prev = _computeds[key];
                 delete _computeds[key];
@@ -339,7 +334,6 @@ function registerEvent(component, event, key) {
             {passive, capture, self}
         )
     )
-    // console.log(component.$el)
 }
 
 function normalizeData({data, el}, {args, props = {}}) {
@@ -370,7 +364,6 @@ function normalizeData({data, el}, {args, props = {}}) {
 }
 
 function registerComputed(component, key, cb) {
-    
     Object.defineProperty(component, key, {
 
         enumerable: true,
@@ -378,17 +371,17 @@ function registerComputed(component, key, cb) {
         get() {
             
             const {_computeds, $props, $el} = component;
-
+            
             if (!hasOwn(_computeds, key)) {
                 _computeds[key] = (cb.get || cb).call(component, $props, $el);
             }
+            
             return _computeds[key];
         },
 
         set(value) {
-            
             const {_computeds} = component;
-
+            
             _computeds[key] = cb.set ? cb.set.call(component, value) : value;
             if (isUndefined(_computeds[key])) {
                 delete _computeds[key];
@@ -400,8 +393,11 @@ function registerComputed(component, key, cb) {
 
 function initChildListObserver(component) {
     const {el} = component.$options;
-
-    const observer = new MutationObserver(() => component.$emit());
+    
+    const observer = new MutationObserver(() => {
+        console.log('el')
+        return component.$emit()
+    });
     observer.observe(el, {
         childList: true,
         subtree: true
@@ -411,7 +407,6 @@ function initChildListObserver(component) {
 }
 
 function initPropsObserver(component) {
-
     const {$name, $options, $props} = component;
     const {attrs, props, el} = $options;
 
@@ -433,10 +428,9 @@ function initPropsObserver(component) {
             component.$reset();
         }
     });
-    
     observer.observe(el, {
         attributes: true,
-        attributeFilter: filter.concat(filter.map(key => `data-${key}`))
+        attributeFilter: filter.concat(filter.map(key => `data-${key}`)).concat(filter.map(key => `${key}`))
     });
 
     return observer;

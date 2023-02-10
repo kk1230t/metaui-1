@@ -25,7 +25,7 @@ export default function (UICommon) {
             childList: true,
             subtree: true,
             characterData: true,
-            attributes: true
+            // attributes: true
         });
     
         UICommon._initialized = true;

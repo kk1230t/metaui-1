@@ -7,13 +7,11 @@ export default function (UICommon) {
     const DATA = UICommon.data;
     UICommon.prototype.$mount = function (el) {
         const {name} = this.$options;
-
         if (!el[DATA]) {
             el[DATA] = {};
         }
 
         if (el[DATA][name]) return;
-
         el[DATA][name] = this;
         
         this.$el = this.$options.el = this.$options.el || el;
@@ -24,7 +22,6 @@ export default function (UICommon) {
         }
     }
     UICommon.prototype.$reset = function () {
-        console.log('reset')
         this._callDisconnected();
         this._callConnected();
     }

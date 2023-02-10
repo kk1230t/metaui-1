@@ -2184,12 +2184,10 @@
       this.$el = null;
       this.$props = {};
       this._uid = uid++;
-      // console.log(prefix);
       this._initData();
       this._initMethods();
       this._initComputeds();
       this._callHook('created');
-      console.log(options.el);
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2224,7 +2222,6 @@
     UICommon.prototype._initProps = function (props) {
       var key;
       props = props || getProps(this.$options, this.$name);
-      // console.log(props)
       for (key in props) {
         if (!isUndefined(props[key])) {
           this.$props[key] = props[key];
@@ -2270,7 +2267,6 @@
     UICommon.prototype._callHook = function (hook) {
       var _this = this;
       var handlers = this.$options[hook];
-      console.log(hook);
       if (handlers) handlers.forEach(function (handlers) {
         return handlers.call(_this);
       });
@@ -2350,7 +2346,6 @@
         var computed = _this3.$options.computed,
           _computeds = _this3._computeds;
         for (var key in computed) {
-          // console.log(key)
           var hasPrev = hasOwn(_computeds, key);
           var prev = _computeds[key];
           delete _computeds[key];
@@ -2438,9 +2433,7 @@
       capture: capture,
       self: self
     }));
-    // console.log(component.$el)
   }
-
   function normalizeData(_ref2, _ref3) {
     var data = _ref2.data;
       _ref2.el;
@@ -2490,6 +2483,7 @@
   function initChildListObserver(component) {
     var el = component.$options.el;
     var observer = new MutationObserver(function () {
+      console.log('el');
       return component.$emit();
     });
     observer.observe(el, {
@@ -2528,6 +2522,8 @@
       attributes: true,
       attributeFilter: filter.concat(filter.map(function (key) {
         return "data-".concat(key);
+      })).concat(filter.map(function (key) {
+        return "".concat(key);
       }))
     });
     return observer;
@@ -2548,7 +2544,6 @@
       }
     };
     UICommon.prototype.$reset = function () {
-      console.log('reset');
       this._callDisconnected();
       this._callConnected();
     };
@@ -3235,62 +3230,79 @@
 
   var datepicker = {
     props: {
-      pickerButton: Boolean
+      pickerButton: Boolean,
+      value: String
     },
     data: {
       target: '> * input',
       pcikerBtn: '>.mui_picker_btn',
       testValue: '',
-      pickerButton: true
+      testBtn: '>.testbtn',
+      pickerButton: true,
+      value: '샘플',
+      test: 'ddfasdf'
     },
     computed: {
       // currentDate({target}, $el) {
       //   console.log($(target, $el))
       //   return $(target, $el).value;
       // }
-      currentDate: {
-        get: function get(_ref, $el) {
-          var target = _ref.target;
-          return $$1(target, $el);
-        },
-        watch: function watch(target, testValue) {
-          target.value;
-          this.testUpdate();
-        },
-        immediate: true
-      }
+      target: function target(_ref, $el) {
+        var target = _ref.target;
+        console.log('target 호출');
+        return $$1(target, $el);
+      },
+      targetValue: function targetValue(_ref2) {
+        var test = _ref2.test,
+          value = _ref2.value;
+        return "".concat(test, "234234233444").concat(value);
+      } // testBtn: {
+      //   get({testBtn}, $el) {
+      //     console.log('testBtnGet')
+      //     return $$(testBtn, $el);
+      //   },
+      //   watch(testBtn) {
+      //     console.log('바뀌고 있나??')
+      //     testBtn.forEach(el => addClass(el, "testtttttttttttttt"));
+      //   },
+      //   immediate: true
+      // },
+      // currentDate: {
+      //   get({target}, $el) {
+      //     return $(target, $el);
+      //   },
+      //   watch(target, testValue) {
+      //     testValue = target.value
+      //     this.testUpdate()
+      //   },
+      //   immediate: true
+      // }
       // pickerButton({pickerButton}, $el) {
       //   // console.log(toNode(pickerButton))
       //   if (!pickerButton) {
-
       //     return null;
       //   }
       //   console.log($el)
       //   return append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
       // }
     },
-    created: function created() {
-      // console.log(`created ${this.$el}`)
-      var el1111 = $$1('<div class="kui_test"></div>');
-      // console.log();
-      this.$mount(el1111);
-      // console.log(this.el1111);
-    },
-    beforeConnect: function beforeConnect() {
-      console.log("beforeConnect ".concat(this.$el));
-    },
+    // created() {
+    //   this.picker = 'dfdsfsfaasfasfs'
+    // },
+    // beforeConnect() {
+    //   console.log(`beforeConnect ${this.$el}`)
+    // },
     connected: function connected() {
-      console.log("connected ".concat(this.$el));
       var pickerButton = this.pickerButton,
         $el = this.$el;
       this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>');
     },
-    beforeDisconnect: function beforeDisconnect() {
-      console.log('disconnected');
-    },
-    disconnected: function disconnected() {
-      console.log('disconnected');
-    },
+    // beforeDisconnect() {
+    //   console.log('disconnected');
+    // },
+    // disconnected() {
+    //   console.log('disconnected');
+    // },
     destory: function destory() {
       console.log('destory');
     },
@@ -3301,9 +3313,11 @@
       },
       handler: function handler(e) {
         e.preventDefault();
-        console.log(e.current.value);
-        this.$destroy();
-        // console.log(this.testValue)
+        // console.log(this.target.value)
+        // this.test+='2222'
+
+        // this.$destroy()
+        console.log(this.targetValue);
       }
     }, {
       name: 'keydown',
@@ -3311,8 +3325,9 @@
         return this.$props.target;
       },
       handler: function handler(e) {
-        e.preventDefault();
-        console.log(e.key);
+        // e.preventDefault();
+        console.log(e.target);
+        // this.target.value = this.value+=e.key;
         // console.log(this.testValue)
       }
     }, {
@@ -3322,7 +3337,9 @@
       },
       handler: function handler(e) {
         e.preventDefault();
-        console.log("이건가??");
+        // this.value = 'ㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ'
+        this.targetValue = 'ㅁㄴㅇ러ㅘㅁㄴ어라몬어ㅏ';
+        console.log(this);
       }
     }],
     // events: {
@@ -3338,6 +3355,10 @@
       testUpdate: function testUpdate() {
         console.log(this.$el);
       }
+    },
+    update: function update() {
+      this.target.value = this.value;
+      // console.log('update')
     }
   };
 
@@ -3546,9 +3567,10 @@
       }).observe(document, {
         childList: true,
         subtree: true,
-        characterData: true,
-        attributes: true
+        characterData: true
+        // attributes: true
       });
+
       UICommon._initialized = true;
     });
     function applyMutation(mutation, updates) {

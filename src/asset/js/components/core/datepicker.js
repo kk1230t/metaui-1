@@ -1,17 +1,21 @@
-import {$, findAll, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, isNumber, $$, append, toNode} from '../../util/index';
+import {$, findAll, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, isNumber, $$, append, toNode, addClass} from '../../util/index';
 import {cssPrefix} from 'GC-data'
 
 export default {
 
   props: {
-    pickerButton:Boolean
+    pickerButton:Boolean,
+    value:String,
   },
 
   data: {
       target: '> * input',
       pcikerBtn: '>.mui_picker_btn',
       testValue:'',
+      testBtn: '>.testbtn',
       pickerButton:true,
+      value:'샘플',
+      test:'ddfasdf',
 
   },
 
@@ -20,16 +24,34 @@ export default {
     //   console.log($(target, $el))
     //   return $(target, $el).value;
     // }
-    currentDate: {
-      get({target}, $el) {
-        return $(target, $el);
-      },
-      watch(target, testValue) {
-        testValue = target.value
-        this.testUpdate()
-      },
-      immediate: true
-    }
+    target({target}, $el) {
+      console.log('target 호출')
+      return $(target, $el)
+    },
+    targetValue({test, value}) {
+      return `${test}234234233444${value}`;
+    },
+    // testBtn: {
+    //   get({testBtn}, $el) {
+    //     console.log('testBtnGet')
+    //     return $$(testBtn, $el);
+    //   },
+    //   watch(testBtn) {
+    //     console.log('바뀌고 있나??')
+    //     testBtn.forEach(el => addClass(el, "testtttttttttttttt"));
+    //   },
+    //   immediate: true
+    // },
+    // currentDate: {
+    //   get({target}, $el) {
+    //     return $(target, $el);
+    //   },
+    //   watch(target, testValue) {
+    //     testValue = target.value
+    //     this.testUpdate()
+    //   },
+    //   immediate: true
+    // }
     // pickerButton({pickerButton}, $el) {
     //   // console.log(toNode(pickerButton))
     //   if (!pickerButton) {
@@ -41,27 +63,22 @@ export default {
     // }
   },
 
-  created() {
-    // console.log(`created ${this.$el}`)
-    const el1111 = $('<div class="kui_test"></div>')
-    // console.log();
-    this.$mount(el1111);
-    // console.log(this.el1111);
-  },
-  beforeConnect() {
-    console.log(`beforeConnect ${this.$el}`)
-  },
+  // created() {
+  //   this.picker = 'dfdsfsfaasfasfs'
+  // },
+  // beforeConnect() {
+  //   console.log(`beforeConnect ${this.$el}`)
+  // },
   connected() {
-    console.log(`connected ${this.$el}`)
     const {pickerButton, $el} = this;
     this.pickerButton = !pickerButton || append($el, '<span class="mui_picker_btn"><button type="button">캘린더 열기</button></span>')
   },
-  beforeDisconnect() {
-    console.log('disconnected');
-  },
-  disconnected() {
-    console.log('disconnected');
-  },
+  // beforeDisconnect() {
+  //   console.log('disconnected');
+  // },
+  // disconnected() {
+  //   console.log('disconnected');
+  // },
   destory() {
     console.log('destory');
   },
@@ -75,9 +92,12 @@ export default {
 
       handler(e) {
         e.preventDefault();
-        console.log(e.current.value)
-        this.$destroy()
-        // console.log(this.testValue)
+        // console.log(this.target.value)
+        // this.test+='2222'
+
+        
+        // this.$destroy()
+        console.log(this.targetValue)
       }
     },
     {
@@ -87,8 +107,9 @@ export default {
       },
 
       handler(e) {
-        e.preventDefault();
-        console.log(e.key)
+        // e.preventDefault();
+        console.log(e.target)
+        // this.target.value = this.value+=e.key;
         // console.log(this.testValue)
       }
     },
@@ -100,7 +121,9 @@ export default {
 
       handler(e) {
         e.preventDefault();
-        console.log("이건가??") 
+        // this.value = 'ㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ'
+        this.targetValue = 'ㅁㄴㅇ러ㅘㅁㄴ어라몬어ㅏ'
+        console.log(this) 
       }
     }
   ],
@@ -118,6 +141,10 @@ export default {
         console.log(this.$el)
       }
   },
+  update() {
+    this.target.value = this.value
+    // console.log('update')
+  }
 };
 
 
