@@ -1,4 +1,4 @@
-import {$, findAll, isDate, each, mergeOptions, addLeadingZero, isString, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, isNumber, $$, append, toNode, addClass} from '../../util/index';
+import {$, findAll, isDate, each, mergeOptions, addLeadingZero, isString, removeClass, hasClass, toggleClass, Dimensions, height, isVisible, width, toNodes, queryAll, trigger, isNumber, $$, append, fragment, toNode, addClass} from '../../util/index';
 import {cssPrefix} from 'GC-data'
 
 export default {
@@ -54,7 +54,7 @@ export default {
               </div>`,
   },
   created() {
-    this.calendar = $(this.template);
+    this.calendar = fragment(this.template);
   },
 
   computed: {
@@ -118,8 +118,8 @@ export default {
     this.date = date;
     this.viewDate = new Date(date);
     this.initialDate = new Date(this.date);
+    console.log(this.calendar)
 
-    append($el, this.calendar)
     // console.log()
     // console.log($(this.pickerHeader, this.calendar))
     // startDate, endDate  = range 형태의 켈린더일 경우 사용
