@@ -158,6 +158,37 @@ export function isNumeric(value) {
     return isNumber(value) || isString(value) && !isNaN(value - parseFloat(value));
 }
 
+export function typeOf(obj) {
+    return toString.call(obj).slice(8, -1).toLowerCase();
+  }
+
+export function isDate(value) {
+    return typeOf(value) === 'date' && !isNaN(value.getTime());
+}
+
+/**
+ * Add leading zeroes to the given value
+ * @param {number} value - The value to add.
+ * @param {number} [length=1] - The expected value length.
+ * @returns {string} Returns converted value.
+ */
+ export function addLeadingZero(value, length = 1) {
+    const str = String(Math.abs(value));
+    let i = str.length;
+    let result = '';
+  
+    if (value < 0) {
+        result += '-';
+    }
+  
+    while (i < length) {
+        i += 1;
+        result += '0';
+    }
+  
+    return result + str;
+}
+
 export function isEmpty(obj) {
     return !(isArray(obj)
         ? obj.length

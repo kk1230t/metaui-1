@@ -2179,12 +2179,10 @@
       this.$el = null;
       this.$props = {};
       this._uid = uid++;
-      // console.log(prefix);
       this._initData();
       this._initMethods();
       this._initComputeds();
       this._callHook('created');
-      console.log(options.el);
       if (options.el) {
         this.$mount(options.el);
       }
@@ -2219,7 +2217,6 @@
     UICommon.prototype._initProps = function (props) {
       var key;
       props = props || getProps(this.$options, this.$name);
-      // console.log(props)
       for (key in props) {
         if (!isUndefined(props[key])) {
           this.$props[key] = props[key];
@@ -2265,7 +2262,6 @@
     UICommon.prototype._callHook = function (hook) {
       var _this = this;
       var handlers = this.$options[hook];
-      console.log(hook);
       if (handlers) handlers.forEach(function (handlers) {
         return handlers.call(_this);
       });
@@ -2345,7 +2341,6 @@
         var computed = _this3.$options.computed,
           _computeds = _this3._computeds;
         for (var key in computed) {
-          // console.log(key)
           var hasPrev = hasOwn(_computeds, key);
           var prev = _computeds[key];
           delete _computeds[key];
@@ -2433,9 +2428,7 @@
       capture: capture,
       self: self
     }));
-    // console.log(component.$el)
   }
-
   function normalizeData(_ref2, _ref3) {
     var data = _ref2.data;
       _ref2.el;
@@ -2485,6 +2478,7 @@
   function initChildListObserver(component) {
     var el = component.$options.el;
     var observer = new MutationObserver(function () {
+      console.log('el');
       return component.$emit();
     });
     observer.observe(el, {
@@ -2523,6 +2517,8 @@
       attributes: true,
       attributeFilter: filter.concat(filter.map(function (key) {
         return "data-".concat(key);
+      })).concat(filter.map(function (key) {
+        return "".concat(key);
       }))
     });
     return observer;
@@ -2543,7 +2539,6 @@
       }
     };
     UICommon.prototype.$reset = function () {
-      console.log('reset');
       this._callDisconnected();
       this._callConnected();
     };
@@ -2735,9 +2730,10 @@
       }).observe(document, {
         childList: true,
         subtree: true,
-        characterData: true,
-        attributes: true
+        characterData: true
+        // attributes: true
       });
+
       UICommon._initialized = true;
     });
     function applyMutation(mutation, updates) {

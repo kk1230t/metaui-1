@@ -104,8 +104,28 @@ table, th, td {
 }
 
 .mui_datepicker {
-  border: 1px solid red;
-  padding-top: 50px;
+  border: 1px solid #00f;
+  display: inline-block;
+}
+.mui_datepicker th, .mui_datepicker td {
+  border: 1px solid #000;
+  color: #000;
+}
+.mui_datepicker th.disabled, .mui_datepicker td.disabled {
+  color: #bbb;
+}
+
+.picker_header {
+  text-align: center;
+}
+.picker_header .current_month {
+  background: #eee;
+  padding: 0 20px;
+}
+.picker_header button {
+  background: #000;
+  color: #fff;
+  padding: 4px 20px;
 }
 
 button {

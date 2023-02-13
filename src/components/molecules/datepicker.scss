@@ -1,4 +1,23 @@
 .mui_datepicker{
-  border: 1px solid red;
-  padding-top: 50px;
+  border: 1px solid #00f;
+  display: inline-block;
+  th, td{
+    border: 1px solid #000;
+    color: #000;
+    &.disabled{
+      color: #bbb;
+    }
+  }
+}
+.picker_header{
+  text-align: center;
+  .current_month{
+    background: #eee;
+    padding: 0 20px;
+  }
+  button{
+    background: #000;
+    color: #fff;
+    padding: 4px 20px;
+  }
 }
