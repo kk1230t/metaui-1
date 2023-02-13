@@ -3299,7 +3299,7 @@
       template: "<div class=\"mui_datepicker\">\n                <div class=\"picker_header\">\n                </div>\n                <div class=\"picker_contents\">\n                  <table class=\"mui_calendar\">\n                    <thead class=\"head\"></thead>\n                    <tbody class=\"body\"></tbody>\n                  </table>\n                </div>\n              </div>"
     },
     created: function created() {
-      this.calendar = $$1(this.template);
+      this.calendar = fragment(this.template);
     },
     computed: {
       // currentDate({target}, $el) {
@@ -3366,7 +3366,8 @@
       this.date = date;
       this.viewDate = new Date(date);
       this.initialDate = new Date(this.date);
-      append($el, this.calendar);
+      console.log(this.calendar);
+
       // console.log()
       // console.log($(this.pickerHeader, this.calendar))
       // startDate, endDate  = range 형태의 켈린더일 경우 사용
