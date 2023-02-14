@@ -3013,6 +3013,7 @@
   };
 
   var Calendar = {
+    functional: true,
     props: {
       pickerButton: Boolean,
       value: String
@@ -3059,8 +3060,8 @@
       template: "<div class=\"mui_datepicker_layer\" id=\"muiDatepicker\">\n                <div class=\"picker_header\">\n                  <button type=\"button\" class=\"prev_btn\"><span class=\"text\">\uC774\uC804 \uB2EC \uBCF4\uAE30</span></button>\n                  <span class=\"year_month\">\n                    <span class=\"current_year\"></span>\n                    <span class=\"current_month\"></span>\n                  </span>                  \n                  <button type=\"button\" class=\"next_btn\"><span class=\"text\">\uB2E4\uC74C \uB2EC \uBCF4\uAE30</span></button>\n                </div>\n                <div class=\"picker_contents\">\n                  <table class=\"mui_calendar\">\n                    <thead class=\"head\"></thead>\n                    <tbody class=\"body\"></tbody>\n                  </table>\n                </div>\n              </div>"
     },
     created: function created() {
-      console.dir('sdfsdfsdfsf');
-      this.calendar = document.body.contains($$1(this.templateID)) ? $$1(this.templateID) : append(document.body, fragment(this.template));
+      this.$el = fragment(this.template);
+      this.$mount(this.$el);
     },
     computed: {
       prevBtn: function prevBtn(_ref) {
@@ -4045,7 +4046,7 @@
       target: '> * input'
     },
     created: function created() {
-      this.$create('calendar', _objectSpread2({}, this.$props));
+      this.calendar = this.$create('calendar', _objectSpread2({}, this.$props));
     },
     computed: {},
     // created() {
@@ -4066,7 +4067,12 @@
     destory: function destory() {
       console.log('destory');
     },
-    events: [],
+    events: [{
+      name: 'click',
+      handler: function handler(e) {
+        console.log(this.calendar.renderPickerDate());
+      }
+    }],
     methods: {},
     update: function update() {}
   };

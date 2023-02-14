@@ -41,7 +41,7 @@ export default {
     target: '> * input',
   },
   created() {
-    this.$create('calendar', { ...this.$props })
+    this.calendar = this.$create('calendar', { ...this.$props })
   },
 
   computed: {
@@ -68,7 +68,12 @@ export default {
   },
 
   events: [
-    
+    {
+      name: 'click',
+      handler(e) {
+        console.log(this.calendar.renderPickerDate())
+      }
+    }
   ],
   methods: {
     

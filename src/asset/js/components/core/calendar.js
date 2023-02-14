@@ -29,7 +29,7 @@ import {
 import {cssPrefix} from 'GC-data'
 
 export default {
-
+  functional: true,
   props: {
     pickerButton:Boolean,
     value:String,
@@ -95,11 +95,8 @@ export default {
               </div>`,
   },
   created() {
-    
-    console.dir('sdfsdfsdfsf')
-    this.calendar = document.body.contains($(this.templateID)) ? $(this.templateID) : append(document.body, fragment(this.template));
-    
-    
+    this.$el = fragment(this.template);
+    this.$mount(this.$el);
   },
 
   computed: {
