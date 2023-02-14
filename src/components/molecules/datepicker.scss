@@ -1,12 +1,24 @@
 .mui_datepicker{
   border: 1px solid #00f;
-  display: inline-block;
+}
+.mui_datepicker_layer{
+  display: none;
   th, td{
     border: 1px solid #000;
     color: #000;
     &.disabled{
       color: #bbb;
     }
+    button{
+      display: block;
+      width: 100%;
+    }
+  }
+  .mui_calendar{
+    width: 100%;
+  }
+  &.mui_active{
+    display: block;
   }
 }
 .picker_header{

@@ -5,6 +5,9 @@ import {
 
 export default function (UICommon) {
     const DATA = UICommon.data;
+    UICommon.prototype.$create = function (component, element, data) {
+        return UICommon[component](element, data);
+    };
     UICommon.prototype.$mount = function (el) {
         const {name} = this.$options;
         if (!el[DATA]) {

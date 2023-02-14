@@ -105,14 +105,27 @@ table, th, td {
 
 .mui_datepicker {
   border: 1px solid #00f;
-  display: inline-block;
 }
-.mui_datepicker th, .mui_datepicker td {
+
+.mui_datepicker_layer {
+  display: none;
+}
+.mui_datepicker_layer th, .mui_datepicker_layer td {
   border: 1px solid #000;
   color: #000;
 }
-.mui_datepicker th.disabled, .mui_datepicker td.disabled {
+.mui_datepicker_layer th.disabled, .mui_datepicker_layer td.disabled {
   color: #bbb;
+}
+.mui_datepicker_layer th button, .mui_datepicker_layer td button {
+  display: block;
+  width: 100%;
+}
+.mui_datepicker_layer .mui_calendar {
+  width: 100%;
+}
+.mui_datepicker_layer.mui_active {
+  display: block;
 }
 
 .picker_header {

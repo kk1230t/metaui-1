@@ -45,9 +45,9 @@ export default function (GCui) {
 
         opt.name = name;
 
-        // if (opt.install) {
-        //     opt.install(GCui, opt, name);
-        // }
+        if (opt.install) {
+            opt.install(GCui, opt, name);
+        }
         
         if (GCui._initialized && !opt.functional) {
             

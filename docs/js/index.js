@@ -249,6 +249,33 @@
   function isNumeric$1(value) {
     return isNumber(value) || isString(value) && !isNaN(value - parseFloat(value));
   }
+  function typeOf(obj) {
+    return toString.call(obj).slice(8, -1).toLowerCase();
+  }
+  function isDate(value) {
+    return typeOf(value) === 'date' && !isNaN(value.getTime());
+  }
+
+  /**
+   * Add leading zeroes to the given value
+   * @param {number} value - The value to add.
+   * @param {number} [length=1] - The expected value length.
+   * @returns {string} Returns converted value.
+   */
+  function addLeadingZero(value) {
+    var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    var str = String(Math.abs(value));
+    var i = str.length;
+    var result = '';
+    if (value < 0) {
+      result += '-';
+    }
+    while (i < length) {
+      i += 1;
+      result += '0';
+    }
+    return result + str;
+  }
   function isEmpty$1(obj) {
     return !(isArray(obj) ? obj.length : isObject(obj) ? Object.keys(obj).length : false);
   }
@@ -2039,6 +2066,9 @@
     isString: isString,
     isNumber: isNumber,
     isNumeric: isNumeric$1,
+    typeOf: typeOf,
+    isDate: isDate,
+    addLeadingZero: addLeadingZero,
     isEmpty: isEmpty$1,
     isUndefined: isUndefined,
     toBoolean: toBoolean,

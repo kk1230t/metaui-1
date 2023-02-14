@@ -102,22 +102,17 @@ const closestFn = elProto.closest || function (selector) {
  * @returns element
  */
 export function closest(element, selector) {
-
-    if (startsWith(selector, '>')) {
-        selector = selector.slice(1);
-    }
-
     return isElement(element)
-        ? closestFn.call(element, selector)
-        : toNodes(element).map(element => closest(element, selector)).filter(Boolean);
+        ? element.closest(startsWith(selector, '>') ? selector.slice(1) : selector)
+        : toNodes(element)
+            .map((element) => closest(element, selector))
+            .filter(Boolean);
 }
 
 export function within(element, selector) {
-    return !isString(selector)
-        ? element === selector || (isDocument(selector)
-            ? selector.documentElement
-            : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
-        : matches(element, selector) || !!closest(element, selector);
+    return isString(selector)
+        ? !!closest(element, selector)
+        : toNode(selector).contains(toNode(element));
 }
 
 

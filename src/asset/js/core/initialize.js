@@ -16,6 +16,7 @@ import {
     toBoolean,
     toNumber,
     isEqual,
+    isFunction,
     data as getData
 } from '../util/index';
 
@@ -317,23 +318,31 @@ function toList(value) {
 
 function registerEvent(component, event, key) {
     if (!isPlainObject(event)) {
-        event = ({name: key, handler: event});
+        event = { name: key, handler: event };
     }
 
-    let {name, el, handler, capture, passive, delegate, filter, self} = event;
+    let { name, el, handler, capture, passive, delegate, filter, self } = event;
+    el = isFunction(el) ? el.call(component) : el || component.$el;
 
-    el = el || component.$el;
+    if (isArray(el)) {
+        el.forEach((el) => registerEvent(component, { ...event, el }, key));
+        return;
+    }
+
+    if (!el || filter && !filter.call(component)) {
+        return;
+    }
 
     component._events.push(
         on(
             el,
             name,
-            !delegate ? null : 
-                isString(delegate) ? delegate : delegate.call(component),
+            delegate ? isString(delegate) ? delegate : delegate.call(component) : null,
             isString(handler) ? component[handler] : handler.bind(component),
-            {passive, capture, self}
+            { passive, capture, self }
         )
-    )
+    );
+
 }
 
 function normalizeData({data, el}, {args, props = {}}) {
