@@ -3,11 +3,26 @@
 }
 .mui_datepicker_layer{
   display: none;
+  position: fixed;
+  background: #eee;
+  border: 1px solid red;
+  z-index: 999;
   th, td{
     border: 1px solid #000;
     color: #000;
     &.disabled{
       color: #bbb;
+    }
+    &.mui_today{
+      background: #00f;
+      button{
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+    &.mui_selected{
+      background: #f0f;
+      font-weight: bold;
     }
     button{
       display: block;

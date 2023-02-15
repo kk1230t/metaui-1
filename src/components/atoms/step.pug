@@ -15,6 +15,5 @@ mixin stepWrap(params={})
   ul.step
     each item, index in stepItems
       li= item.name + (index+1)
-        - console.log(item)
         - item.body && item.body()
         

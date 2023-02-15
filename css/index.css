@@ -109,6 +109,10 @@ table, th, td {
 
 .mui_datepicker_layer {
   display: none;
+  position: fixed;
+  background: #eee;
+  border: 1px solid red;
+  z-index: 999;
 }
 .mui_datepicker_layer th, .mui_datepicker_layer td {
   border: 1px solid #000;
@@ -116,6 +120,17 @@ table, th, td {
 }
 .mui_datepicker_layer th.disabled, .mui_datepicker_layer td.disabled {
   color: #bbb;
+}
+.mui_datepicker_layer th.mui_today, .mui_datepicker_layer td.mui_today {
+  background: #00f;
+}
+.mui_datepicker_layer th.mui_today button, .mui_datepicker_layer td.mui_today button {
+  color: #fff;
+  font-weight: bold;
+}
+.mui_datepicker_layer th.mui_selected, .mui_datepicker_layer td.mui_selected {
+  background: #f0f;
+  font-weight: bold;
 }
 .mui_datepicker_layer th button, .mui_datepicker_layer td button {
   display: block;
