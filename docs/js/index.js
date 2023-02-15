@@ -3,6 +3,27 @@
   factory();
 })((function () { 'use strict';
 
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -872,7 +893,7 @@
       return matchesFn.call(element, selector);
     });
   }
-  var closestFn = elProto.closest || function (selector) {
+  elProto.closest || function (selector) {
     var ancestor = this;
     do {
       if (matches(ancestor, selector)) {
@@ -888,16 +909,12 @@
    * @returns element
    */
   function closest(element, selector) {
-    if (startsWith(selector, '>')) {
-      selector = selector.slice(1);
-    }
-    return isElement(element) ? closestFn.call(element, selector) : toNodes(element).map(function (element) {
+    return isElement(element) ? element.closest(startsWith(selector, '>') ? selector.slice(1) : selector) : toNodes(element).map(function (element) {
       return closest(element, selector);
     }).filter(Boolean);
   }
   function within(element, selector) {
-    return !isString(selector) ? element === selector || (isDocument(selector) ? selector.documentElement : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
-    : matches(element, selector) || !!closest(element, selector);
+    return isString(selector) ? !!closest(element, selector) : toNode(selector).contains(toNode(element));
   }
 
   /**
@@ -2449,11 +2466,22 @@
       handler = _event.handler,
       capture = _event.capture,
       passive = _event.passive,
-      delegate = _event.delegate;
-      _event.filter;
-      var self = _event.self;
-    el = el || component.$el;
-    component._events.push(on(el, name, !delegate ? null : isString(delegate) ? delegate : delegate.call(component), isString(handler) ? component[handler] : handler.bind(component), {
+      delegate = _event.delegate,
+      filter = _event.filter,
+      self = _event.self;
+    el = isFunction(el) ? el.call(component) : el || component.$el;
+    if (isArray(el)) {
+      el.forEach(function (el) {
+        return registerEvent(component, _objectSpread2(_objectSpread2({}, event), {}, {
+          el: el
+        }), key);
+      });
+      return;
+    }
+    if (!el || filter && !filter.call(component)) {
+      return;
+    }
+    component._events.push(on(el, name, delegate ? isString(delegate) ? delegate : delegate.call(component) : null, isString(handler) ? component[handler] : handler.bind(component), {
       passive: passive,
       capture: capture,
       self: self
@@ -2556,6 +2584,9 @@
 
   function instanceApi (UICommon) {
     var DATA = UICommon.data;
+    UICommon.prototype.$create = function (component, element, data) {
+      return UICommon[component](element, data);
+    };
     UICommon.prototype.$mount = function (el) {
       var name = this.$options.name;
       if (!el[DATA]) {
@@ -2696,11 +2727,9 @@
       };
       var opt = isPlainObject(options) ? assign({}, options) : options.options;
       opt.name = name;
-
-      // if (opt.install) {
-      //     opt.install(GCui, opt, name);
-      // }
-
+      if (opt.install) {
+        opt.install(GCui, opt, name);
+      }
       if (GCui._initialized && !opt.functional) {
         fastdom.read(function () {
           return GCui[name]("[".concat(GCui.prefixName, "-").concat(id, "],[data-").concat(GCui.prefixName, "-").concat(id, "]"));
