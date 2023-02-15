@@ -108,7 +108,6 @@ export default {
       return $(nextBtn, this.calendar)
     },
     $year({$year}) {
-      console.log(this.calendar)
       return $($year, this.calendar)
     },
     $month({$month}) {
@@ -258,10 +257,13 @@ export default {
       },
 
       handler(e) {
-        // e.preventDefault();
-        console.log(this.getValue())
-        // this.target.value = this.value+=e.key;
-        // console.log(this.testValue)
+        const self = e.target
+        // const val = this.parseDate(this.parseDate(this.getValue()));
+        // this.viewDate = val
+        // this.date = val
+        // this.renderPickerDate();
+        console.log(self.value)
+        
       }
     },
     {
@@ -804,9 +806,13 @@ export default {
       this.setValue();
     }
   },
-  update() {
-    // this.target.value = this.value
-    // console.log('update')
+  update: {
+    write() {
+      console.log('resize')
+      if (this.isActivePicker) this.closePickerDate()
+    },
+
+    events: ['scroll', 'resize'],
   }
 };
 

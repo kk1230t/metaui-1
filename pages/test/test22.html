@@ -4,6 +4,7 @@
     <title>Welcome to metaui</title>
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/index.js"></script>
+    <script src="/orther/cleave.js"></script>
   </head>
   <body>
     <div>hellow<br>worldsdfsdfsdf4234234sfsdfrwerwererwer</div>
@@ -14,7 +15,17 @@
       <li>item</li>
     </ul>
     <p style="background: #f0f">A message with a blue background</p>
-    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div>
+    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div><input type="text" class="testtt" maxlength="5">
+    <script type="text/javascript">
+      var cleave = new Cleave('.testtt', {
+        creditCard: true,
+        onCreditCardTypeChanged: function (type) {
+          console.log(type)
+        }
+      });
+      
+    </script><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <sc></sc>
     <div class="cm_checkbox">
       <input type="checkbox" id="test">
       <input type="checkbox" checked>

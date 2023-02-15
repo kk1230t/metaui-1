@@ -4097,7 +4097,6 @@
       },
       $year: function $year(_ref3) {
         var $year = _ref3.$year;
-        console.log(this.calendar);
         return $$1($year, this.calendar);
       },
       $month: function $month(_ref4) {
@@ -4237,10 +4236,12 @@
         return this.$props.target;
       },
       handler: function handler(e) {
-        // e.preventDefault();
-        console.log(this.getValue());
-        // this.target.value = this.value+=e.key;
-        // console.log(this.testValue)
+        var self = e.target;
+        // const val = this.parseDate(this.parseDate(this.getValue()));
+        // this.viewDate = val
+        // this.date = val
+        // this.renderPickerDate();
+        console.log(self.value);
       }
     }, {
       name: 'click',
@@ -4684,9 +4685,12 @@
         this.setValue();
       }
     },
-    update: function update() {
-      // this.target.value = this.value
-      // console.log('update')
+    update: {
+      write: function write() {
+        console.log('resize');
+        if (this.isActivePicker) this.closePickerDate();
+      },
+      events: ['scroll', 'resize']
     }
   };
   function parseFormat(format) {
