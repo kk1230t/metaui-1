@@ -15,13 +15,13 @@
       <li>item</li>
     </ul>
     <p style="background: #f0f">A message with a blue background</p>
-    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div><input type="text" class="testtt" maxlength="5">
+    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div><input type="text" class="testtt">
     <script type="text/javascript">
       var cleave = new Cleave('.testtt', {
-        creditCard: true,
-        onCreditCardTypeChanged: function (type) {
-          console.log(type)
-        }
+        //- blocks: [4, 2, 2],
+        delimiter: '-',
+        //- delimiterLazyShow:true,
+        prefix:'이'
       });
       
     </script><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

@@ -42,13 +42,13 @@ html(lang="ko")
       a(class='button ' + class111 href='//google.com') Google
 
 
-    <input type="text" class="testtt" maxlength="5">
+    <input type="text" class="testtt">
     script(type="text/javascript").
       var cleave = new Cleave('.testtt', {
-        creditCard: true,
-        onCreditCardTypeChanged: function (type) {
-          console.log(type)
-        }
+        //- blocks: [4, 2, 2],
+        delimiter: '-',
+        //- delimiterLazyShow:true,
+        prefix:'이'
       });
 
     br

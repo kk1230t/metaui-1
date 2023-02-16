@@ -107,9 +107,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    init: function () {
 	        var owner = this, 
 							pps = owner.properties;
-
+					console.log('init')
 	        // no need to use this lib
-					// 이건 안탐
+					// 넘버, 폰, 카드, 시간, 날짜 모두 아니고 prefix도 없으며 blocks도 없을 경우 살행
 	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
 	            owner.onInput(pps.initValue);
 	            return;
@@ -154,11 +154,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
+			// swapHiddenInput 이 true면 포멧이 적용 되기 전 값을 저장하는 hidden input을 만듬.
 	    initSwapHiddenInput: function () {
 	        var owner = this, pps = owner.properties;
-	        if (!pps.swapHiddenInput) return;
+					if (!pps.swapHiddenInput) return;
 
 	        var inputFormatter = owner.element.cloneNode(true);
+					
 	        owner.element.parentNode.insertBefore(inputFormatter, owner.element);
 
 	        owner.elementSwapHidden = owner.element;
@@ -170,7 +172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    initNumeralFormatter: function () {
 	        var owner = this, pps = owner.properties;
-
+					// 숫자 입력필드인가?
 	        if (!pps.numeral) {
 	            return;
 	        }
@@ -192,10 +194,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    initTimeFormatter: function() {
 	        var owner = this, pps = owner.properties;
 
+					// 시간 입력 필드인가?
 	        if (!pps.time) {
 	            return;
 	        }
-
 	        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern, pps.timeFormat);
 	        pps.blocks = pps.timeFormatter.getBlocks();
 	        pps.blocksLength = pps.blocks.length;
@@ -205,6 +207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    initDateFormatter: function () {
 	        var owner = this, pps = owner.properties;
 
+					// 날짜 입력 필드인가?
 	        if (!pps.date) {
 	            return;
 	        }
@@ -217,10 +220,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    initPhoneFormatter: function () {
 	        var owner = this, pps = owner.properties;
-
+					// 핸드폰번호 입력 필드인가?
 	        if (!pps.phone) {
 	            return;
 	        }
+
+					
 
 	        // Cleave.AsYouTypeFormatter should be provided by
 	        // external google closure lib
@@ -235,6 +240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onKeyDown: function (event) {
+					console.log('onKeyDown event')
 	        var owner = this,
 	            charCode = event.which || event.keyCode;
 
@@ -243,6 +249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onChange: function (event) {
+					console.log('onChange event')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
 
@@ -260,6 +267,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onFocus: function () {
+					console.log('onFocus event')
 	        var owner = this,
 	            pps = owner.properties;
 	        owner.lastInputValue = owner.element.value;
@@ -272,17 +280,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onCut: function (e) {
+					console.log('onCut event')	
 	        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
 	        this.copyClipboardData(e);
 	        this.onInput('');
 	    },
 
 	    onCopy: function (e) {
+					console.log('onCopy event')
 	        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
 	        this.copyClipboardData(e);
 	    },
 
 	    copyClipboardData: function (e) {
+				console.log('copyClipboardData event')
 	        var owner = this,
 	            pps = owner.properties,
 	            Util = Cleave.Util,
@@ -309,6 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onInput: function (value) {
+					console.log('input event')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
 
@@ -318,9 +330,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // 12|34* -> hit backspace -> 1|34*
 	        // note: no need to apply this for numeral mode
 	        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+					
 	        if (!pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+						console.log('ddd')
 	            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
 	        }
+					
 
 	        // phone formatter
 	        if (pps.phone) {
@@ -330,7 +345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                pps.result = pps.phoneFormatter.format(value);
 	            }
 	            owner.updateValueState();
-
+							console.log('phone')
 	            return;
 	        }
 
@@ -344,23 +359,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	                pps.result = pps.numeralFormatter.format(value);
 	            }
 	            owner.updateValueState();
-
+							console.log('numeral')
 	            return;
 	        }
 
 	        // date
 	        if (pps.date) {
 	            value = pps.dateFormatter.getValidatedDate(value);
+							console.log('date')
 	        }
 
 	        // time
 	        if (pps.time) {
 	            value = pps.timeFormatter.getValidatedTime(value);
+							console.log('time')
 	        }
 
 	        // strip delimiters
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
-
+					
 	        // strip prefix
 	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
 
@@ -393,7 +410,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.creditCard) {
 	            owner.updateCreditCardPropsByValue(value);
 	        }
-
+					
 	        // strip over length characters
 	        value = Util.headStr(value, pps.maxLength);
 
@@ -403,7 +420,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps.blocks, pps.blocksLength,
 	            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
 	        );
-
 	        owner.updateValueState();
 	    },
 
@@ -441,11 +457,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        var endPos = owner.element.selectionEnd;
+
 	        var oldValue = owner.element.value;
 	        var newValue = pps.result;
-
+					
 	        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
-
+					
 	        // fix Android browser type="text" input field
 	        // cursor not jumping issue
 	        if (owner.isAndroid) {
@@ -1314,6 +1331,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.replace(re, '');
 	    },
 
+			/**
+			 * 입력값의 마지막 문자가 delimiter 와 일치하는가? delimiter : ""
+			 * @param {string} value 입력 값
+			 * @param {string} delimiter 구분자 문자열
+			 * @param {attay} delimiters 구분자 배열
+			 * @returns 구분자 또는 빈 문자열
+			 */
 	    getPostDelimiter: function (value, delimiter, delimiters) {
 	        // single delimiter
 	        if (delimiters.length === 0) {
@@ -1331,6 +1355,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return matchedDelimiter;
 	    },
 
+			/**
+			 * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
+			 * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환해 줌
+			 * @param {string} delimiter 구분자
+			 * @returns 구분자를 찾는 정규식
+			 */
 	    getDelimiterREByDelimiter: function (delimiter) {
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
@@ -1355,6 +1385,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
 	    },
 
+			/**
+			 * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
+			 * @param {String} value 입력 값
+			 * @param {string} delimiter 구분자 문자열
+			 * @param {array} delimiters 구분자 배열
+			 * @returns 구분자를 삭제한 값
+			 */
 	    stripDelimiters: function (value, delimiter, delimiters) {
 	        var owner = this;
 
@@ -1391,6 +1428,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // PREFIX-123   |   PEFIX-123     |     123
 	    // PREFIX-123   |   PREFIX-23     |     23
 	    // PREFIX-123   |   PREFIX-1234   |     1234
+			/**
+			 * 받은 값에 prefix와 delimiter가 있다면 삭제한 후 값을 반환
+			 * @param {string} value 입력 값
+			 * @param {string} prefix 기본으로 붙을 문자열
+			 * @param {number} prefixLength prefix의 길이
+			 * @param {string} prevResult 
+			 * @param {string} delimiter 구분자
+			 * @param {attay} delimiters 구분자 배열
+			 * @param {boolean} noImmediatePrefix 
+			 * @param {boolean} tailPrefix 
+			 * @param {boolean} signBeforePrefix 
+			 * @returns prefix와 delimiter를 삭제 한 값
+			 */
 	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix) {
 	        // No prefix
 	        if (prefixLength === 0) {
@@ -1402,6 +1452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return '';
 	        }
 
+					// signBeforePrefix 이 참이고 값의 첫번째가 '-' 이면
 	        if (signBeforePrefix && (value.slice(0, 1) == '-')) {
 	            var prev = (prevResult.slice(0, 1) == '-') ? prevResult.slice(1) : prevResult;
 	            return '-' + this.getPrefixStrippedValue(value.slice(1), prefix, prefixLength, prev, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix);
@@ -1624,19 +1675,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+
+					// 숫자 기호가 접두사 앞에 나와야 하는가?
 	        target.signBeforePrefix = !!opts.signBeforePrefix;
+
+					// 접두사가 숫자 뒤에 나타나야 하는가?
 	        target.tailPrefix = !!opts.tailPrefix;
 
 	        // others
 	        target.swapHiddenInput = !!opts.swapHiddenInput;
 	        
+					// 숫자만 입력
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
+					// 대문자
 	        target.uppercase = !!opts.uppercase;
+
+					// 소문자
 	        target.lowercase = !!opts.lowercase;
 
+					// String앞에 추가 문자열을 나타냅니다. 입력 필드에서 제거하거나 변경할 수 없습니다.
 	        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
+
+					// 사용자가 값을 입력한 후에만 접두사(prefix)를 추가
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
+
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
@@ -1651,6 +1714,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            (opts.phone ? ' ' :
 	                                ' '))));
 	        target.delimiterLength = target.delimiter.length;
+
+					// 값이 입력된 후에 구분자가 붙음
 	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
 	        target.delimiters = opts.delimiters || [];
 
