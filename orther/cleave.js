@@ -292,6 +292,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.copyClipboardData(e);
 	    },
 
+		/**
+		 * 클립보드로 텍스트 복시
+		 * @param {object} e 이벤트 객체
+		 */
 	    copyClipboardData: function (e) {
 				console.log('copyClipboardData event')
 	        var owner = this,
@@ -551,6 +555,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
 	    },
 
+		// 사용 안함
 	    getFormattedValue: function () {
 	        return this.element.value;
 	    },
@@ -1327,17 +1332,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    noop: function () {
 	    },
 
+		/**
+		 * value 에서 re를 검사하여 제거한 후 반환
+		 * @param {string} value 검사할 값
+		 * @param {RegExp} re 정규식
+		 * @returns 치횐된 값
+		 */
 	    strip: function (value, re) {
 	        return value.replace(re, '');
 	    },
 
-			/**
-			 * 입력값의 마지막 문자가 delimiter 와 일치하는가? delimiter : ""
-			 * @param {string} value 입력 값
-			 * @param {string} delimiter 구분자 문자열
-			 * @param {attay} delimiters 구분자 배열
-			 * @returns 구분자 또는 빈 문자열
-			 */
+		/**
+		 * 입력값의 마지막 문자가 delimiter 와 일치하는가? delimiter : ""
+		 * @param {string} value 입력 값
+		 * @param {string} delimiter 구분자 문자열
+		 * @param {attay} delimiters 구분자 배열
+		 * @returns 구분자 또는 빈 문자열
+		 */
 	    getPostDelimiter: function (value, delimiter, delimiters) {
 	        // single delimiter
 	        if (delimiters.length === 0) {
@@ -1355,16 +1366,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return matchedDelimiter;
 	    },
 
-			/**
-			 * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
-			 * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환해 줌
-			 * @param {string} delimiter 구분자
-			 * @returns 구분자를 찾는 정규식
-			 */
+		/**
+		 * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
+		 * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환해 줌
+		 * @param {string} delimiter 구분자
+		 * @returns 구분자를 찾는 정규식
+		 */
 	    getDelimiterREByDelimiter: function (delimiter) {
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
 
+		/**
+		 * 커서가 값의 끝에 위치할 경우 새 값의 길이 반환,
+		 * 
+		 * @param {number} prevPos 입력박스 커서 위치 값 selectionEnd
+		 * @param {string} oldValue 입력박스 값
+		 * @param {string} newValue pps.result 값
+		 * @param {string} delimiter 구분자
+		 * @param {array} delimiters 구분자 배열
+		 * @returns 계산된 커서 인덱스
+		 */
 	    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
 	      // If cursor was at the end of value, just place it back.
 	      // Because new value could contain additional chars.
@@ -1385,13 +1406,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
 	    },
 
-			/**
-			 * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
-			 * @param {String} value 입력 값
-			 * @param {string} delimiter 구분자 문자열
-			 * @param {array} delimiters 구분자 배열
-			 * @returns 구분자를 삭제한 값
-			 */
+		/**
+		 * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
+		 * @param {String} value 입력 값
+		 * @param {string} delimiter 구분자 문자열
+		 * @param {array} delimiters 구분자 배열
+		 * @returns 구분자를 삭제한 값
+		 */
 	    stripDelimiters: function (value, delimiter, delimiters) {
 	        var owner = this;
 
@@ -1412,10 +1433,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value;
 	    },
 
+		/**
+		 * maxlengt를 초과하면 그 값은 제거해서 반환
+		 * @param {string} str 입력값
+		 * @param {number} length maxlength 길이
+		 * @returns maxlength 를 초과한 값을 제거한 값
+		 */
 	    headStr: function (str, length) {
 	        return str.slice(0, length);
 	    },
 
+		// blocks를 기준으로 maxlength를 만들어 반환
 	    getMaxLength: function (blocks) {
 	        return blocks.reduce(function (previous, current) {
 	            return previous + current;
@@ -1428,19 +1456,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // PREFIX-123   |   PEFIX-123     |     123
 	    // PREFIX-123   |   PREFIX-23     |     23
 	    // PREFIX-123   |   PREFIX-1234   |     1234
-			/**
-			 * 받은 값에 prefix와 delimiter가 있다면 삭제한 후 값을 반환
-			 * @param {string} value 입력 값
-			 * @param {string} prefix 기본으로 붙을 문자열
-			 * @param {number} prefixLength prefix의 길이
-			 * @param {string} prevResult 
-			 * @param {string} delimiter 구분자
-			 * @param {attay} delimiters 구분자 배열
-			 * @param {boolean} noImmediatePrefix 
-			 * @param {boolean} tailPrefix 
-			 * @param {boolean} signBeforePrefix 
-			 * @returns prefix와 delimiter를 삭제 한 값
-			 */
+		/**
+		 * 받은 값에 prefix와 delimiter가 있다면 삭제한 후 값을 반환
+		 * @param {string} value 입력 값
+		 * @param {string} prefix 기본으로 붙을 문자열
+		 * @param {number} prefixLength prefix의 길이
+		 * @param {string} prevResult 
+		 * @param {string} delimiter 구분자
+		 * @param {attay} delimiters 구분자 배열
+		 * @param {boolean} noImmediatePrefix 
+		 * @param {boolean} tailPrefix 
+		 * @param {boolean} signBeforePrefix 
+		 * @returns prefix와 delimiter를 삭제 한 값
+		 */
 	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix) {
 	        // No prefix
 	        if (prefixLength === 0) {
@@ -1483,6 +1511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return tailPrefix ? value.slice(0, -prefixLength) : value.slice(prefixLength);
 	    },
 
+		// 사용안함
 	    getFirstDiffIndex: function (prev, current) {
 	        var index = 0;
 
@@ -1495,6 +1524,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return index;
 	    },
 
+		/**
+		 * 입력값을 받아 가공하여 반환
+		 * @param {string} value 입력값
+		 * @param {array} blocks 구분 배열
+		 * @param {number} blocksLength 구분배열 길이
+		 * @param {string} delimiter 구분자
+		 * @param {array} delimiters 구분자 배열
+		 * @param {boolean} delimiterLazyShow 값이 입력된 후에 구분자를 붙일 것인가?
+		 * @returns 가공된 값
+		 */
 	    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
@@ -1540,6 +1579,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    // move cursor to the end
 	    // the first time user focuses on an input with prefix
+		/**
+		 * 
+		 * 입력값이 없을 경우 커서는 기본값의 끝에 위치해야 한다.
+		 */
 	    fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
 	        if (!el) {
 	            return;
@@ -1561,6 +1604,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    // Check if input field is fully selected
+		/**
+		 * 입력값 전체가 선택되었는가?
+		 * @param {string} value 
+		 * @returns boolean
+		 */
 	    checkFullSelection: function(value) {
 	      try {
 	        var selection = window.getSelection() || document.getSelection() || {};
@@ -1572,6 +1620,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return false;
 	    },
 
+		/**
+		 * 입력박스 내 값의 선택영역을 설정한다. 
+		 * start, end 두 값으로 지정하는데 시작과 끝의 값은 같다.
+		 * @param {element} element 엘리먼트
+		 * @param {number} position 커서 마지막 위치
+		 * @param {document} doc 	
+		 */
 	    setSelection: function (element, position, doc) {
 	        if (element !== this.getActiveElement(doc)) {
 	            return;
@@ -1597,6 +1652,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
+		/**
+		 * document.actoveElement 반환
+		 * shadowRoot가 랜더랑 되었다면 shadowRoot에서 포커싱된 엘리먼드 재 검사
+		 * @param {element} parent 엘리먼트
+		 * @returns 포커싱 된 엘리먼트 반환
+		 */
 	    getActiveElement: function(parent) {
 	        var activeElement = parent.activeElement;
 	        if (activeElement && activeElement.shadowRoot) {
@@ -1702,6 +1763,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+
+			// 구분자까지 클립보드에 복사할 것인가?
 	        target.copyDelimiter = !!opts.copyDelimiter;
 
 	        target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';
@@ -1715,7 +1778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                ' '))));
 	        target.delimiterLength = target.delimiter.length;
 
-					// 값이 입력된 후에 구분자가 붙음
+			// 값이 입력된 후에 구분자가 붙음
 	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
 	        target.delimiters = opts.delimiters || [];
 
