@@ -3,6 +3,7 @@ import {attr} from './attr.js';
 export const inBrowser = typeof window !== 'undefined';
 export const isIE = inBrowser && /msie|trident/i.test(window.navigator.userAgent);
 export const isRtl = inBrowser && attr(document.documentElement, 'dir') === 'rtl';
+export const isAndroid = navigator && /android/i.test(navigator.userAgent);
 
 const hasTouchEvents = inBrowser && 'ontouchstart' in window;
 const hasPointerEvents = inBrowser && window.PointerEvent;

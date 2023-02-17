@@ -249,6 +249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onChange: function (event) {
+					console.log(`event type = ${event.type}`)
 					console.log('onChange event')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
@@ -325,6 +326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    onInput: function (value) {
 					console.log('input event')
+					console.log('들어옴')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
 

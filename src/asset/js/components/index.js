@@ -7,6 +7,7 @@ export {default as Tab} from './core/tab';
 export {default as Toggle} from './core/toggle';
 export {default as Sticky} from './core/sticky';
 export {default as Datepicker} from './core/datepicker';
+export {default as Formatter} from './core/formatter';
 
 
 // 마크업진행표

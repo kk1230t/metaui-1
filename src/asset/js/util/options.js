@@ -131,7 +131,6 @@ export function mergeOptions(parent, child, vm) {
 }
 
 export function parseOptions(options, args = []) {
-
     try {
 
         return !options

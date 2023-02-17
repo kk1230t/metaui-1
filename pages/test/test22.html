@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/index.js"></script>
     <script src="/orther/cleave.js"></script>
+    <style>input{width:400px}</style>
   </head>
   <body>
     <div>hellow<br>worldsdfsdfsdf4234234sfsdfrwerwererwer</div>
@@ -15,15 +16,33 @@
       <li>item</li>
     </ul>
     <p style="background: #f0f">A message with a blue background</p>
-    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div><input type="text" class="testtt">
+    <div><a class="button retedfdsfsrt" href="//google.com">Google</a></div><br><input type="text" mui-formatter="dateForm:true" style="text-align:right;" placeholder="dateForm:true">
+<br><input type="text" mui-formatter="lowercase:true" style="text-align:right;" placeholder="lowercase">
+<br><input type="text" mui-formatter="lowercase:true" style="text-align:right;" placeholder="lowercase">
+<br><input type="text" class="testtt-block" style="text-align:right;"  placeholder="block">
+<br><input type="text" class="testtt" style="text-align:right;" value="100000000000000000" placeholder="cleave">
+<br>
+<br>
+<br>
+<br>
+<br><input type="text" mui-formatter="numeric:true" value="500000000000000000" style="text-align:right;" placeholder="numeric">
     <script type="text/javascript">
-      var cleave = new Cleave('.testtt', {
-        blocks: [4, 2, 2],
-        delimiter: '-',
-        //- delimiterLazyShow:true,
-        prefix:'이'
-      });
-      
+      GCui.util.ready(()=>{
+        var cleave = new Cleave('.testtt', {
+          //- blocks: [4, 2, 2],
+          //- delimiter: '-',
+          numeral:true
+          //- delimiterLazyShow:true,
+          //- prefix:'이'
+        });
+        var cleave2 = new Cleave('.testtt-block', {
+          blocks: [4, 2, 2],
+          delimiter: '-',
+          //- numeral:true
+          //- delimiterLazyShow:true,
+          //- prefix:'이'
+        });
+      })
     </script><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <sc></sc>
     <div class="cm_checkbox">

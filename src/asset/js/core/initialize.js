@@ -77,7 +77,7 @@ export default function (UICommon) {
     UICommon.prototype._initProps = function (props) {
 
         let key;
-        
+
         props = props || getProps(this.$options, this.$name);
         for (key in props) {
             if (!isUndefined(props[key])) {
@@ -86,6 +86,7 @@ export default function (UICommon) {
         }
 
         const exclude = [this.$options.computed, this.$options.methods];
+
         for (key in this.$props) {
             
             if (key in props && notIn(exclude, key)) {
@@ -247,7 +248,6 @@ export default function (UICommon) {
 }
 
 function getProps(opts, name) {
-
     const data = {};
     const {args = [], props = {}, el} = opts;
 
@@ -259,13 +259,15 @@ function getProps(opts, name) {
         
         const prop = hyphenate(key);
         let value = getData(el, prop);
+
         if (isUndefined(value)) {
             continue;
         }
-
         value = props[key] === Boolean && value === ''
             ? true
             : coerce(props[key], value);
+
+        
 
         if (prop === 'target' && (!value || startsWith(value, '_'))) {
             continue;
