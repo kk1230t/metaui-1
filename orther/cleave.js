@@ -107,7 +107,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    init: function () {
 	        var owner = this, 
 							pps = owner.properties;
-					console.log('init')
 	        // no need to use this lib
 					// 넘버, 폰, 카드, 시간, 날짜 모두 아니고 prefix도 없으며 blocks도 없을 경우 살행
 	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
@@ -240,7 +239,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onKeyDown: function (event) {
-					console.log('onKeyDown event')
 	        var owner = this,
 	            charCode = event.which || event.keyCode;
 
@@ -249,11 +247,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onChange: function (event) {
-					console.log(`event type = ${event.type}`)
-					console.log('onChange event')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
-
+					console.log(event.type)
 	        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
 
 	        var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
@@ -268,7 +264,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onFocus: function () {
-					console.log('onFocus event')
 	        var owner = this,
 	            pps = owner.properties;
 	        owner.lastInputValue = owner.element.value;
@@ -281,14 +276,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onCut: function (e) {
-					console.log('onCut event')	
 	        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
 	        this.copyClipboardData(e);
 	        this.onInput('');
 	    },
 
 	    onCopy: function (e) {
-					console.log('onCopy event')
 	        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
 	        this.copyClipboardData(e);
 	    },
@@ -298,7 +291,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @param {object} e 이벤트 객체
 		 */
 	    copyClipboardData: function (e) {
-				console.log('copyClipboardData event')
 	        var owner = this,
 	            pps = owner.properties,
 	            Util = Cleave.Util,
@@ -325,8 +317,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    onInput: function (value) {
-					console.log('input event')
-					console.log('들어옴')
 	        var owner = this, pps = owner.properties,
 	            Util = Cleave.Util;
 
