@@ -629,6 +629,7 @@
   var inBrowser$1 = typeof window !== 'undefined';
   inBrowser$1 && /msie|trident/i.test(window.navigator.userAgent);
   inBrowser$1 && attr(document.documentElement, 'dir') === 'rtl';
+  navigator && /android/i.test(navigator.userAgent);
   var hasTouchEvents$1 = inBrowser$1 && 'ontouchstart' in window;
   inBrowser$1 && (hasTouchEvents$1 || window.DocumentTouch && document instanceof DocumentTouch || navigator.maxTouchPoints); // IE >=11
 
@@ -797,6 +798,7 @@
   var inBrowser = typeof window !== 'undefined';
   var isIE = inBrowser && /msie|trident/i.test(window.navigator.userAgent);
   var isRtl = inBrowser && attr(document.documentElement, 'dir') === 'rtl';
+  var isAndroid = navigator && /android/i.test(navigator.userAgent);
   var hasTouchEvents = inBrowser && 'ontouchstart' in window;
   var hasPointerEvents = inBrowser && window.PointerEvent;
   var hasTouch = inBrowser && (hasTouchEvents || window.DocumentTouch && document instanceof DocumentTouch || navigator.maxTouchPoints); // IE >=11
@@ -2134,6 +2136,7 @@
     inBrowser: inBrowser,
     isIE: isIE,
     isRtl: isRtl,
+    isAndroid: isAndroid,
     hasTouch: hasTouch,
     pointerDown: pointerDown,
     pointerMove: pointerMove,

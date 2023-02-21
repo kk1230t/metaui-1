@@ -28,6 +28,12 @@ import {
   css,
   isAndroid,
   parseOptions,
+  toNumber,
+  numberOnly,
+  dateFormat,
+  maxlength,
+  numerFormat,
+  getRawValue,
 } from '../../util/index';
 import {cssPrefix} from 'GC-data'
 
@@ -53,6 +59,8 @@ export default {
     tailPrefix:false,
     delimiter:null,
     delimiters:[],
+    datePattern: ['yyyy', 'mm', 'dd'],
+    delimiterLazyShow:false,
     isBackward:null,
     lastInputValue:"",
     blocks:[]
@@ -61,18 +69,29 @@ export default {
 
   },
   connected() {
-    const { numeric, dateForm } = this;
-    this.$el.rawValue = this.$el.value;
+    const { 
+      $el,
+      numeric, 
+      dateForm, 
+      datePattern,
+      blocks,
+    } = this;
+    $el.rawValue = $el.value;
     this.lastValue = "";
-    // console.log(numeric && delimiter === null)
-    if (dateForm) {
-      this.blocks = [4, 2, 2]
+
+    if (dateForm && datePattern) {
+      this.blocks = datePattern.reduce((block, len) => {
+        block.push(len.length);
+        return block;
+      }, []);
+      this.delimiter = '-';
     }
+    
     if (numeric && this.delimiter === null) {
       this.delimiter = ","
     }
 
-    this.maxlength = this.maxlength();
+    this.maxlength = maxlength(blocks);
     console.log("connected")
     this.formatter(this.$el.rawValue)
   },
@@ -84,7 +103,7 @@ export default {
     {
       name: 'input',
       handler(e) {
-        e.preventDefault();
+        this.isBackward = this.isBackward || e.inputType === 'deleteContentBackward';
         this.formatter(e);
       }
     },
@@ -112,53 +131,45 @@ export default {
     {
       name: 'keydown',
       handler(e) {
-        const charCode = e.which || e.keyCode;
         this.lastInputValue = this.$el.value;
-        this.isBackward = charCode === 8;
+        this.isBackward = e.keyCode === 8;
       }
     },
   ],
 
   methods: {
     formatter() {
-      const { $el, numeric, uppercase, lowercase, dateForm } = this;
-      $el.rawValue = this.getRawValue($el.value);
+      const { $el, numeric, uppercase, lowercase, dateForm, isBackward, datePattern, blocks, delimiter, maxlength, delimiters } = this;
+      // if($el.rawValue && isBackward) {
+        
+      //   $el.rawValue = 
+      //   console.log(`====${$el.rawValue}`)
+      // }
+      $el.rawValue = isBackward ? headStr($el.rawValue, $el.rawValue.length-1) : getRawValue($el.value, delimiter, delimiters, maxlength);
+      
       if ( !numeric && !uppercase && !lowercase && !dateForm ) return;
 
       if(numeric){
-        this.numerFormat($el.rawValue)
-      }
-      
+        $el.rawValue = numerFormat($el.rawValue, delimiter);
+        console.log($el.rawValue);
+      }      
       
       if(dateForm){
-        this.dateFormat($el.rawValue)
+        $el.rawValue = dateFormat($el.rawValue, datePattern, blocks)
       }
 
+      this.lastValue = this.getFormattedValue();
       this.updateValueState();
-    },
-    numerFormat(val) { 
-      this.lastValue = this.numberOnly(val).replace(/(\d)(?=(\d{3})+$)/g, '$1' + this.delimiter);
-    },
-    numberOnly(val) {
-      return val
-        .replace(/[A-Za-z]/g, '')
-        .replace(/[^\dM-]/g, '')
-        .replace(/\-/g, '')
-    },
-    dateFormat(val) {
-      // this.lastValue = 
-      console.log(val)
     },
     updateValueState() {
       const self = this;
       const { $el, lastValue, delimiter, delimiters } = self;
       let cursorPos = $el.selectionEnd;
 
-
       cursorPos = this.getNextCursorPosition(cursorPos, $el.value, lastValue, delimiter, delimiters);
       // fix Android browser type="text" input field
       // cursor not jumping issue
-      if (!isAndroid) {
+      if (isAndroid) {
         window.setTimeout(function () {
           $el.value = lastValue;
           self.setSelection($el, cursorPos, document);
@@ -178,43 +189,7 @@ export default {
 		 */
     strip (value, re) {
       return value.replace(re, '');
-    },
-		/**
-		 * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
-		 * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환
-		 * @param {string} delimiter 구분자
-		 * @returns 구분자를 찾는 정규식
-		 */
-    getDelimiterREByDelimiter (delimiter) {
-      return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
-    },
-		/**
-		 * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
-		 * @param {String} value 입력 값
-		 * @param {string} delimiter 구분자 문자열
-		 * @param {array} delimiters 구분자 배열
-		 * @returns 구분자를 삭제한 값
-		 */
-    getRawValue(value) {
-      const { delimiter, delimiters } = this;
-
-      // single delimiter
-      if (delimiters.length === 0) {
-          var delimiterRE = delimiter ? this.getDelimiterREByDelimiter(delimiter) : '';
-
-          return value.replace(delimiterRE, '');
-      }
-
-      // multiple delimiters
-      delimiters.forEach(function (current) {
-          current.split('').forEach(function (letter) {
-              value = value.replace(this.getDelimiterREByDelimiter(letter), '');
-          });
-      });
-
-      return value;
-    },
-    
+    },    
 
 		/**
 		 * 입력값을 받아 가공하여 반환
@@ -226,13 +201,21 @@ export default {
 		 * @param {boolean} delimiterLazyShow 값이 입력된 후에 구분자를 붙일 것인가?
 		 * @returns 가공된 값
 		 */
-    getFormattedValue: function (value, blocks, delimiter, delimiters) {
+    getFormattedValue: function () {
+      const { 
+        blocks, 
+        delimiter, 
+        delimiters, 
+        $el, 
+        delimiterLazyShow
+      } = this;
+      let value = $el.rawValue;
       var result = '',
           multipleDelimiters = delimiters.length > 0,
           currentDelimiter = '';
 
       // no options, normal input
-      if (blocksLength === 0) {
+      if (blocks.length === 0) {
           return value;
       }
 
@@ -256,7 +239,7 @@ export default {
           } else {
             result += sub;
 
-            if (sub.length === length && index < blocksLength - 1) {
+            if (sub.length === length && index < blocks.length - 1) {
               result += currentDelimiter;
             }
           }
@@ -265,7 +248,6 @@ export default {
           value = rest;
         }
       });
-
       return result;
     },
 
@@ -297,8 +279,8 @@ export default {
     getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
       var oldRawValue, newRawValue, lengthOffset;
 
-      oldRawValue = this.getRawValue(oldValue.slice(0, prevPos), delimiter, delimiters);
-      newRawValue = this.getRawValue(newValue.slice(0, prevPos), delimiter, delimiters);
+      oldRawValue = getRawValue(oldValue.slice(0, prevPos), delimiter, delimiters);
+      newRawValue = getRawValue(newValue.slice(0, prevPos), delimiter, delimiters);
       lengthOffset = oldRawValue.length - newRawValue.length;
 
       return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
@@ -349,13 +331,6 @@ export default {
       }
       return activeElement;
     },
-
-    maxlength() {
-      const { blocks } = this;
-      return blocks.reduce(function (previous, current) {
-        return previous + current;
-      }, 0);
-    }
 
 
   },

@@ -43,10 +43,16 @@ html(lang="ko")
     div
       a(class='button ' + class111 href='//google.com') Google
 
-    <br><input type="text" mui-formatter="dateForm:true" style="text-align:right;" placeholder="dateForm:true">
+    <br><input type="text" mui-formatter="dateForm:true" style="text-align:right;" value="20230504" placeholder="dateForm:true">
     <br><input type="text" mui-formatter="lowercase:true" style="text-align:right;" placeholder="lowercase">
     <br><input type="text" mui-formatter="lowercase:true" style="text-align:right;" placeholder="lowercase">
-
+    <br><input type="text" mui-formatter="numeric:true" value="500000000000000000" style="text-align:right;" placeholder="numeric:true">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <br><input type="text" class="testtt-block" style="text-align:right;"  placeholder="block">
     <br><input type="text" class="testtt" style="text-align:right;" value="100000000000000000" placeholder="cleave">
@@ -54,7 +60,7 @@ html(lang="ko")
     <br>
     <br>
     <br>
-    <br><input type="text" mui-formatter="numeric:true" value="500000000000000000" style="text-align:right;" placeholder="numeric">
+    
     
 
     script(type="text/javascript").
@@ -62,16 +68,17 @@ html(lang="ko")
 
 
       GCui.util.ready(()=>{
-        var cleave = new Cleave('.testtt', {
-          //- blocks: [4, 2, 2],
-          //- delimiter: '-',
-          numeral:true
-          //- delimiterLazyShow:true,
-          //- prefix:'이'
-        });
+        //- var cleave = new Cleave('.testtt', {
+        //-   //- blocks: [4, 2, 2],
+        //-   //- delimiter: '-',
+        //-   numeral:true
+        //-   //- delimiterLazyShow:true,
+        //-   //- prefix:'이'
+        //- });
         var cleave2 = new Cleave('.testtt-block', {
-          blocks: [4, 2, 2],
+          date: true,
           delimiter: '-',
+          datePattern: ['Y', 'm', 'd']
           //- numeral:true
           //- delimiterLazyShow:true,
           //- prefix:'이'

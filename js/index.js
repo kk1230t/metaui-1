@@ -2014,6 +2014,105 @@
     return document.scrollingElement || document.documentElement;
   }
 
+  function toNumeric(el) {}
+
+  /**
+   * length 길이만큼 str길이를 잘라서 반환
+   * @param {string} str 입력값
+   * @param {number} length maxlength 길이
+   * @returns str 길이 중 length길이만큼 자른 값
+   */
+  function headStr$1(str, length) {
+    return str.slice(0, length);
+  }
+  function numberOnly(val) {
+    return val.replace(/[A-Za-z]/g, '').replace(/[^\dM-]/g, '').replace(/\-/g, '');
+  }
+  function dateFormat(value, pattern, blocks) {
+    var valArr;
+    var newVal = '';
+    value = numberOnly(value);
+    valArr = value.split("");
+    for (var i = 0; i < blocks.length; i++) {
+      var str = valArr.splice(0, blocks[i]).join("");
+      switch (pattern[i]) {
+        case "yyyy":
+          {
+            break;
+          }
+        case "yy":
+          {
+            break;
+          }
+        case "mm":
+          {
+            if (str === '00') {
+              str = '01';
+            } else if (toNumber(str.slice(0, 1)) > 1) {
+              str = "0".concat(toNumber(str));
+            } else if (toNumber(str) > 12) {
+              str = '12';
+            }
+            break;
+          }
+        case "dd":
+          {
+            if (str === '00') {
+              str = '01';
+            } else if (toNumber(str.slice(0, 1)) > 3) {
+              str = "0".concat(toNumber(str));
+            } else if (toNumber(str) > 31) {
+              str = '31';
+            }
+            break;
+          }
+      }
+      newVal += str;
+    }
+    return newVal;
+  }
+  function numerFormat(value, delimiter) {
+    return numberOnly(value).replace(/(\d)(?=(\d{3})+$)/g, "$1".concat(delimiter));
+  }
+  function maxlength(blocks) {
+    return blocks.reduce(function (previous, current) {
+      return previous + current;
+    }, 0);
+  }
+  /**
+   * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
+   * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환
+   * @param {string} delimiter 구분자
+   * @returns 구분자를 찾는 정규식
+   */
+  function getDelimiterREByDelimiter(delimiter) {
+    return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+  }
+
+  /**
+   * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
+   * @param {String} value 입력 값
+   * @param {string} delimiter 구분자 문자열
+   * @param {array} delimiters 구분자 배열
+   * @returns 구분자를 삭제한 값
+   */
+  function getRawValue(value, delimiter, delimiters, maxlength) {
+    // single delimiter
+    if (delimiters.length === 0) {
+      var delimiterRE = delimiter ? getDelimiterREByDelimiter(delimiter) : '';
+      return value.replace(delimiterRE, '');
+    }
+
+    // multiple delimiters
+    delimiters.forEach(function (current) {
+      current.split('').forEach(function (letter) {
+        value = value.replace(getDelimiterREByDelimiter(letter), '');
+      });
+    });
+    value = headStr$1(value, maxlength);
+    return value;
+  }
+
   var util = /*#__PURE__*/Object.freeze({
     __proto__: null,
     addClass: addClass,
@@ -2154,7 +2253,15 @@
     scrolledOver: scrolledOver,
     scrollParents: scrollParents,
     getViewport: getViewport,
-    getViewportClientHeight: getViewportClientHeight
+    getViewportClientHeight: getViewportClientHeight,
+    toNumeric: toNumeric,
+    headStr: headStr$1,
+    numberOnly: numberOnly,
+    dateFormat: dateFormat,
+    numerFormat: numerFormat,
+    maxlength: maxlength,
+    getDelimiterREByDelimiter: getDelimiterREByDelimiter,
+    getRawValue: getRawValue
   });
 
   var prefixStr = 'mui';
@@ -4751,24 +4858,32 @@
       tailPrefix: false,
       delimiter: null,
       delimiters: [],
+      datePattern: ['yyyy', 'mm', 'dd'],
+      delimiterLazyShow: false,
       isBackward: null,
       lastInputValue: "",
       blocks: []
     },
     computed: {},
     connected: function connected() {
-      var numeric = this.numeric,
-        dateForm = this.dateForm;
-      this.$el.rawValue = this.$el.value;
+      var $el = this.$el,
+        numeric = this.numeric,
+        dateForm = this.dateForm,
+        datePattern = this.datePattern,
+        blocks = this.blocks;
+      $el.rawValue = $el.value;
       this.lastValue = "";
-      // console.log(numeric && delimiter === null)
-      if (dateForm) {
-        this.blocks = [4, 2, 2];
+      if (dateForm && datePattern) {
+        this.blocks = datePattern.reduce(function (block, len) {
+          block.push(len.length);
+          return block;
+        }, []);
+        this.delimiter = '-';
       }
       if (numeric && this.delimiter === null) {
         this.delimiter = ",";
       }
-      this.maxlength = this.maxlength();
+      this.maxlength = maxlength(blocks);
       console.log("connected");
       this.formatter(this.$el.rawValue);
     },
@@ -4778,7 +4893,7 @@
     events: [{
       name: 'input',
       handler: function handler(e) {
-        e.preventDefault();
+        this.isBackward = this.isBackward || e.inputType === 'deleteContentBackward';
         this.formatter(e);
       }
     }, {
@@ -4802,9 +4917,8 @@
     }, {
       name: 'keydown',
       handler: function handler(e) {
-        var charCode = e.which || e.keyCode;
         this.lastInputValue = this.$el.value;
-        this.isBackward = charCode === 8;
+        this.isBackward = e.keyCode === 8;
       }
     }],
     methods: {
@@ -4813,26 +4927,29 @@
           numeric = this.numeric,
           uppercase = this.uppercase,
           lowercase = this.lowercase,
-          dateForm = this.dateForm;
-        $el.rawValue = this.getRawValue($el.value);
+          dateForm = this.dateForm,
+          isBackward = this.isBackward,
+          datePattern = this.datePattern,
+          blocks = this.blocks,
+          delimiter = this.delimiter,
+          maxlength = this.maxlength,
+          delimiters = this.delimiters;
+        // if($el.rawValue && isBackward) {
+
+        //   $el.rawValue = 
+        //   console.log(`====${$el.rawValue}`)
+        // }
+        $el.rawValue = isBackward ? headStr($el.rawValue, $el.rawValue.length - 1) : getRawValue($el.value, delimiter, delimiters, maxlength);
         if (!numeric && !uppercase && !lowercase && !dateForm) return;
         if (numeric) {
-          this.numerFormat($el.rawValue);
+          $el.rawValue = numerFormat($el.rawValue, delimiter);
+          console.log($el.rawValue);
         }
         if (dateForm) {
-          this.dateFormat($el.rawValue);
+          $el.rawValue = dateFormat($el.rawValue, datePattern, blocks);
         }
+        this.lastValue = this.getFormattedValue();
         this.updateValueState();
-      },
-      numerFormat: function numerFormat(val) {
-        this.lastValue = this.numberOnly(val).replace(/(\d)(?=(\d{3})+$)/g, '$1' + this.delimiter);
-      },
-      numberOnly: function numberOnly(val) {
-        return val.replace(/[A-Za-z]/g, '').replace(/[^\dM-]/g, '').replace(/\-/g, '');
-      },
-      dateFormat: function dateFormat(val) {
-        // this.lastValue = 
-        console.log(val);
       },
       updateValueState: function updateValueState() {
         var self = this;
@@ -4844,7 +4961,7 @@
         cursorPos = this.getNextCursorPosition(cursorPos, $el.value, lastValue, delimiter, delimiters);
         // fix Android browser type="text" input field
         // cursor not jumping issue
-        if (!isAndroid) {
+        if (isAndroid) {
           window.setTimeout(function () {
             $el.value = lastValue;
             self.setSelection($el, cursorPos, document);
@@ -4864,40 +4981,6 @@
         return value.replace(re, '');
       },
       /**
-       * [ . ? * + ^ $ [ \ ] \ \ ( ) { } | - ] 
-       * 구분자를 받아 구분자를 검색하는 정규식문자를 만들어 반환
-       * @param {string} delimiter 구분자
-       * @returns 구분자를 찾는 정규식
-       */
-      getDelimiterREByDelimiter: function getDelimiterREByDelimiter(delimiter) {
-        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
-      },
-      /**
-       * 입력값 중 delimiter, delimiters 와 일치하는 문자가 있으면 삭제 후 반환
-       * @param {String} value 입력 값
-       * @param {string} delimiter 구분자 문자열
-       * @param {array} delimiters 구분자 배열
-       * @returns 구분자를 삭제한 값
-       */
-      getRawValue: function getRawValue(value) {
-        var delimiter = this.delimiter,
-          delimiters = this.delimiters;
-
-        // single delimiter
-        if (delimiters.length === 0) {
-          var delimiterRE = delimiter ? this.getDelimiterREByDelimiter(delimiter) : '';
-          return value.replace(delimiterRE, '');
-        }
-
-        // multiple delimiters
-        delimiters.forEach(function (current) {
-          current.split('').forEach(function (letter) {
-            value = value.replace(this.getDelimiterREByDelimiter(letter), '');
-          });
-        });
-        return value;
-      },
-      /**
        * 입력값을 받아 가공하여 반환
        * @param {string} value 입력값
        * @param {array} blocks 구분 배열
@@ -4907,13 +4990,19 @@
        * @param {boolean} delimiterLazyShow 값이 입력된 후에 구분자를 붙일 것인가?
        * @returns 가공된 값
        */
-      getFormattedValue: function getFormattedValue(value, blocks, delimiter, delimiters) {
+      getFormattedValue: function getFormattedValue() {
+        var blocks = this.blocks,
+          delimiter = this.delimiter,
+          delimiters = this.delimiters,
+          $el = this.$el,
+          delimiterLazyShow = this.delimiterLazyShow;
+        var value = $el.rawValue;
         var result = '',
           multipleDelimiters = delimiters.length > 0,
           currentDelimiter = '';
 
         // no options, normal input
-        if (blocksLength === 0) {
+        if (blocks.length === 0) {
           return value;
         }
         blocks.forEach(function (length, index) {
@@ -4932,7 +5021,7 @@
               result += sub;
             } else {
               result += sub;
-              if (sub.length === length && index < blocksLength - 1) {
+              if (sub.length === length && index < blocks.length - 1) {
                 result += currentDelimiter;
               }
             }
@@ -4963,8 +5052,8 @@
       },
       getPositionOffset: function getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters) {
         var oldRawValue, newRawValue, lengthOffset;
-        oldRawValue = this.getRawValue(oldValue.slice(0, prevPos), delimiter, delimiters);
-        newRawValue = this.getRawValue(newValue.slice(0, prevPos), delimiter, delimiters);
+        oldRawValue = getRawValue(oldValue.slice(0, prevPos), delimiter, delimiters);
+        newRawValue = getRawValue(newValue.slice(0, prevPos), delimiter, delimiters);
         lengthOffset = oldRawValue.length - newRawValue.length;
         return lengthOffset !== 0 ? lengthOffset / Math.abs(lengthOffset) : 0;
       },
@@ -5009,12 +5098,6 @@
           return this.getActiveElement(activeElement.shadowRoot);
         }
         return activeElement;
-      },
-      maxlength: function maxlength() {
-        var blocks = this.blocks;
-        return blocks.reduce(function (previous, current) {
-          return previous + current;
-        }, 0);
       }
     },
     update: {
