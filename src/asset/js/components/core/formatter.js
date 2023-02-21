@@ -34,6 +34,7 @@ import {
   maxlength,
   numerFormat,
   getRawValue,
+  headStr,
 } from '../../util/index';
 import {cssPrefix} from 'GC-data'
 
@@ -151,7 +152,6 @@ export default {
 
       if(numeric){
         $el.rawValue = numerFormat($el.rawValue, delimiter);
-        console.log($el.rawValue);
       }      
       
       if(dateForm){
@@ -181,15 +181,6 @@ export default {
       $el.value = lastValue;
       this.setSelection($el, cursorPos, document);
     },
-		/**
-		 * value 에서 re를 검사하여 제거한 후 반환
-		 * @param {string} value 검사할 값
-		 * @param {RegExp} re 정규식
-		 * @returns 치횐된 값
-		 */
-    strip (value, re) {
-      return value.replace(re, '');
-    },    
 
 		/**
 		 * 입력값을 받아 가공하여 반환

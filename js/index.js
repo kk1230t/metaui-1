@@ -2022,7 +2022,7 @@
    * @param {number} length maxlength 길이
    * @returns str 길이 중 length길이만큼 자른 값
    */
-  function headStr$1(str, length) {
+  function headStr(str, length) {
     return str.slice(0, length);
   }
   function numberOnly(val) {
@@ -2109,8 +2109,18 @@
         value = value.replace(getDelimiterREByDelimiter(letter), '');
       });
     });
-    value = headStr$1(value, maxlength);
+    value = headStr(value, maxlength);
     return value;
+  }
+
+  /**
+   * value 에서 re를 검사하여 제거한 후 반환
+   * @param {string} value 검사할 값
+   * @param {RegExp} re 정규식
+   * @returns 치횐된 값
+   */
+  function strip(value, re) {
+    return value.replace(re, '');
   }
 
   var util = /*#__PURE__*/Object.freeze({
@@ -2255,13 +2265,14 @@
     getViewport: getViewport,
     getViewportClientHeight: getViewportClientHeight,
     toNumeric: toNumeric,
-    headStr: headStr$1,
+    headStr: headStr,
     numberOnly: numberOnly,
     dateFormat: dateFormat,
     numerFormat: numerFormat,
     maxlength: maxlength,
     getDelimiterREByDelimiter: getDelimiterREByDelimiter,
-    getRawValue: getRawValue
+    getRawValue: getRawValue,
+    strip: strip
   });
 
   var prefixStr = 'mui';
@@ -4943,7 +4954,6 @@
         if (!numeric && !uppercase && !lowercase && !dateForm) return;
         if (numeric) {
           $el.rawValue = numerFormat($el.rawValue, delimiter);
-          console.log($el.rawValue);
         }
         if (dateForm) {
           $el.rawValue = dateFormat($el.rawValue, datePattern, blocks);
@@ -4970,15 +4980,6 @@
         }
         $el.value = lastValue;
         this.setSelection($el, cursorPos, document);
-      },
-      /**
-       * value 에서 re를 검사하여 제거한 후 반환
-       * @param {string} value 검사할 값
-       * @param {RegExp} re 정규식
-       * @returns 치횐된 값
-       */
-      strip: function strip(value, re) {
-        return value.replace(re, '');
       },
       /**
        * 입력값을 받아 가공하여 반환

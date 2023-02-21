@@ -109,3 +109,13 @@ export function getDelimiterREByDelimiter(delimiter) {
   value = headStr(value, maxlength);
   return value;
 }
+
+/**
+ * value 에서 re를 검사하여 제거한 후 반환
+ * @param {string} value 검사할 값
+ * @param {RegExp} re 정규식
+ * @returns 치횐된 값
+ */
+ export function strip (value, re) {
+  return value.replace(re, '');
+}
