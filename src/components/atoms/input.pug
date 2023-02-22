@@ -4,7 +4,7 @@ mixin input(params={})
   - const divide = '_'
   //- 공통 요소 End
 
-  - const { element="span", className, title, placeholder, value, readOnly, disabled, id, type="text", ...rest } = Object.assign({}, params)
+  - const { element="span", className, title, placeholder, value, readOnly, disabled, id, type="text", muiFormatter, maxlength, ...rest } = Object.assign({}, params)
   #{element}(
     class=`${prefix}${divide}input`
     class=className
@@ -17,5 +17,7 @@ mixin input(params={})
       readonly=readOnly
       disabled=disabled
       value=value
+      maxlength=maxlength
+      mui-formatter=muiFormatter
     )
 

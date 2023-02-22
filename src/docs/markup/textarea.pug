@@ -12,6 +12,10 @@ block content
     +guideExample()(code)
       :code
         +textarea()
+        +textarea({
+          muiFormatter:"viewMaxLength:true;",
+          maxlength:100
+        })
     br
     br
     +guideTitle({
@@ -19,51 +23,6 @@ block content
       level:2
     })
 
-    +attributesLists([
-      [
-        {
-          text:'id'
-        },
-        {
-          text:'id 요소'
-        },
-        {
-          text:'string'
-        },
-        {
-          text:'-'
-        }
-      ],
-      [
-        {
-          text:'title'
-        },
-        {
-          text:'title 텍스트'
-        },
-        {
-          text:'string'
-        },
-        {
-          text:'-'
-        }
-      ],
-      [
-        {
-          text:'className'
-        },
-        {
-          text:'커스텀 클래스'
-        },
-        {
-          text:'string'
-        },
-        {
-          text:'-'
-        }
-      ]
-      
-    ])
 
 
 

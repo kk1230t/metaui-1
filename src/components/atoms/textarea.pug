@@ -4,7 +4,7 @@ mixin textarea(params={})
   - const divide = '_'
   //- 공통 요소 End
 
-  - const { element="div", className, title, id, ...rest } = Object.assign({}, params)
+  - const { element="div", className, title, id, muiFormatter, maxlength, ...rest } = Object.assign({}, params)
   #{element}(
     class=`${prefix}${divide}textarea`
     class=className
@@ -12,5 +12,7 @@ mixin textarea(params={})
     textarea(
       id=id
       title=title
+      mui-formatter=muiFormatter
+      maxlength=maxlength
     )
 

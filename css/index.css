@@ -47,6 +47,16 @@ table, th, td {
   border-collapse: collapse;
 }
 
+.mui_maxlength {
+  height: 20px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #f00;
+}
+.mui_maxlength span {
+  display: inline-block;
+}
+
 .step {
   display: flex;
   justify-content: space-between;

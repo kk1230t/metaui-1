@@ -13,28 +13,30 @@
           <p class="title title_lv1">Input</p>
         </div>
         <div class="title_sec">
-          <p class="title title_lv2">Example</p>
+          <p class="title title_lv2">Pug - Example</p>
         </div>
-        <div class="guide_card_box"><section class="code_view"><span class="mui_input"><input type="text"/></span><span class="mui_input"><input type="text" readonly="readonly" value="dddd"/></span><span class="mui_input"><input type="text" disabled="disabled" value="dddd"/></span></section><div class="code_block"><pre><code class="language-pug">//- 기본
-+input()
- 
+        <div class="guide_card_box"><section class="code_view"><span class="mui_input"><input type="text" value="default"/></span><br/><span class="mui_input"><input type="text" readonly="readonly" value="readonly"/></span><br/><span class="mui_input"><input type="text" disabled="disabled" value="disabled"/></span></section><div class="code_block"><pre><code class="language-pug">//- 기본
++input({
+  value:"default"
+})
+br
 //- readOnly
 +input({
   readOnly:true,
-  value:"dddd"
+  value:"readonly"
 })
- 
+br
 //- disabled
 +input({
   disabled:true,
-  value:"dddd"
+  value:"disabled"
 })</code></pre></div>
           <div class="view_code">
             <button>code view</button>
           </div>
         </div><br><br>
         <div class="title_sec">
-          <p class="title title_lv2">Attribute</p>
+          <p class="title title_lv2">Pug - Attribute</p>
         </div>
         <div class="attribute_table">
           <div class="mui-datatable attr_table">
@@ -102,6 +104,116 @@
                   <td>커스텀 클래스</td>
                   <td>string</td>
                   <td>-</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="title_sec">
+          <p class="title title_lv2">format - Example</p>
+        </div>
+        <div class="guide_card_box"><section class="code_view"><span class="mui_input"><input type="text" placeholder="날짜 입력 폼 (yyyy-mm-dd)" mui-formatter="dateForm:true;"/></span><br/><span class="mui_input"><input type="text" placeholder="금액 입력" mui-formatter="numeric:true"/></span><br/><span class="mui_input"><input type="text" placeholder="영문 대문자만 입력" mui-formatter="uppercase:true;"/></span><br/><span class="mui_input"><input type="text" placeholder="영문 소문자만 입력" mui-formatter="lowercase:true;"/></span><br/><span class="mui_input"><input type="text" placeholder="max length" maxlength="10" mui-formatter="viewMaxLength:true;"/></span><br/><span class="mui_input"><input type="text" placeholder="커스텀 포멧" value="123456" mui-formatter="delimiter:/;blocks:2|2|2;"/></span><br/></section><div class="code_block"><pre><code class="language-pug">//- 기본
++input({
+  muiFormatter:"dateForm:true;",
+  placeholder:"날짜 입력 폼 (yyyy-mm-dd)",
+})
+//- 금액 입력 폼
+br
++input({
+  muiFormatter:"numeric:true",
+  placeholder:"금액 입력"
+})
+br
+//- 영문 대문자 only
++input({
+  muiFormatter:"uppercase:true;",
+  placeholder:"영문 대문자만 입력"
+})
+br
+//- 영문 소문자 only
++input({
+  muiFormatter:"lowercase:true;",
+  placeholder:"영문 소문자만 입력"
+})
+//- maxlength
+br
++input({
+  muiFormatter:"viewMaxLength:true;",
+  maxlength:10,
+  placeholder:"max length"
+})
+br
+//- 커스텀
++input({
+  value:"123456",
+  muiFormatter:"delimiter:/;blocks:2|2|2;",
+  placeholder:"커스텀 포멧",
+})
+br</code></pre></div>
+          <div class="view_code">
+            <button>code view</button>
+          </div>
+        </div><br><br>
+        <div class="attribute_table">
+          <div class="mui-datatable attr_table">
+            <table>
+              <colgroup>
+                <col width="15%"/>
+                <col width="55%"/>
+                <col width="15%"/>
+                <col width="15%"/>
+              </colgroup>
+              <caption>Attributes</caption>
+              <thead>
+                <tr>
+                  <th class="th" scope="cols">Property</th>
+                  <th class="th" scope="cols">Description</th>
+                  <th class="th" scope="cols">Type</th>
+                  <th class="th" scope="cols">Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>numeric</td>
+                  <td>금액입력</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>numericOnly</td>
+                  <td>숫자만 입력</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>dateForm</td>
+                  <td>날짜 입력 (yyyy-mm-dd)</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>uppercase</td>
+                  <td>영문입력 시 대문자로 치환</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>lowercase</td>
+                  <td>영문입력 시 소문자로 치환</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>viewMaxLength</td>
+                  <td>글자입력 제한 표시</td>
+                  <td>boolean</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>delimiter</td>
+                  <td>구분 기호</td>
+                  <td>boolean</td>
+                  <td> "" </td>
                 </tr>
               </tbody>
             </table>

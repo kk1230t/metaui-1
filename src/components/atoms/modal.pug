@@ -1,0 +1,26 @@
+mixin modal(params={})
+  //- 공통 요소 Start
+  - const prefix = "mui"
+  - const divide = '_'
+  //- 공통 요소 End
+  
+
+  - let element = "button"
+  - let buttonType = "button"
+  - const { size="medium", label, isIcon, href, rest } = Object.assign({}, params)
+  - let test = "mui"
+  if href
+    - element = "a"
+    - buttonType = undefined
+  #{element}(
+    class=`${prefix}-button`
+    class=`${prefix}-size-${size}`
+    class={
+      'mui-icon':isIcon,
+    }
+    type=buttonType
+    href=href
+  )
+    span
+      | #{label}
+

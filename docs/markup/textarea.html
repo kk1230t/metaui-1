@@ -15,54 +15,17 @@
         <div class="title_sec">
           <p class="title title_lv2">Example</p>
         </div>
-        <div class="guide_card_box"><section class="code_view"><div class="mui_textarea"><textarea></textarea></div></section><div class="code_block"><pre><code class="language-pug">+textarea()</code></pre></div>
+        <div class="guide_card_box"><section class="code_view"><div class="mui_textarea"><textarea></textarea></div><div class="mui_textarea"><textarea mui-formatter="viewMaxLength:true;" maxlength="100"></textarea></div></section><div class="code_block"><pre><code class="language-pug">+textarea()
++textarea({
+  muiFormatter:"viewMaxLength:true;",
+  maxlength:100
+})</code></pre></div>
           <div class="view_code">
             <button>code view</button>
           </div>
         </div><br><br>
         <div class="title_sec">
           <p class="title title_lv2">Attribute</p>
-        </div>
-        <div class="attribute_table">
-          <div class="mui-datatable attr_table">
-            <table>
-              <colgroup>
-                <col width="15%"/>
-                <col width="55%"/>
-                <col width="15%"/>
-                <col width="15%"/>
-              </colgroup>
-              <caption>Attributes</caption>
-              <thead>
-                <tr>
-                  <th class="th" scope="cols">Property</th>
-                  <th class="th" scope="cols">Description</th>
-                  <th class="th" scope="cols">Type</th>
-                  <th class="th" scope="cols">Default</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>id</td>
-                  <td>id 요소</td>
-                  <td>string</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>title</td>
-                  <td>title 텍스트</td>
-                  <td>string</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td>className</td>
-                  <td>커스텀 클래스</td>
-                  <td>string</td>
-                  <td>-</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
