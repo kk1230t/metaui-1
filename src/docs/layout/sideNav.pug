@@ -57,13 +57,15 @@
         "Tabs":["/docs/markup/tabs.html", "mainFrame"],
         "Accordion":["/docs/markup/accordion.html", "mainFrame"],
         "Datepicker":["/docs/markup/datepicker.html", "mainFrame"],
+        "Modal":["/docs/markup/modal.html", "mainFrame"],
+        "Toggle":["/docs/markup/toggle.html", "mainFrame"],
       }
     },
-    "scriptLists" : {
-      "스크립트 가이드":{
-        "스크립트 가이드":["/pages/test/test22.html", "mainFrame"]
-      }
-    }
+    //- "scriptLists" : {
+    //-   "스크립트 가이드":{
+    //-     "스크립트 가이드":["/pages/test/test22.html", "mainFrame"]
+    //-   }
+    //- }
   }
 
 #sideNav.side_nav
@@ -86,12 +88,12 @@
       +pagesNavLists({
         lists:dataLists.markupLists
       })
-    div#scriptGuide(
-      style="display:none;"
-    )
-      h2(
-        class="side_title"
-      ) 스크립트 가이드
-      +pagesNavLists({
-        lists:dataLists.scriptLists
-      })
+    //- div#scriptGuide(
+    //-   style="display:none;"
+    //- )
+    //-   h2(
+    //-     class="side_title"
+    //-   ) 스크립트 가이드
+    //-   +pagesNavLists({
+    //-     lists:dataLists.scriptLists
+    //-   })

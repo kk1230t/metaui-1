@@ -17,6 +17,7 @@ import {
     toNumber,
     isEqual,
     isFunction,
+    isNumeric,
     data as getData
 } from '../util/index';
 
@@ -123,6 +124,10 @@ export default function (UICommon) {
             initChildListObserver(this),
             initPropsObserver(this)
         ];
+    };
+
+    UICommon.prototype.registerObserver = function (...observer) {
+        this._observers.push(...observer);
     };
 
     UICommon.prototype._disconnectObservers = function () {

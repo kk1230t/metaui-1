@@ -7,7 +7,7 @@ mixin button(params={})
 
   - let element = "button"
   - let buttonType = "button"
-  - const { size="medium", label, isIcon, href, rest } = Object.assign({}, params)
+  - const { size="medium", label, isIcon, href, muiToggle, ...rest } = Object.assign({}, params)
   - let test = "mui"
   if href
     - element = "a"
@@ -20,6 +20,7 @@ mixin button(params={})
     }
     type=buttonType
     href=href
+    mui-toggle=muiToggle
   )
     span
       | #{label}

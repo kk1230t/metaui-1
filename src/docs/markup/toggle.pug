@@ -1,0 +1,90 @@
+extends ../layout/guideBase.pug
+
+block content
+  div.main_content
+    +guideTitle({
+      text:"Toggle"
+    })
+    +guideTitle({
+      text:"Example",
+      level:2
+    })
+    +guideExample()(code)
+      :code
+        +button({
+          label:"토글 버튼",
+          size:'large',
+          muiToggle:'target:#toggle_box;'
+        })
+        +button({
+          label:"토글 버튼",
+          size:'large',
+          muiToggle:'target:#toggle_box;mode:hover;'
+        })
+        div#toggle_box 토글 컨텐츠
+                
+    br
+    br
+    +guideTitle({
+      text:"Attribute",
+      level:2
+    })
+    +guideTitle({
+      text:"+tabsWrap()",
+      level:3
+    })
+
+    +attributesLists([
+      [
+        {
+          text:'active'
+        },
+        {
+          text:'활성화 텝 index'
+        },
+        {
+          text:'nomber'
+        },
+        {
+          text:'0'
+        }
+      ],
+      [
+        {
+          text:'className'
+        },
+        {
+          text:'커스텀 클래스'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ]
+    ])
+
+    +guideTitle({
+      text:"+tab()",
+      level:3
+    })
+    +attributesLists([
+      [
+        {
+          text:'text'
+        },
+        {
+          text:'텝 제목'
+        },
+        {
+          text:'string'
+        },
+        {
+          text:'-'
+        }
+      ]
+    ])
+
+
+

@@ -15,3 +15,4 @@ export * from './style';
 export * from './env';
 export * from './viewport';
 export * from './format';
+export * from './observer';

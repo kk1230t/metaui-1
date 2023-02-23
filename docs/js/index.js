@@ -2241,6 +2241,29 @@
     return activeElement;
   }
 
+  /**
+   * 입력값의 마지막 문자가 delimiter 와 일치하는가? delimiter : ""
+   * @param {string} value 입력 값
+   * @param {string} delimiter 구분자 문자열
+   * @param {attay} delimiters 구분자 배열
+   * @returns 구분자 또는 빈 문자열
+   */
+  function getPostDelimiter(value, delimiter, delimiters) {
+    // single delimiter
+    if (delimiters.length === 0) {
+      return value.slice(-delimiter.length) === delimiter ? delimiter : '';
+    }
+
+    // multiple delimiters
+    var matchedDelimiter = '';
+    delimiters.forEach(function (current) {
+      if (value.slice(-current.length) === current) {
+        matchedDelimiter = current;
+      }
+    });
+    return matchedDelimiter;
+  }
+
   var util = /*#__PURE__*/Object.freeze({
     __proto__: null,
     addClass: addClass,
@@ -2397,7 +2420,8 @@
     getNextCursorPosition: getNextCursorPosition,
     getPositionOffset: getPositionOffset,
     setSelection: setSelection,
-    getActiveElement: getActiveElement
+    getActiveElement: getActiveElement,
+    getPostDelimiter: getPostDelimiter
   });
 
   function globalApi (UICommon) {
