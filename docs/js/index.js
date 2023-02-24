@@ -126,6 +126,57 @@
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
+  function _createForOfIteratorHelper(o, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+    if (!it) {
+      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+        if (it) o = it;
+        var i = 0;
+        var F = function () {};
+        return {
+          s: F,
+          n: function () {
+            if (i >= o.length) return {
+              done: true
+            };
+            return {
+              done: false,
+              value: o[i++]
+            };
+          },
+          e: function (e) {
+            throw e;
+          },
+          f: F
+        };
+      }
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+    var normalCompletion = true,
+      didErr = false,
+      err;
+    return {
+      s: function () {
+        it = it.call(o);
+      },
+      n: function () {
+        var step = it.next();
+        normalCompletion = step.done;
+        return step;
+      },
+      e: function (e) {
+        didErr = true;
+        err = e;
+      },
+      f: function () {
+        try {
+          if (!normalCompletion && it.return != null) it.return();
+        } finally {
+          if (didErr) throw err;
+        }
+      }
+    };
+  }
 
   var objPrototype = Object.prototype;
   var hasOwnProperty = objPrototype.hasOwnProperty;
@@ -267,7 +318,7 @@
   function isNumber(value) {
     return typeof value === 'number';
   }
-  function isNumeric$1(value) {
+  function isNumeric(value) {
     return isNumber(value) || isString(value) && !isNaN(value - parseFloat(value));
   }
   function typeOf(obj) {
@@ -440,7 +491,7 @@
     elements = toNodes(elements);
     var _elements = elements,
       length = _elements.length;
-    i = isNumeric$1(i) ? toNumber(i) : i === 'next' ? current + 1 : i === 'previous' ? current - 1 : elements.indexOf(toNode(i));
+    i = isNumeric(i) ? toNumber(i) : i === 'next' ? current + 1 : i === 'previous' ? current - 1 : elements.indexOf(toNode(i));
     if (finite) {
       return clamp(i, 0, length - 1);
     }
@@ -1411,7 +1462,7 @@
         } else if (!value && !isNumber(value)) {
           element.style.removeProperty(property);
         } else {
-          element.style.setProperty(property, isNumeric$1(value) && !cssNumber[property] ? "".concat(value, "px") : value, priority);
+          element.style.setProperty(property, isNumeric(value) && !cssNumber[property] ? "".concat(value, "px") : value, priority);
         }
       } else if (isArray(property)) {
         var styles = getStyles(element);
@@ -1712,7 +1763,7 @@
   function toPx(value) {
     var property = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'width';
     var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window;
-    return isNumeric$1(value) ? +value : endsWith(value, 'vh') ? percent(height(toWindow(element)), value) : endsWith(value, 'vw') ? percent(width(toWindow(element)), value) : endsWith(value, '%') ? percent(dimensions(element)[property], value) : toFloat(value);
+    return isNumeric(value) ? +value : endsWith(value, 'vh') ? percent(height(toWindow(element)), value) : endsWith(value, 'vw') ? percent(width(toWindow(element)), value) : endsWith(value, '%') ? percent(dimensions(element)[property], value) : toFloat(value);
   }
   function percent(base, value) {
     return base * toFloat(value) / 100;
@@ -2264,6 +2315,100 @@
     return matchedDelimiter;
   }
 
+  function observeIntersection(targets, cb, options) {
+    var intersecting = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    var observer = new IntersectionObserver(intersecting ? function (entries, observer) {
+      if (entries.some(function (entry) {
+        return entry.isIntersecting;
+      })) {
+        cb(entries, observer);
+      }
+    } : cb, options);
+    var _iterator = _createForOfIteratorHelper(toNodes(targets)),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var el = _step.value;
+        observer.observe(el);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    return observer;
+  }
+  var hasResizeObserver = inBrowser && window.ResizeObserver;
+  function observeResize(targets, cb) {
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+      box: 'border-box'
+    };
+    if (hasResizeObserver) {
+      return observe(ResizeObserver, targets, cb, options);
+    }
+
+    // Fallback Safari < 13.1
+    initResizeListener();
+    listeners.add(cb);
+    return {
+      disconnect: function disconnect() {
+        listeners["delete"](cb);
+      }
+    };
+  }
+  var listeners;
+  function initResizeListener() {
+    if (listeners) {
+      return;
+    }
+    listeners = new Set();
+
+    // throttle 'resize'
+    var pendingResize;
+    var handleResize = function handleResize() {
+      if (pendingResize) {
+        return;
+      }
+      pendingResize = true;
+      requestAnimationFrame(function () {
+        return pendingResize = false;
+      });
+      var _iterator2 = _createForOfIteratorHelper(listeners),
+        _step2;
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var listener = _step2.value;
+          listener();
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+    };
+    on(window, 'load resize', handleResize);
+    on(document, 'loadedmetadata load', handleResize, true);
+  }
+  function observeMutation(targets, cb, options) {
+    return observe(MutationObserver, targets, cb, options);
+  }
+  function observe(Observer, targets, cb, options) {
+    var observer = new Observer(cb);
+    var _iterator3 = _createForOfIteratorHelper(toNodes(targets)),
+      _step3;
+    try {
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var el = _step3.value;
+        observer.observe(el, options);
+      }
+    } catch (err) {
+      _iterator3.e(err);
+    } finally {
+      _iterator3.f();
+    }
+    return observer;
+  }
+
   var util = /*#__PURE__*/Object.freeze({
     __proto__: null,
     addClass: addClass,
@@ -2338,7 +2483,7 @@
     isBoolean: isBoolean,
     isString: isString,
     isNumber: isNumber,
-    isNumeric: isNumeric$1,
+    isNumeric: isNumeric,
     typeOf: typeOf,
     isDate: isDate,
     addLeadingZero: addLeadingZero,
@@ -2421,7 +2566,10 @@
     getPositionOffset: getPositionOffset,
     setSelection: setSelection,
     getActiveElement: getActiveElement,
-    getPostDelimiter: getPostDelimiter
+    getPostDelimiter: getPostDelimiter,
+    observeIntersection: observeIntersection,
+    observeResize: observeResize,
+    observeMutation: observeMutation
   });
 
   function globalApi (UICommon) {
@@ -2574,6 +2722,10 @@
     };
     UICommon.prototype._initObservers = function () {
       this._observers = [initChildListObserver(this), initPropsObserver(this)];
+    };
+    UICommon.prototype.registerObserver = function () {
+      var _this$_observers;
+      (_this$_observers = this._observers).push.apply(_this$_observers, arguments);
     };
     UICommon.prototype._disconnectObservers = function () {
       this._observers.forEach(function (observer) {
