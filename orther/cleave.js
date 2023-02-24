@@ -99,6 +99,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			// 초기화
 	    owner.init();
+
+		
 	};
 
 	Cleave.prototype = {
