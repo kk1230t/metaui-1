@@ -5994,7 +5994,6 @@
       show: function show() {
         var _this2 = this;
         if (this.container && parent$1(this.$el) !== this.container) {
-          console.log('들어 옴!!');
           append(this.container, this.$el);
           return new Promise(function (resolve) {
             return requestAnimationFrame(function () {
