@@ -1,5 +1,5 @@
 import {$$, addClass, Animation, assign, css, fastdom, hasClass, height, includes, isBoolean, isFunction, isVisible, noop, Promise, removeClass, toFloat, toggleClass, toNodes, Transition, trigger} from '../../util';
-
+import {cssPrefix} from 'GC-data'
 export default {
 
     props: {
@@ -16,8 +16,8 @@ export default {
         duration: 300,
         origin: false,
         transition: 'linear',
-        clsEnter: 'uk-togglabe-enter',
-        clsLeave: 'uk-togglabe-leave',
+        clsEnter: `${cssPrefix}togglabe-enter`,
+        clsLeave: `${cssPrefix}togglabe-leave`,
 
         initProps: {
             overflow: '',
@@ -66,10 +66,10 @@ export default {
                         isFunction(animate)
                             ? animate
                             : animate === false || !this.hasAnimation
-                            ? this._toggle
-                            : this.hasTransition
-                                ? toggleHeight(this)
-                                : toggleAnimation(this)
+                                ? this._toggle
+                                : this.hasTransition
+                                    ? toggleHeight(this)
+                                    : toggleAnimation(this)
                     )(el, show) || Promise.resolve();
 
                     const cls = show ? this.clsEnter : this.clsLeave;
@@ -77,7 +77,7 @@ export default {
                     addClass(el, cls);
 
                     trigger(el, show ? 'show' : 'hide', [this]);
-
+                    
                     const done = () => {
                         removeClass(el, cls);
                         trigger(el, show ? 'shown' : 'hidden', [this]);
@@ -85,6 +85,7 @@ export default {
                     };
 
                     return promise ? promise.then(done, () => {
+                        
                         removeClass(el, cls);
                         return Promise.reject();
                     }) : done();

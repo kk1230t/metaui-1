@@ -720,7 +720,7 @@
     element = toNode(element);
     return element ? (isDocument(element) ? element : element.ownerDocument).defaultView : window;
   }
-  function toMs(time) {
+  function toMs$1(time) {
     return !time ? 0 : endsWith(time, 'ms') ? toFloat(time) : toFloat(time) * 1000;
   }
   function isEqual(value, other) {
@@ -1254,6 +1254,12 @@
     });
   }
   var selFocusable = "".concat(selInput, ",a[href],[tabindex]");
+
+  /**
+   * 포커싱이 가능한 요소인가
+   * @param {element} element 
+   * @returns boolean
+   */
   function isFocusable(element) {
     return matches(element, selFocusable);
   }
@@ -1909,7 +1915,7 @@
     }
   };
   var animationPrefix = 'uk-animation-';
-  function animate(element, animation) {
+  function animate$1(element, animation) {
     var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
     var origin = arguments.length > 3 ? arguments[3] : undefined;
     var out = arguments.length > 4 ? arguments[4] : undefined;
@@ -1939,9 +1945,9 @@
   }
   var _inProgress = new RegExp("".concat(animationPrefix, "(enter|leave)"));
   var Animation = {
-    "in": animate,
+    "in": animate$1,
     out: function out(element, animation, duration, origin) {
-      return animate(element, animation, duration, origin, true);
+      return animate$1(element, animation, duration, origin, true);
     },
     inProgress: function inProgress(element) {
       return _inProgress.test(attr(element, 'class'));
@@ -2760,7 +2766,7 @@
     test: test,
     transition: transition,
     Transition: Transition,
-    animate: animate,
+    animate: animate$1,
     Animation: Animation,
     attr: attr,
     hasAttr: hasAttr,
@@ -2836,7 +2842,7 @@
     toNode: toNode,
     toNodes: toNodes,
     toWindow: toWindow,
-    toMs: toMs,
+    toMs: toMs$1,
     isEqual: isEqual,
     swap: swap,
     assign: assign,
@@ -2964,7 +2970,7 @@
     };
     Object.defineProperty(UICommon, 'container', {
       get: function get() {
-        return container || document.body;
+        return typeof container !== 'undefined' ? container : document.body;
       },
       set: function set(element) {
         container = $(element);
@@ -3429,8 +3435,8 @@
       duration: 300,
       origin: false,
       transition: 'linear',
-      clsEnter: 'uk-togglabe-enter',
-      clsLeave: 'uk-togglabe-leave',
+      clsEnter: "".concat(cssPrefix, "togglabe-enter"),
+      clsLeave: "".concat(cssPrefix, "togglabe-leave"),
       initProps: {
         overflow: '',
         height: '',
@@ -4704,17 +4710,16 @@
                   return _context.abrupt("return");
                 case 2:
                   if (_this2.queued) {
-                    _context.next = 5;
+                    _context.next = 4;
                     break;
                   }
-                  console.log('dd');
                   return _context.abrupt("return", _this2.toggleElement(_this2.target));
-                case 5:
+                case 4:
                   leaving = _this2.target.filter(function (el) {
                     return hasClass(el, _this2.clsLeave);
                   });
                   if (!leaving.length) {
-                    _context.next = 10;
+                    _context.next = 9;
                     break;
                   }
                   _iterator = _createForOfIteratorHelper(_this2.target);
@@ -4730,16 +4735,16 @@
                     _iterator.f();
                   }
                   return _context.abrupt("return");
-                case 10:
+                case 9:
                   toggled = _this2.target.filter(_this2.isToggled);
-                  _context.next = 13;
+                  _context.next = 12;
                   return _this2.toggleElement(toggled, false);
-                case 13:
-                  _context.next = 15;
+                case 12:
+                  _context.next = 14;
                   return _this2.toggleElement(_this2.target.filter(function (el) {
                     return !includes(toggled, el);
                   }), true);
-                case 15:
+                case 14:
                 case "end":
                   return _context.stop();
               }
@@ -5791,6 +5796,386 @@
     return result;
   }
 
+  var Container = {
+    props: {
+      container: Boolean
+    },
+    data: {
+      container: true
+    },
+    computed: {
+      container: function container(_ref) {
+        var container = _ref.container;
+        return container === true && this.$container || container && $$1(container);
+      }
+    }
+  };
+
+  var prevented;
+  function preventBackgroundScroll(el) {
+    // 'overscroll-behavior: contain' only works consistently if el overflows (Safari)
+    var off = on(el, 'touchmove', function (e) {
+      if (e.targetTouches.length !== 1) {
+        return;
+      }
+      var _scrollParents = scrollParents(e.target),
+        _scrollParents2 = _slicedToArray(_scrollParents, 1),
+        _scrollParents2$ = _scrollParents2[0],
+        scrollHeight = _scrollParents2$.scrollHeight,
+        clientHeight = _scrollParents2$.clientHeight;
+      if (clientHeight >= scrollHeight && e.cancelable) {
+        e.preventDefault();
+      }
+    }, {
+      passive: false
+    });
+    if (prevented) {
+      return off;
+    }
+    prevented = true;
+    var _document = document,
+      scrollingElement = _document.scrollingElement;
+    css(scrollingElement, {
+      overflowY: CSS.supports('overflow', 'clip') ? 'clip' : 'hidden',
+      touchAction: 'none',
+      paddingRight: width(window) - scrollingElement.clientWidth || ''
+    });
+    return function () {
+      prevented = false;
+      off();
+      css(scrollingElement, {
+        overflowY: '',
+        touchAction: '',
+        paddingRight: ''
+      });
+    };
+  }
+  function isSameSiteAnchor(el) {
+    return ['origin', 'pathname', 'search'].every(function (part) {
+      return el[part] === location[part];
+    });
+  }
+
+  var active = [];
+  var Modal = {
+    mixins: [Class, Container, Togglable],
+    props: {
+      selPanel: String,
+      selClose: String,
+      escClose: Boolean,
+      bgClose: Boolean,
+      stack: Boolean,
+      role: String
+    },
+    data: {
+      cls: 'uk-open',
+      escClose: true,
+      bgClose: true,
+      overlay: true,
+      stack: false,
+      role: 'dialog'
+    },
+    computed: {
+      panel: function panel(_ref, $el) {
+        var selPanel = _ref.selPanel;
+        return $$1(selPanel, $el);
+      },
+      transitionElement: function transitionElement() {
+        return this.panel;
+      },
+      bgClose: function bgClose(_ref2) {
+        var bgClose = _ref2.bgClose;
+        return bgClose && this.panel;
+      }
+    },
+    connected: function connected() {
+      attr(this.panel || this.$el, 'role', this.role);
+      if (this.overlay) {
+        attr(this.panel || this.$el, 'aria-modal', true);
+      }
+    },
+    beforeDisconnect: function beforeDisconnect() {
+      if (includes(active, this)) {
+        this.toggleElement(this.$el, false, false);
+      }
+    },
+    events: [{
+      name: 'click',
+      delegate: function delegate() {
+        return "".concat(this.selClose, ",a[href*=\"#\"]");
+      },
+      handler: function handler(e) {
+        var current = e.current,
+          defaultPrevented = e.defaultPrevented;
+        var hash = current.hash;
+        if (!defaultPrevented && hash && isSameSiteAnchor(current) && !within(hash, this.$el) && $$1(hash, document.body)) {
+          this.hide();
+        } else if (matches(current, this.selClose)) {
+          e.preventDefault();
+          this.hide();
+        }
+      }
+    }, {
+      name: 'toggle',
+      self: true,
+      handler: function handler(e) {
+        if (e.defaultPrevented) {
+          return;
+        }
+        e.preventDefault();
+        if (this.isToggled() === includes(active, this)) {
+          this.toggle();
+        }
+      }
+    }, {
+      name: 'beforeshow',
+      self: true,
+      handler: function handler(e) {
+        if (includes(active, this)) {
+          return false;
+        }
+        if (!this.stack && active.length) {
+          Promise.all(active.map(function (modal) {
+            return modal.hide();
+          })).then(this.show);
+          e.preventDefault();
+        } else {
+          active.push(this);
+        }
+      }
+    }, {
+      name: 'show',
+      self: true,
+      handler: function handler() {
+        if (this.stack) {
+          css(this.$el, 'zIndex', toFloat(css(this.$el, 'zIndex')) + active.length);
+        }
+        var handlers = [this.overlay && preventBackgroundFocus(this), this.overlay && preventBackgroundScroll(this.$el), this.bgClose && listenForBackgroundClose(this), this.escClose && listenForEscClose(this)];
+        once(this.$el, 'hidden', function () {
+          return handlers.forEach(function (handler) {
+            return handler && handler();
+          });
+        }, {
+          self: true
+        });
+        addClass(document.documentElement, this.clsPage);
+      }
+    }, {
+      name: 'shown',
+      self: true,
+      handler: function handler() {
+        if (!isFocusable(this.$el)) {
+          attr(this.$el, 'tabindex', '-1');
+        }
+        if (!matches(this.$el, ':focus-within')) {
+          this.$el.focus();
+        }
+      }
+    }, {
+      name: 'hidden',
+      self: true,
+      handler: function handler() {
+        var _this = this;
+        if (includes(active, this)) {
+          active.splice(active.indexOf(this), 1);
+        }
+        css(this.$el, 'zIndex', '');
+        if (!active.some(function (modal) {
+          return modal.clsPage === _this.clsPage;
+        })) {
+          removeClass(document.documentElement, this.clsPage);
+        }
+      }
+    }],
+    methods: {
+      toggle: function toggle() {
+        return this.isToggled() ? this.hide() : this.show();
+      },
+      show: function show() {
+        var _this2 = this;
+        if (this.container && parent$1(this.$el) !== this.container) {
+          console.log('들어 옴!!');
+          append(this.container, this.$el);
+          return new Promise(function (resolve) {
+            return requestAnimationFrame(function () {
+              return _this2.show().then(resolve);
+            });
+          });
+        }
+        return this.toggleElement(this.$el, true, animate);
+      },
+      hide: function hide() {
+        return this.toggleElement(this.$el, false, animate);
+      }
+    }
+  };
+  function animate(el, show, _ref3) {
+    var transitionElement = _ref3.transitionElement,
+      _toggle = _ref3._toggle;
+    return new Promise(function (resolve, reject) {
+      return once(el, 'show hide', function () {
+        var _el$_reject;
+        (_el$_reject = el._reject) === null || _el$_reject === void 0 ? void 0 : _el$_reject.call(el);
+        el._reject = reject;
+        _toggle(el, show);
+        var off = once(transitionElement, 'transitionstart', function () {
+          once(transitionElement, 'transitionend transitioncancel', resolve, {
+            self: true
+          });
+          clearTimeout(timer);
+        }, {
+          self: true
+        });
+        var timer = setTimeout(function () {
+          off();
+          resolve();
+        }, toMs(css(transitionElement, 'transitionDuration')));
+      });
+    }).then(function () {
+      return delete el._reject;
+    });
+  }
+  function toMs(time) {
+    return time ? endsWith(time, 'ms') ? toFloat(time) : toFloat(time) * 1000 : 0;
+  }
+  function preventBackgroundFocus(modal) {
+    return on(document, 'focusin', function (e) {
+      if (last(active) === modal && !within(e.target, modal.$el)) {
+        modal.$el.focus();
+      }
+    });
+  }
+  function listenForBackgroundClose(modal) {
+    return on(document, pointerDown, function (_ref4) {
+      var target = _ref4.target;
+      if (last(active) !== modal || modal.overlay && !within(target, modal.$el) || within(target, modal.panel)) {
+        return;
+      }
+      once(document, "".concat(pointerUp, " ").concat(pointerCancel, " scroll"), function (_ref5) {
+        var defaultPrevented = _ref5.defaultPrevented,
+          type = _ref5.type,
+          newTarget = _ref5.target;
+        if (!defaultPrevented && type === pointerUp && target === newTarget) {
+          modal.hide();
+        }
+      }, true);
+    });
+  }
+  function listenForEscClose(modal) {
+    return on(document, 'keydown', function (e) {
+      if (e.keyCode === 27 && last(active) === modal) {
+        modal.hide();
+      }
+    });
+  }
+
+  var modal = {
+    install: install,
+    mixins: [Modal],
+    data: {
+      clsPage: 'uk-modal-page',
+      selPanel: '.uk-modal-dialog',
+      selClose: '.uk-modal-close, .uk-modal-close-default, .uk-modal-close-outside, .uk-modal-close-full'
+    },
+    events: [{
+      name: 'show',
+      self: true,
+      handler: function handler() {
+        if (hasClass(this.panel, 'uk-margin-auto-vertical')) {
+          addClass(this.$el, 'uk-flex');
+        } else {
+          css(this.$el, 'display', 'block');
+        }
+        height(this.$el); // force reflow
+      }
+    }, {
+      name: 'hidden',
+      self: true,
+      handler: function handler() {
+        css(this.$el, 'display', '');
+        removeClass(this.$el, 'uk-flex');
+      }
+    }]
+  };
+  function install(_ref) {
+    var modal = _ref.modal;
+    modal.dialog = function (content, options) {
+      var dialog = modal("<div class=\"uk-modal\">\n                <div class=\"uk-modal-dialog\">".concat(content, "</div>\n             </div>"), options);
+      dialog.show();
+      on(dialog.$el, 'hidden', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return Promise.resolve();
+              case 2:
+                dialog.$destroy(true);
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      })), {
+        self: true
+      });
+      return dialog;
+    };
+    modal.alert = function (message, options) {
+      return openDialog(function (_ref3) {
+        var i18n = _ref3.i18n;
+        return "<div class=\"uk-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n            <div class=\"uk-modal-footer uk-text-right\">\n                <button class=\"uk-button uk-button-primary uk-modal-close\" autofocus>").concat(i18n.ok, "</button>\n            </div>");
+      }, options, function (deferred) {
+        return deferred.resolve();
+      });
+    };
+    modal.confirm = function (message, options) {
+      return openDialog(function (_ref4) {
+        var i18n = _ref4.i18n;
+        return "<form>\n                <div class=\"uk-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n                <div class=\"uk-modal-footer uk-text-right\">\n                    <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                    <button class=\"uk-button uk-button-primary\" autofocus>").concat(i18n.ok, "</button>\n                </div>\n            </form>");
+      }, options, function (deferred) {
+        return deferred.reject();
+      });
+    };
+    modal.prompt = function (message, value, options) {
+      return openDialog(function (_ref5) {
+        var i18n = _ref5.i18n;
+        return "<form class=\"uk-form-stacked\">\n                <div class=\"uk-modal-body\">\n                    <label>".concat(isString(message) ? message : html(message), "</label>\n                    <input class=\"uk-input\" value=\"").concat(value || '', "\" autofocus>\n                </div>\n                <div class=\"uk-modal-footer uk-text-right\">\n                    <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                    <button class=\"uk-button uk-button-primary\">").concat(i18n.ok, "</button>\n                </div>\n            </form>");
+      }, options, function (deferred) {
+        return deferred.resolve(null);
+      }, function (dialog) {
+        return $$1('input', dialog.$el).value;
+      });
+    };
+    modal.i18n = {
+      ok: 'Ok',
+      cancel: 'Cancel'
+    };
+    function openDialog(tmpl, options, hideFn, submitFn) {
+      options = _objectSpread2({
+        bgClose: false,
+        escClose: true,
+        role: 'alertdialog',
+        i18n: modal.i18n
+      }, options);
+      var dialog = modal.dialog(tmpl(options), options);
+      var deferred = new Deferred();
+      var resolved = false;
+      on(dialog.$el, 'submit', 'form', function (e) {
+        e.preventDefault();
+        deferred.resolve(submitFn === null || submitFn === void 0 ? void 0 : submitFn(dialog));
+        resolved = true;
+        dialog.hide();
+      });
+      on(dialog.$el, 'hide', function () {
+        return !resolved && hideFn(deferred);
+      });
+      deferred.promise.dialog = dialog;
+      return deferred.promise;
+    }
+  }
+
   var worklists = {
     mixins: [Class, Togglable],
     props: {
@@ -5895,6 +6280,7 @@
     Sticky: sticky,
     Datepicker: datepicker,
     Formatter: formatter,
+    Modal: modal,
     Worklists: worklists
   });
 

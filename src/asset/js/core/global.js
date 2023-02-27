@@ -52,7 +52,7 @@ export default function (UICommon) {
     Object.defineProperty(UICommon, 'container', {
     
         get() {
-            return container || document.body;
+            return typeof container !== 'undefined' ? container : document.body;
         },
     
         set(element) {

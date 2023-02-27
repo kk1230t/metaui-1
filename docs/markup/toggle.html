@@ -15,17 +15,23 @@
         <div class="title_sec">
           <p class="title title_lv2">Example</p>
         </div>
-        <div class="guide_card_box"><section class="code_view"><button class="mui-button mui-size-large" type="button" mui-toggle="target:#toggle_box;"><span>토글 버튼</span></button><button class="mui-button mui-size-large" type="button" mui-toggle="target:#toggle_box;mode:hover;"><span>토글 버튼</span></button><div id="toggle_box">토글 컨텐츠</div></section><div class="code_block"><pre><code class="language-pug">+button({
-  label:"토글 버튼",
+        <div class="guide_card_box"><section class="code_view"><button class="mui-button mui-size-large" type="button" mui-toggle="target:#toggle_box1;"><span>토글 버튼1</span></button><div id="toggle_box1">토글 컨텐츠</div><br/><br/><br/><button class="mui-button mui-size-large" type="button" mui-toggle="target:#modal;mode:hover;"><span>토글 버튼2</span></button><div id="modal" mui-modal="">토글 컨텐츠</div></section><div class="code_block"><pre><code class="language-pug">+button({
+  label:"토글 버튼1",
   size:'large',
-  muiToggle:'target:#toggle_box;'
+  muiToggle:'target:#toggle_box1;'
 })
+div#toggle_box1 토글 컨텐츠
+br
+br
+br
 +button({
-  label:"토글 버튼",
+  label:"토글 버튼2",
   size:'large',
-  muiToggle:'target:#toggle_box;mode:hover;'
+  muiToggle:'target:#modal;mode:hover;'
 })
-div#toggle_box 토글 컨텐츠</code></pre></div>
+div#modal(
+  mui-modal=''
+) 토글 컨텐츠</code></pre></div>
           <div class="view_code">
             <button>code view</button>
           </div>

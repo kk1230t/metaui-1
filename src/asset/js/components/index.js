@@ -8,6 +8,7 @@ export {default as Toggle} from './core/toggle';
 export {default as Sticky} from './core/sticky';
 export {default as Datepicker} from './core/datepicker';
 export {default as Formatter} from './core/formatter';
+export {default as Modal} from './core/modal';
 
 
 // 마크업진행표

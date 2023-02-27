@@ -86,7 +86,6 @@ export default {
             }
 
             if (!this.queued) {
-                console.log('dd')
                 return this.toggleElement(this.target);
             }
 

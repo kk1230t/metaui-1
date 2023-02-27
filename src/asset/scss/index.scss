@@ -496,3 +496,303 @@ button{
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Name:            Animation
+// Description:     Utilities for keyframe animations
+//
+// Component:       `mui-animation-*`
+//
+// Modifiers:       `mui-animation-fade`
+//                  `mui-animation-scale-up`
+//                  `mui-animation-scale-down`
+//                  `mui-animation-slide-top-*`
+//                  `mui-animation-slide-bottom-*`
+//                  `mui-animation-slide-left-*`
+//                  `mui-animation-slide-right-*`
+//                  `mui-animation-kenburns`
+//                  `mui-animation-shake`
+//                  `mui-animation-stroke`
+//                  `mui-animation-reverse`
+//                  `mui-animation-fast`
+//
+// Sub-objects:     `mui-animation-toggle`
+//
+// States:          `mui-active`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+$animation-duration:                             0.5s !default;
+$animation-fade-duration:                        0.8s !default;
+$animation-stroke-duration:                      2s !default;
+$animation-kenburns-duration:                    15s !default;
+$animation-fast-duration:                        0.1s !default;
+
+$animation-slide-small-translate:                10px !default;
+$animation-slide-medium-translate:               50px !default;
+
+
+/* ========================================================================
+   Component: Animation
+ ========================================================================== */
+
+[class*='mui-animation-'] { animation: $animation-duration ease-out both; }
+
+
+/* Animations
+ ========================================================================== */
+
+/*
+ * Fade
+ */
+
+.mui-animation-fade {
+    animation-name: mui-fade;
+    animation-duration: $animation-fade-duration;
+    animation-timing-function: linear;
+}
+
+/*
+ * Scale
+ */
+
+.mui-animation-scale-up { animation-name: mui-fade, mui-scale-up; }
+.mui-animation-scale-down { animation-name: mui-fade, mui-scale-down; }
+
+/*
+ * Slide
+ */
+
+.mui-animation-slide-top { animation-name: mui-fade, mui-slide-top; }
+.mui-animation-slide-bottom { animation-name: mui-fade, mui-slide-bottom; }
+.mui-animation-slide-left { animation-name: mui-fade, mui-slide-left; }
+.mui-animation-slide-right { animation-name: mui-fade, mui-slide-right; }
+
+/*
+ * Slide Small
+ */
+
+.mui-animation-slide-top-small { animation-name: mui-fade, mui-slide-top-small; }
+.mui-animation-slide-bottom-small { animation-name: mui-fade, mui-slide-bottom-small; }
+.mui-animation-slide-left-small { animation-name: mui-fade, mui-slide-left-small; }
+.mui-animation-slide-right-small { animation-name: mui-fade, mui-slide-right-small; }
+
+/*
+ * Slide Medium
+ */
+
+.mui-animation-slide-top-medium { animation-name: mui-fade, mui-slide-top-medium; }
+.mui-animation-slide-bottom-medium { animation-name: mui-fade, mui-slide-bottom-medium; }
+.mui-animation-slide-left-medium { animation-name: mui-fade, mui-slide-left-medium; }
+.mui-animation-slide-right-medium { animation-name: mui-fade, mui-slide-right-medium; }
+
+/*
+ * Kenburns
+ */
+
+.mui-animation-kenburns {
+    animation-name: mui-kenburns;
+    animation-duration: $animation-kenburns-duration;
+}
+
+/*
+ * Shake
+ */
+
+.mui-animation-shake { animation-name: mui-shake; }
+
+/*
+ * SVG Stroke
+ * The `--mui-animation-stroke` custom property contains the longest path length.
+ * Set it manually or use `mui-svg="stroke-animation: true"` to set it automatically.
+ * All strokes are animated by the same pace and doesn't end simultaneously.
+ * To end simultaneously, `pathLength="1"` could be used, but it's not working in Safari yet.
+ */
+
+.mui-animation-stroke {
+    animation-name: mui-stroke;
+    animation-duration: $animation-stroke-duration;
+    stroke-dasharray: var(--mui-animation-stroke);
+}
+
+
+/* Direction modifier
+ ========================================================================== */
+
+.mui-animation-reverse {
+    animation-direction: reverse;
+    animation-timing-function: ease-in;
+}
+
+
+/* Duration modifier
+ ========================================================================== */
+
+.mui-animation-fast { animation-duration: $animation-fast-duration; }
+
+
+/* Toggle animation based on the State of the Parent Element
+ ========================================================================== */
+
+.mui-animation-toggle:not(:hover):not(:focus) [class*='mui-animation-'] { animation-name: none; }
+
+
+/* Keyframes used by animation classes
+ ========================================================================== */
+
+/*
+ * Fade
+ */
+
+@keyframes mui-fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/*
+ * Scale
+ */
+
+@keyframes mui-scale-up {
+    0% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+@keyframes mui-scale-down {
+    0% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/*
+ * Slide
+ */
+
+@keyframes mui-slide-top {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-bottom {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-left {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes mui-slide-right {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+/*
+ * Slide Small
+ */
+
+@keyframes mui-slide-top-small {
+    0% { transform: translateY(-$animation-slide-small-translate); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-bottom-small {
+    0% { transform: translateY($animation-slide-small-translate); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-left-small {
+    0% { transform: translateX(-$animation-slide-small-translate); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes mui-slide-right-small {
+    0% { transform: translateX($animation-slide-small-translate); }
+    100% { transform: translateX(0); }
+}
+
+/*
+ * Slide Medium
+ */
+
+@keyframes mui-slide-top-medium {
+    0% { transform: translateY(-$animation-slide-medium-translate); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-bottom-medium {
+    0% { transform: translateY($animation-slide-medium-translate); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes mui-slide-left-medium {
+    0% { transform: translateX(-$animation-slide-medium-translate); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes mui-slide-right-medium {
+    0% { transform: translateX($animation-slide-medium-translate); }
+    100% { transform: translateX(0); }
+}
+
+/*
+ * Kenburns
+ */
+
+@keyframes mui-kenburns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+}
+
+/*
+ * Shake
+ */
+
+@keyframes mui-shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-9px); }
+    20% { transform: translateX(8px); }
+    30% { transform: translateX(-7px); }
+    40% { transform: translateX(6px); }
+    50% { transform: translateX(-5px); }
+    60% { transform: translateX(4px); }
+    70% { transform: translateX(-3px); }
+    80% { transform: translateX(2px); }
+    90% { transform: translateX(-1px); }
+}
+
+/*
+ * Stroke
+ */
+
+ @keyframes mui-stroke {
+    0% { stroke-dashoffset: var(--mui-animation-stroke); }
+    100% { stroke-dashoffset: 0; }
+}
+
+
+// Hooks
+// ========================================================================
+
+@if(mixin-exists(hook-animation-misc)) {@include hook-animation-misc();}
+
+// @mixin hook-animation-misc(){}

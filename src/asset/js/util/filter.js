@@ -51,7 +51,11 @@ export function isInput(element) {
 
 export const selFocusable = `${selInput},a[href],[tabindex]`;
 
-
+/**
+ * 포커싱이 가능한 요소인가
+ * @param {element} element 
+ * @returns boolean
+ */
 export function isFocusable(element) {
     return matches(element, selFocusable);
 }

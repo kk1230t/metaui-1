@@ -12,16 +12,22 @@ block content
     +guideExample()(code)
       :code
         +button({
-          label:"토글 버튼",
+          label:"토글 버튼1",
           size:'large',
-          muiToggle:'target:#toggle_box;'
+          muiToggle:'target:#toggle_box1;'
         })
+        div#toggle_box1 토글 컨텐츠
+        br
+        br
+        br
         +button({
-          label:"토글 버튼",
+          label:"토글 버튼2",
           size:'large',
-          muiToggle:'target:#toggle_box;mode:hover;'
+          muiToggle:'target:#modal;mode:hover;'
         })
-        div#toggle_box 토글 컨텐츠
+        div#modal(
+          mui-modal=''
+        ) 토글 컨텐츠
                 
     br
     br
@@ -33,6 +39,7 @@ block content
       text:"+tabsWrap()",
       level:3
     })
+    
 
     +attributesLists([
       [
