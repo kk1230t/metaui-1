@@ -767,6 +767,11 @@
       return propA > propB ? 1 : propB > propA ? -1 : 0;
     });
   }
+  function sumBy(array, iteratee) {
+    return array.reduce(function (sum, item) {
+      return sum + toFloat(isFunction(iteratee) ? iteratee(item) : item[iteratee]);
+    }, 0);
+  }
   function uniqueBy(array, prop) {
     var seen = new Set();
     return array.filter(function (_ref3) {
@@ -1673,7 +1678,7 @@
    * element를 삭제
    * @param {element} element 
    */
-  function remove$2(element) {
+  function remove$1(element) {
     toNodes(element).forEach(function (element) {
       return element.parentNode && element.parentNode.removeChild(element);
     });
@@ -1715,7 +1720,7 @@
       return self.indexOf(value) === index;
     }).forEach(function (parent) {
       before(parent, parent.childNodes);
-      remove$2(parent);
+      remove$1(parent);
     });
   }
   var fragmentRe = /^\s*<(\w+|!)[^>]*>/;
@@ -1837,7 +1842,7 @@
     var element = append(document.documentElement, document.createElement('div'));
     addClass(element, "uk-".concat(name));
     name = getStyle(element, 'content', ':before').replace(/^["'](.*)["']$/, '$1');
-    remove$2(element);
+    remove$1(element);
     return name;
   });
   function getCssVar(name) {
@@ -2239,8 +2244,8 @@
       return task;
     },
     clear: function clear(task) {
-      remove$1(this.reads, task);
-      remove$1(this.writes, task);
+      remove(this.reads, task);
+      remove(this.writes, task);
     },
     flush: flush
   };
@@ -2279,7 +2284,7 @@
       }
     }
   }
-  function remove$1(array, item) {
+  function remove(array, item) {
     var index = array.indexOf(item);
     return ~index && array.splice(index, 1);
   }
@@ -2849,6 +2854,7 @@
     last: last,
     each: each,
     sortBy: sortBy,
+    sumBy: sumBy,
     uniqueBy: uniqueBy,
     clamp: clamp,
     noop: noop,
@@ -2866,7 +2872,7 @@
     append: append,
     before: before,
     after: after,
-    remove: remove$2,
+    remove: remove$1,
     wrapAll: wrapAll,
     wrapInner: wrapInner,
     unwrap: unwrap,
@@ -3388,8 +3394,8 @@
       this._callHook('destory');
       if (!el || !el[DATA]) return;
       delete el[DATA][name];
-      if (!isEmpty(el[DATA])) delete el[DATA];
-      if (removeEl) remove(this.$el);
+      if (!isEmpty$1(el[DATA])) delete el[DATA];
+      if (removeEl) remove$1(this.$el);
     };
     UICommon.prototype.$emit = function (e) {
       this._callUpdate(e);
@@ -3473,7 +3479,7 @@
             if (!trigger(el, "before".concat(show ? 'show' : 'hide'), [_this])) {
               return Promise$1.reject();
             }
-            var promise = (isFunction(animate) ? animate : animate === false || !_this.hasAnimation ? _this._toggle : _this.hasTransition ? toggleHeight(_this) : toggleAnimation(_this))(el, show) || Promise$1.resolve();
+            var promise = (isFunction(animate) ? animate : animate === false || !_this.hasAnimation ? _this._toggle : _this.hasTransition ? toggleHeight(_this) : toggleAnimation(_this))(el, show, _this) || Promise$1.resolve();
             var cls = show ? _this.clsEnter : _this.clsLeave;
             addClass(el, cls);
             trigger(el, show ? 'show' : 'hide', [_this]);
@@ -3514,11 +3520,12 @@
         });
         if (changed) {
           trigger(el, 'toggled', [toggled, this]);
-          this.$update(el);
+          // this.$update(el);
         }
       }
     }
   };
+
   function toggleHeight(_ref3) {
     var isToggled = _ref3.isToggled,
       duration = _ref3.duration,
@@ -4803,7 +4810,7 @@
         this.hide();
         removeClass(this.selTarget, this.clsInactive);
       }
-      remove$2(this.placeholder);
+      remove$1(this.placeholder);
       this.placeholder = null;
       this.widthElement = null;
     },
@@ -5868,12 +5875,13 @@
       role: String
     },
     data: {
-      cls: 'uk-open',
+      cls: 'mui-open',
       escClose: true,
       bgClose: true,
       overlay: true,
       stack: false,
-      role: 'dialog'
+      role: 'dialog',
+      returnFocusTarget: null
     },
     computed: {
       panel: function panel(_ref, $el) {
@@ -5924,6 +5932,7 @@
         }
         e.preventDefault();
         if (this.isToggled() === includes(active, this)) {
+          this.returnFocusTarget = e.detail[0].$el;
           this.toggle();
         }
       }
@@ -6008,9 +6017,9 @@
       }
     }
   };
-  function animate(el, show, _ref3) {
-    var transitionElement = _ref3.transitionElement,
-      _toggle = _ref3._toggle;
+  function animate(el, show, self) {
+    var transitionElement = self.transitionElement,
+      _toggle = self._toggle;
     return new Promise(function (resolve, reject) {
       return once(el, 'show hide', function () {
         var _el$_reject;
@@ -6031,6 +6040,11 @@
         }, toMs(css(transitionElement, 'transitionDuration')));
       });
     }).then(function () {
+      if (!show && !!self.returnFocusTarget) {
+        setTimeout(function () {
+          self.returnFocusTarget.focus();
+        }, 0);
+      }
       return delete el._reject;
     });
   }
@@ -6045,15 +6059,15 @@
     });
   }
   function listenForBackgroundClose(modal) {
-    return on(document, pointerDown, function (_ref4) {
-      var target = _ref4.target;
+    return on(document, pointerDown, function (_ref3) {
+      var target = _ref3.target;
       if (last(active) !== modal || modal.overlay && !within(target, modal.$el) || within(target, modal.panel)) {
         return;
       }
-      once(document, "".concat(pointerUp, " ").concat(pointerCancel, " scroll"), function (_ref5) {
-        var defaultPrevented = _ref5.defaultPrevented,
-          type = _ref5.type,
-          newTarget = _ref5.target;
+      once(document, "".concat(pointerUp, " ").concat(pointerCancel, " scroll"), function (_ref4) {
+        var defaultPrevented = _ref4.defaultPrevented,
+          type = _ref4.type,
+          newTarget = _ref4.target;
         if (!defaultPrevented && type === pointerUp && target === newTarget) {
           modal.hide();
         }
@@ -6072,16 +6086,16 @@
     install: install,
     mixins: [Modal],
     data: {
-      clsPage: 'uk-modal-page',
-      selPanel: '.uk-modal-dialog',
-      selClose: '.uk-modal-close, .uk-modal-close-default, .uk-modal-close-outside, .uk-modal-close-full'
+      clsPage: 'mui-modal-page',
+      selPanel: '.mui-modal-dialog',
+      selClose: '.mui-modal-close, .mui-modal-close-default, .mui-modal-close-outside, .mui-modal-close-full'
     },
     events: [{
       name: 'show',
       self: true,
       handler: function handler() {
-        if (hasClass(this.panel, 'uk-margin-auto-vertical')) {
-          addClass(this.$el, 'uk-flex');
+        if (hasClass(this.panel, 'mui-margin-auto-vertical')) {
+          addClass(this.$el, 'mui-flex');
         } else {
           css(this.$el, 'display', 'block');
         }
@@ -6092,14 +6106,14 @@
       self: true,
       handler: function handler() {
         css(this.$el, 'display', '');
-        removeClass(this.$el, 'uk-flex');
+        removeClass(this.$el, 'mui-flex');
       }
     }]
   };
   function install(_ref) {
     var modal = _ref.modal;
     modal.dialog = function (content, options) {
-      var dialog = modal("<div class=\"uk-modal\">\n                <div class=\"uk-modal-dialog\">".concat(content, "</div>\n             </div>"), options);
+      var dialog = modal("<div class=\"mui-modal\">\n                <div class=\"mui-modal-dialog\">".concat(content, "</div>\n             </div>"), options);
       dialog.show();
       on(dialog.$el, 'hidden', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -6124,7 +6138,7 @@
     modal.alert = function (message, options) {
       return openDialog(function (_ref3) {
         var i18n = _ref3.i18n;
-        return "<div class=\"uk-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n            <div class=\"uk-modal-footer uk-text-right\">\n                <button class=\"uk-button uk-button-primary uk-modal-close\" autofocus>").concat(i18n.ok, "</button>\n            </div>");
+        return "<div class=\"mui-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n            <div class=\"mui-modal-footer mui-text-right\">\n                <button class=\"mui-button mui-button-primary mui-modal-close\" autofocus>").concat(i18n.ok, "</button>\n            </div>");
       }, options, function (deferred) {
         return deferred.resolve();
       });
@@ -6132,7 +6146,7 @@
     modal.confirm = function (message, options) {
       return openDialog(function (_ref4) {
         var i18n = _ref4.i18n;
-        return "<form>\n                <div class=\"uk-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n                <div class=\"uk-modal-footer uk-text-right\">\n                    <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                    <button class=\"uk-button uk-button-primary\" autofocus>").concat(i18n.ok, "</button>\n                </div>\n            </form>");
+        return "<form>\n                <div class=\"mui-modal-body\">".concat(isString(message) ? message : html(message), "</div>\n                <div class=\"mui-modal-footer mui-text-right\">\n                    <button class=\"mui-button mui-button-primary\" autofocus>").concat(i18n.ok, "</button>\n                    <button class=\"mui-button mui-button-default mui-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                </div>\n            </form>");
       }, options, function (deferred) {
         return deferred.reject();
       });
@@ -6140,7 +6154,7 @@
     modal.prompt = function (message, value, options) {
       return openDialog(function (_ref5) {
         var i18n = _ref5.i18n;
-        return "<form class=\"uk-form-stacked\">\n                <div class=\"uk-modal-body\">\n                    <label>".concat(isString(message) ? message : html(message), "</label>\n                    <input class=\"uk-input\" value=\"").concat(value || '', "\" autofocus>\n                </div>\n                <div class=\"uk-modal-footer uk-text-right\">\n                    <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                    <button class=\"uk-button uk-button-primary\">").concat(i18n.ok, "</button>\n                </div>\n            </form>");
+        return "<form class=\"mui-form-stacked\">\n                <div class=\"mui-modal-body\">\n                    <label>".concat(isString(message) ? message : html(message), "</label>\n                    <input class=\"mui-input\" value=\"").concat(value || '', "\" autofocus>\n                </div>\n                <div class=\"mui-modal-footer mui-text-right\">\n                    <button class=\"mui-button mui-button-default mui-modal-close\" type=\"button\">").concat(i18n.cancel, "</button>\n                    <button class=\"mui-button mui-button-primary\">").concat(i18n.ok, "</button>\n                </div>\n            </form>");
       }, options, function (deferred) {
         return deferred.resolve(null);
       }, function (dialog) {
@@ -6148,12 +6162,12 @@
       });
     };
     modal.i18n = {
-      ok: 'Ok',
-      cancel: 'Cancel'
+      ok: '확인',
+      cancel: '취소'
     };
     function openDialog(tmpl, options, hideFn, submitFn) {
       options = _objectSpread2({
-        bgClose: false,
+        bgClose: true,
         escClose: true,
         role: 'alertdialog',
         i18n: modal.i18n

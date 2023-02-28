@@ -914,6 +914,12 @@
     });
   }
   var selFocusable = "".concat(selInput, ",a[href],[tabindex]");
+
+  /**
+   * 포커싱이 가능한 요소인가
+   * @param {element} element 
+   * @returns boolean
+   */
   function isFocusable(element) {
     return matches(element, selFocusable);
   }
@@ -2620,7 +2626,7 @@
     };
     Object.defineProperty(UICommon, 'container', {
       get: function get() {
-        return container || document.body;
+        return typeof container !== 'undefined' ? container : document.body;
       },
       set: function set(element) {
         container = $(element);

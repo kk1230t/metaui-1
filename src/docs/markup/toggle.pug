@@ -27,7 +27,9 @@ block content
         })
         div#modal(
           mui-modal=''
-        ) 토글 컨텐츠
+          
+        ) 
+          div.mui-modal-dialog 토글 컨텐츠
                 
     br
     br
@@ -92,6 +94,23 @@ block content
         }
       ]
     ])
+    script.
+      //- console.log(document)
+      const btn = document.querySelector('.title_lv1');
+      //- btn.addEventListener('click', function(){
+      //-   GCui.modal.alert('test').then(function(){
+      //-     console.log("확인")
+      //-   })
+      //- })
+      btn.addEventListener('click', function(){
+        //- GCui.modal.confirm('test').then(function(){
+        //-   console.log("확인")
+        //- },function(){
+        //-   console.log("취소")
+        //- })
+        GCui.modal.dialog('<p>UIkit dialog!</p>');
+      })
+      
 
 
 

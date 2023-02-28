@@ -39,12 +39,13 @@ export default {
     },
 
     data: {
-        cls: 'uk-open',
+        cls: 'mui-open',
         escClose: true,
         bgClose: true,
         overlay: true,
         stack: false,
         role: 'dialog',
+        returnFocusTarget:null,
     },
 
     computed: {
@@ -112,8 +113,8 @@ export default {
                 }
 
                 e.preventDefault();
-
                 if (this.isToggled() === includes(active, this)) {
+                    this.returnFocusTarget = e.detail[0].$el;
                     this.toggle();
                 }
             },
@@ -223,14 +224,14 @@ export default {
     },
 };
 
-function animate(el, show, { transitionElement, _toggle }) {
+function animate(el, show, self) {
+    const { transitionElement, _toggle } = self;
     return new Promise((resolve, reject) =>
         once(el, 'show hide', () => {
             el._reject?.();
             el._reject = reject;
 
             _toggle(el, show);
-
             const off = once(
                 transitionElement,
                 'transitionstart',
@@ -248,7 +249,14 @@ function animate(el, show, { transitionElement, _toggle }) {
                 resolve();
             }, toMs(css(transitionElement, 'transitionDuration')));
         })
-    ).then(() => delete el._reject);
+    ).then(() => {
+        if(!show && !!self.returnFocusTarget){
+            setTimeout(() => {
+                self.returnFocusTarget.focus();
+            }, 0);
+        }
+        return delete el._reject
+    });
 }
 
 function toMs(time) {

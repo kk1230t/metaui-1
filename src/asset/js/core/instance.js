@@ -1,7 +1,9 @@
 import {
     hyphenate,
-    within
-} from '../util/index';
+    within,
+    isEmpty,
+    remove
+} from '../util';
 
 export default function (UICommon) {
     const DATA = UICommon.data;
@@ -30,7 +32,6 @@ export default function (UICommon) {
     }
     UICommon.prototype.$destroy = function (removeEl = false) {
         const {el, name} = this.$options;
-
         if (el) this._callDisconnected();
 
         this._callHook('destory');

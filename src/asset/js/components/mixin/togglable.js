@@ -70,7 +70,7 @@ export default {
                                 : this.hasTransition
                                     ? toggleHeight(this)
                                     : toggleAnimation(this)
-                    )(el, show) || Promise.resolve();
+                    )(el, show, this) || Promise.resolve();
 
                     const cls = show ? this.clsEnter : this.clsLeave;
 
@@ -126,7 +126,7 @@ export default {
 
             if (changed) {
                 trigger(el, 'toggled', [toggled, this]);
-                this.$update(el);
+                // this.$update(el);
             }
         }
 

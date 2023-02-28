@@ -18,10 +18,10 @@ export default {
     mixins: [Modal],
 
     data: {
-        clsPage: 'uk-modal-page',
-        selPanel: '.uk-modal-dialog',
+        clsPage: 'mui-modal-page',
+        selPanel: '.mui-modal-dialog',
         selClose:
-            '.uk-modal-close, .uk-modal-close-default, .uk-modal-close-outside, .uk-modal-close-full',
+            '.mui-modal-close, .mui-modal-close-default, .mui-modal-close-outside, .mui-modal-close-full',
     },
 
     events: [
@@ -31,8 +31,8 @@ export default {
             self: true,
 
             handler() {
-                if (hasClass(this.panel, 'uk-margin-auto-vertical')) {
-                    addClass(this.$el, 'uk-flex');
+                if (hasClass(this.panel, 'mui-margin-auto-vertical')) {
+                    addClass(this.$el, 'mui-flex');
                 } else {
                     css(this.$el, 'display', 'block');
                 }
@@ -48,7 +48,7 @@ export default {
 
             handler() {
                 css(this.$el, 'display', '');
-                removeClass(this.$el, 'uk-flex');
+                removeClass(this.$el, 'mui-flex');
             },
         },
     ],
@@ -57,8 +57,8 @@ export default {
 function install({ modal }) {
     modal.dialog = function (content, options) {
         const dialog = modal(
-            `<div class="uk-modal">
-                <div class="uk-modal-dialog">${content}</div>
+            `<div class="mui-modal">
+                <div class="mui-modal-dialog">${content}</div>
              </div>`,
             options
         );
@@ -80,11 +80,11 @@ function install({ modal }) {
 
     modal.alert = function (message, options) {
         return openDialog(
-            ({ i18n }) => `<div class="uk-modal-body">${
+            ({ i18n }) => `<div class="mui-modal-body">${
                 isString(message) ? message : html(message)
             }</div>
-            <div class="uk-modal-footer uk-text-right">
-                <button class="uk-button uk-button-primary uk-modal-close" autofocus>${
+            <div class="mui-modal-footer mui-text-right">
+                <button class="mui-button mui-button-primary mui-modal-close" autofocus>${
                     i18n.ok
                 }</button>
             </div>`,
@@ -96,12 +96,10 @@ function install({ modal }) {
     modal.confirm = function (message, options) {
         return openDialog(
             ({ i18n }) => `<form>
-                <div class="uk-modal-body">${isString(message) ? message : html(message)}</div>
-                <div class="uk-modal-footer uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">${
-                        i18n.cancel
-                    }</button>
-                    <button class="uk-button uk-button-primary" autofocus>${i18n.ok}</button>
+                <div class="mui-modal-body">${isString(message) ? message : html(message)}</div>
+                <div class="mui-modal-footer mui-text-right">
+                    <button class="mui-button mui-button-primary" autofocus>${i18n.ok}</button>
+                    <button class="mui-button mui-button-default mui-modal-close" type="button">${i18n.cancel}</button>
                 </div>
             </form>`,
             options,
@@ -111,16 +109,16 @@ function install({ modal }) {
 
     modal.prompt = function (message, value, options) {
         return openDialog(
-            ({ i18n }) => `<form class="uk-form-stacked">
-                <div class="uk-modal-body">
+            ({ i18n }) => `<form class="mui-form-stacked">
+                <div class="mui-modal-body">
                     <label>${isString(message) ? message : html(message)}</label>
-                    <input class="uk-input" value="${value || ''}" autofocus>
+                    <input class="mui-input" value="${value || ''}" autofocus>
                 </div>
-                <div class="uk-modal-footer uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">${
+                <div class="mui-modal-footer mui-text-right">
+                    <button class="mui-button mui-button-default mui-modal-close" type="button">${
                         i18n.cancel
                     }</button>
-                    <button class="uk-button uk-button-primary">${i18n.ok}</button>
+                    <button class="mui-button mui-button-primary">${i18n.ok}</button>
                 </div>
             </form>`,
             options,
@@ -130,13 +128,13 @@ function install({ modal }) {
     };
 
     modal.i18n = {
-        ok: 'Ok',
-        cancel: 'Cancel',
+        ok: '확인',
+        cancel: '취소',
     };
 
     function openDialog(tmpl, options, hideFn, submitFn) {
         options = {
-            bgClose: false,
+            bgClose: true,
             escClose: true,
             role: 'alertdialog',
             i18n: modal.i18n,
