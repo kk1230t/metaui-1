@@ -22,7 +22,7 @@ export function removeClass(element, ...args) {
 
 
 
-//확인 필요122
+//확인 필요12231
 export function removeClasses(element, cls) {
     attr(element, 'class', value => (value || '').replace(new RegExp(`\\b${cls}\\b`, 'g'), ''));
 }
