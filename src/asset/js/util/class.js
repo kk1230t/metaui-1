@@ -19,7 +19,10 @@ export function removeClass(element, ...args) {
     apply(element, args, 'remove');
 }
 
-//확인 필요
+
+
+
+//확인 필요122
 export function removeClasses(element, cls) {
     attr(element, 'class', value => (value || '').replace(new RegExp(`\\b${cls}\\b`, 'g'), ''));
 }
